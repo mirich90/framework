@@ -1,0 +1,22 @@
+@font-face {
+  font-weight: 300;
+  font-family: Poppins;
+  src: url("../fonts/Poppins-Light.ttf") format("ttf");
+}
+@font-face {
+  font-weight: 400;
+  font-family: Poppins;
+  src: url("../fonts/Poppins-Regular.ttf") format("ttf");
+}
+@font-face {
+  font-weight: 700;
+  font-family: Poppins;
+  src: url("../fonts/Poppins-Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(../fonts/icon.woff2) format("woff2");
+}
