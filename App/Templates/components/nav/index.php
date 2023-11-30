@@ -1,11 +1,13 @@
 <?
 $this->setCss('components/nav/style');
 $this->setJs('components/nav/index');
+
+$name_site = (include d('/.env.php'))['name_site'];
 ?>
 
 <nav class="main-menu">
     <a href="/">
-        <h1>INDY_GROUND</h1>
+        <h1><?= $name_site; ?></h1>
     </a>
 
 

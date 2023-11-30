@@ -11,6 +11,9 @@ class Index extends Controller
   {
     $this->setMeta();
 
+    $Category = new \App\Models\Category();
+    $this->view->categories = $Category->select();
+    // $Category->create_table();
     // $this->view->setCss('index');
     // $this->view->setJs('filter');
 

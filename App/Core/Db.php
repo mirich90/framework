@@ -12,7 +12,7 @@ class Db
 
     public function __construct()
     {
-        $config = (include __DIR__ . '../../.env.php')['db'];
+        $config = (include d('/.env.php'))['db'];
         $servername = $config['servername'];
         $username = $config['username'];
         $password = $config['password'];

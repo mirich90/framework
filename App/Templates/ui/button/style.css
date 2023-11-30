@@ -50,3 +50,19 @@ a.btn:hover {
   background: var(--color-primary);
   text-decoration: none;
 }
+
+a.btn.primary,
+a.btn.secondary {
+  text-decoration: none;
+}
+
+a.btn.primary:hover,
+a.btn.secondary:hover {
+  opacity: 0.8;
+}
+.btn.transparent {
+  background: transparent !important;
+}
+.btn.transparent:hover {
+  background: var(--color-primary) !important;
+}

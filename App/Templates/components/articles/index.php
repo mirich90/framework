@@ -40,14 +40,30 @@ $articles = [
             ]
         ); ?>
 
-        <?
-        foreach ($articles as $article) {
+        <div>
+            <? foreach ($this->categories as $category) {
+                $this->Ui(
+                    'button',
+                    [
+                        'text' => $category['name'],
+                        'href' => "/posts?categories={$category['index']}",
+                        'color' => 'primary',
+                        'flat' => true,
+                        'transparent' => true
+                    ]
+                );
+            } ?>
+        </div>
+
+        <br />
+
+
+        <? foreach ($articles as $article) {
             $this->Component(
                 'articles_item',
                 $article
             );
-        }
-        ?>
+        }        ?>
 
     </div>
 </div>

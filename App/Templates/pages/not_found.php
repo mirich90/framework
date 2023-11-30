@@ -27,7 +27,13 @@
 
     <? $this->Ui(
       'button',
-      ['text' => 'Зарегистрироваться', 'href' => "/signup", 'flat' => true, 'color' => 'primary']
+      [
+        'text' => 'Зарегистрироваться',
+        'href' => "/signup",
+        'transparent' => true,
+        'flat' => true,
+        'color' => 'primary'
+      ]
     ); ?>
 
 
