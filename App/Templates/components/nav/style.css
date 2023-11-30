@@ -29,7 +29,7 @@ nav ul li a {
   font-weight: 800;
   text-align: center;
   margin: 3rem 0 30px;
-  font-size: 1.5rem;
+  font-size: 26px;
   color: var(--color-bg);
 }
 
@@ -43,7 +43,6 @@ nav ul li a {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   color: #fff;
   padding: 15px 0;
   margin-left: 10px;

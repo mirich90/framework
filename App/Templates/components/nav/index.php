@@ -1,6 +1,6 @@
 <?
-$this->setCss('nav/style');
-$this->setJs('nav/index');
+$this->setCss('components/nav/style');
+$this->setJs('components/nav/index');
 ?>
 
 <nav class="main-menu">

@@ -1,0 +1,52 @@
+.btn {
+  display: inline-block;
+  opacity: 1;
+  background: none;
+  border: none;
+  padding: 11px 26px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-right: 1em;
+  margin-top: 1em;
+  user-select: none;
+}
+
+button.btn:hover {
+  opacity: 0.8;
+}
+
+a.btn {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a.btn:hover {
+  text-decoration: underline;
+}
+
+.btn.primary {
+  background: linear-gradient(
+    240deg,
+    var(--color-primary-light) 0%,
+    var(--color-primary-light2) 20%
+  );
+}
+.btn.secondary {
+  background: linear-gradient(
+    240deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-light) 90%
+  );
+}
+
+.btn.flat {
+  color: var(--color-primary);
+  background: var(--color-bg);
+  border: solid 2px var(--color-primary);
+}
+.btn.flat:hover {
+  color: var(--color-bg);
+  background: var(--color-primary);
+  text-decoration: none;
+}

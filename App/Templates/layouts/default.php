@@ -22,6 +22,9 @@ $this->setCss('style');
     <!-- <? $this->Component('footer'); ?> -->
   </main>
 
+  <? $this->Component(
+    'options'
+  ); ?>
 
 </body>
 

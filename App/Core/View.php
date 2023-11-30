@@ -79,15 +79,15 @@ class View implements \Countable, \ArrayAccess
     $this->fonts[] = $fonts;
   }
 
-  public function Component($name, $data = []): void
+  public function Component($name, $props = []): void
   {
-    $props = $data;
+    $props = $props;
     include d("/App/Templates/components/$name/index.php");
   }
 
-  public function Ui($name, $data): void
+  public function Ui($name, $props): void
   {
-    $props = $data;
+    $props = $props;
     include d("/App/Templates/ui/$name/index.php");
   }
 

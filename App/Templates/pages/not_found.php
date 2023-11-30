@@ -2,11 +2,34 @@
 // $this->setCss('btn');
 // $this->setCss('not_found');
 ?>
-<div>
-  <h1>404</h1>
-  <h2>Страница, которую вы ищете, не существует.</h2>
+
+<div class="container center max-height">
+  <? $this->Ui(
+    'title',
+    ['text' => 'Ошибка 404', 'link' => '/', 'level' => 1]
+  ); ?>
+
+  <? $this->Ui(
+    'title',
+    [
+      'text' => 'Страница, которую вы ищете, не существует.',
+      'link' => '/',
+      'level' => 2,
+    ]
+  ); ?>
+
   <div class="buttons">
-    <a href="/" class="button">Вернуться на главную</a>
-    <a href="/signup" class="button flat">Зарегистрироваться</a>
+
+    <? $this->Ui(
+      'button',
+      ['text' => 'Вернуться на главную', 'href' => "/"]
+    ); ?>
+
+    <? $this->Ui(
+      'button',
+      ['text' => 'Зарегистрироваться', 'href' => "/signup", 'flat' => true, 'color' => 'primary']
+    ); ?>
+
+
   </div>
 </div>

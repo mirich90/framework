@@ -22,10 +22,11 @@ html {
   height: 100%;
   background: var(--color-bg);
   color: var(--color-black);
+  font-size: var(--base-font-size);
 }
 
 body {
-  font-size: var(--base-font);
+  font-size: calc(0.5584229391vw + 0.4529569892em);
   font-family: var(--font-primary), sans-serif;
   font-weight: 400;
   color: var(--color-text);
@@ -35,36 +36,51 @@ body {
 .container {
   position: relative;
   width: 95%;
-  margin: 1em auto;
   max-width: var(--width-container);
+  margin: 1em auto;
+  background-color: var(--color-primary-light);
+  padding: 1rem 5rem;
+  border-radius: 2rem;
 }
 
-h1 {
-  font-size: 2.5rem;
+.max-height {
+  height: calc(100vh - 4em);
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.5em;
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.7em;
 }
 
 h4 {
-  font-size: 1rem;
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
 }
 
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
   font-weight: 700;
+  margin: 0.5em 0;
 }
 
 main {
   display: grid;
-  grid-template-columns: 13% 87%;
+  grid-template-columns: var(--nav-width) calc(100% - var(--nav-width));
   min-height: 100vh;
   width: 100%;
   background: rgb(254, 254, 254);
