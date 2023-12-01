@@ -1,0 +1,6 @@
+.breadcrumbs-item {
+  display: inline-block;
+}
+.breadcrumbs-item a {
+  color: var(--color-primary);
+}

@@ -1,1 +1,1 @@
-.title{color:var(--color-primary);text-decoration:none}.title h2{display:inline-block;position:relative;z-index:2}.title h2:after{content:"";position:absolute;width:100%;left:0;height:.5em;background:var(--color-secondary);z-index:-1;bottom:0;transition:width .3s}.title h3:hover{text-decoration:underline}
+.title{color:var(--color-primary)}.title h2{display:inline-block;position:relative;z-index:2}.title h2:after{content:"";position:absolute;width:100%;left:0;height:.5em;background:var(--color-secondary);z-index:-1;bottom:0;transition:width .3s}

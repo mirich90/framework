@@ -5,23 +5,13 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Db;
 
-class Index extends Controller
+class Game extends Controller
 {
   protected function handle()
   {
     $this->setMeta();
 
-    $Category = new \App\Models\Category();
-    $this->view->categories = $Category->select();
-    // $Category->create_table();
-    // $this->view->setCss('index');
-    // $this->view->setJs('filter');
-
-    // if (isset($_GET['id'])) {
-    //   $this->createComment();
-    //   die;
-    // }
-    $this->view->display('index');
+    $this->view->display('Game');
   }
 
   protected function setMeta()

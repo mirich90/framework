@@ -16,6 +16,7 @@
   --color-violet-light: #f9f9ff;
   --color-violet-light2: rgba(185, 159, 237, 0.6);
   --color-grey: #d1d3d4;
+  --color-grey-dark: #999ea0;
 }
 
 [data-theme="light"] {

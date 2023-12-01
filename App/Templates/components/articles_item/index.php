@@ -5,15 +5,31 @@
     img
     img_alt
     link
+    is_breadcrumbs
 -->
-<? $this->setCss('components/articles_item/style'); ?>
+<?
+$this->setCss('components/articles_item/style');
+
+if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
+?>
 
 <div data-id="<?= $props['id']; ?>" class="post">
+
+    <? if ($props['is_breadcrumbs']) {
+        $this->Component(
+            'breadcrumbs',
+            [
+                'text' => $props['category'],
+                'link' => $props['category_link'],
+            ]
+        );
+    } ?>
+
     <? $this->Ui(
         'title',
         [
             'text' => $props['title'],
-            'link' => $props['link'],
+            'link' => '/post?id=' . $props['link'],
             'level' => 3,
         ]
     ); ?>

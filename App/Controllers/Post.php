@@ -5,23 +5,23 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Db;
 
-class Index extends Controller
+class Post extends Controller
 {
   protected function handle()
   {
     $this->setMeta();
 
-    $Category = new \App\Models\Category();
-    $this->view->categories = $Category->select();
     // $Category->create_table();
     // $this->view->setCss('index');
     // $this->view->setJs('filter');
 
-    // if (isset($_GET['id'])) {
-    //   $this->createComment();
-    //   die;
-    // }
-    $this->view->display('index');
+    if (isset($_GET['id'])) {
+      $this->view->display('post');
+    } else {
+      $Category = new \App\Models\Category();
+      $this->view->categories = $Category->select();
+      $this->view->display('posts');
+    }
   }
 
   protected function setMeta()

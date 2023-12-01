@@ -41,6 +41,20 @@ abstract class Model
         );
     }
 
+
+    public function selectOne($value, $field = 'id')
+    {
+        $table = static::TABLE;
+        $sql = "SELECT * FROM $table WHERE $field = :v LIMIT 1";
+        $data = $this->pdo->query(
+            $sql,
+            [":v" => $value],
+            static::class,
+            true
+        );
+        return $data ? $data[0] : null;
+    }
+
     public function create_table()
     {
         $table = static::TABLE;

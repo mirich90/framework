@@ -23,11 +23,17 @@ function p($path)
   return d($public_dir . $path);
 }
 
-function getControllerName()
+function getUri()
 {
   $uri = $_SERVER['REQUEST_URI'];
-  $parts = explode('/', $uri);
-  $ctrl = $parts[1] ? $parts[1] : 'Index';
+  $parts = explode('/', parse_url($uri, PHP_URL_PATH));
+  return $parts[1];
+}
+
+function getControllerName()
+{
+  $uri =  getUri();
+  $ctrl = $uri ? $uri :  'index';
   return ucfirst($ctrl);
 }
 
@@ -40,5 +46,5 @@ function getClassName($ctrl)
     $class = "\App\Controllers\\$ctrl";
   }
 
-  return new  $class;
+  return new $class;
 }

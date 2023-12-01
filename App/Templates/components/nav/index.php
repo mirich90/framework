@@ -3,6 +3,18 @@ $this->setCss('components/nav/style');
 $this->setJs('components/nav/index');
 
 $name_site = (include d('/.env.php'))['name_site'];
+$uri = getUri();
+
+$navs = [
+    ['link' => '', 'text' => 'Главная'],
+    ['link' => 'profile', 'text' => 'Профиль'],
+    ['link' => 'post', 'text' => 'Статьи'],
+    ['link' => 'game', 'text' => 'Игры'],
+    ['link' => 'image', 'text' => 'Картинки'],
+    ['link' => 'code', 'text' => 'Код'],
+    ['link' => 'note', 'text' => 'Заметки'],
+    ['link' => 'setting', 'text' => 'Настройки'],
+];
 ?>
 
 <nav class="main-menu">
@@ -10,69 +22,14 @@ $name_site = (include d('/.env.php'))['name_site'];
         <h1><?= $name_site; ?></h1>
     </a>
 
-
     <ul>
-        <li class="nav-item active">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-house nav-icon"></i>
-                <span class="nav-text">Главная</span>
-            </a>
-        </li>
+        <? foreach ($navs as $nav) {
+            $active = $uri === $nav['link'];
+            $this->Component(
+                'nav_item',
+                array_merge($nav, ['active' => $active])
+            );
+        } ?>
 
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-user nav-icon"></i>
-                <span class="nav-text">Профиль</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-calendar-check nav-icon"></i>
-                <span class="nav-text">Статьи</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-person-running nav-icon"></i>
-                <span class="nav-text">Игры</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-sliders nav-icon"></i>
-                <span class="nav-text">Картинки</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-sliders nav-icon"></i>
-                <span class="nav-text">Код</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <b></b>
-            <b></b>
-            <a href="#">
-                <i class="fa fa-sliders nav-icon"></i>
-                <span class="nav-text">Настройки</span>
-            </a>
-        </li>
     </ul>
 </nav>
