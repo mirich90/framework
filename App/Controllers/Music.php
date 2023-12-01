@@ -5,13 +5,13 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Db;
 
-class Setting extends Controller
+class Music extends Controller
 {
   protected function handle()
   {
     $this->setMeta();
 
-    $this->view->display('Setting');
+    $this->view->display('Music');
   }
 
   protected function setMeta()
@@ -46,6 +46,6 @@ class Setting extends Controller
 
   protected function name_page()
   {
-    return "page_setting";
+    return "page_music";
   }
 }

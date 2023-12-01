@@ -16,11 +16,15 @@ nav ul li a {
 }
 
 .main-menu {
+  position: fixed;
+  width: var(--nav-width);
+  height: 100vh;
   overflow: hidden;
   background: var(--color-primary);
   padding-top: 10px;
   border-radius: 15px 0 0 15px;
   font-family: "Roboto", sans-serif;
+  z-index: 2;
 }
 
 .main-menu h1 {
@@ -51,7 +55,7 @@ nav ul li a {
 }
 
 .nav-item a:hover {
-  color: var(--color-primary-light2);
+  color: var(--color-secondary);
 }
 
 .nav-item b:nth-child(1) {

@@ -10,8 +10,10 @@ $navs = [
     ['link' => 'profile', 'text' => 'Профиль'],
     ['link' => 'post', 'text' => 'Статьи'],
     ['link' => 'game', 'text' => 'Игры'],
-    ['link' => 'image', 'text' => 'Картинки'],
+    ['link' => 'image', 'text' => 'Графика'],
     ['link' => 'code', 'text' => 'Код'],
+    ['link' => 'music', 'text' => 'Музыка'],
+    ['link' => 'text', 'text' => 'Текст'],
     ['link' => 'note', 'text' => 'Заметки'],
     ['link' => 'setting', 'text' => 'Настройки'],
 ];

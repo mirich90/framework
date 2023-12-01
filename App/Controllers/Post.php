@@ -56,6 +56,6 @@ class Post extends Controller
 
   protected function name_page()
   {
-    return "page_index";
+    return "page_post";
   }
 }
