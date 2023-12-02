@@ -3,23 +3,37 @@ $this->setCss('components/notes_item/style');
 ?>
 
 <div class="notes-item">
+    <header>
+        <div class="notes-item-author-img">
+            <a href="/">
+                <? $this->Ui(
+                    'image',
+                    [
+                        'src' => $props['author_img'],
+                        'alt' => $props['author_img_alt'],
+                    ]
+                ); ?>
+            </a>
 
-    <div class="notes-item-day">
-        <h1>13</h1>
-        <p>mon</p>
-    </div>
-    <div class="notes-item-activity">
-        <h2>Swimming</h2>
-        <div class="notes-item-participants">
+        </div>
+
+        <div class="notes-item-title">
+            <a class="notes-item-author-name" href="/author/cosima-mielke"><?= $props['author_name']; ?></a>
             <? $this->Ui(
-                'image',
+                'title',
                 [
-                    'src' => "img/users/098098/3.jpg",
-                    'alt' => "",
+                    'text' => $props['title'],
+                    'link' => $props['link'],
+                    'level' => 3,
                 ]
             ); ?>
+
         </div>
-    </div>
-    <button class="notes-item-btn">Join</button>
+    </header>
+
+    <p class="notes-item-body">
+        <span><?= $props['date']; ?> — </span><?= $props['content']; ?>
+    </p>
+
 
 </div>

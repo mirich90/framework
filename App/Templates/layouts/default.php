@@ -11,15 +11,10 @@ $this->setCss('style');
   </div>
   <main>
     <? $this->Component('nav') ?>
-    <!-- <div class="center">
-  <div class="preloader"></div>
-</div> -->
 
     <section id="content">
       <?= $this->content; ?>
     </section>
-
-    <!-- <? $this->Component('footer'); ?> -->
   </main>
 
   <? $this->Component(

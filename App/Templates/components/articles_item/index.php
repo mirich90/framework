@@ -11,6 +11,7 @@
 $this->setCss('components/articles_item/style');
 
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
+if (!isset($props['title_level'])) $props['title_level'] = 2;
 ?>
 
 <div data-id="<?= $props['id']; ?>" class="post">
@@ -19,6 +20,7 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
         $this->Component(
             'breadcrumbs',
             [
+                'parent' => 'статьи',
                 'text' => $props['category'],
                 'link' => $props['category_link'],
             ]
@@ -30,7 +32,7 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
         [
             'text' => $props['title'],
             'link' => '/post?id=' . $props['link'],
-            'level' => 3,
+            'level' => $props['title_level'],
         ]
     ); ?>
 

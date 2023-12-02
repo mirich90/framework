@@ -68,7 +68,7 @@ $articles = [
         <? foreach ($articles as $article) {
             $this->Component(
                 'articles_item',
-                $article
+                array_merge($article, ['title_level' => 3])
             );
         } ?>
 

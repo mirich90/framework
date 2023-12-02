@@ -14,6 +14,6 @@ $article = [
 <div class="container">
     <? $this->Component(
         'articles_item',
-        array_merge($article, ['is_breadcrumbs' => true])
+        array_merge($article, ['is_breadcrumbs' => true, 'title_level' => 1])
     ); ?>
 </div>

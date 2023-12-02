@@ -4,3 +4,7 @@
 .breadcrumbs-item a {
   color: var(--color-primary);
 }
+.breadcrumbs-item a h1 {
+  font-weight: 500;
+  font-size: inherit;
+}
