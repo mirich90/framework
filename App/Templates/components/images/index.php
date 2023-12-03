@@ -1,8 +1,9 @@
 <?
 $this->setCss('components/images/style');
+$this->setCss('ui/card/style');
 ?>
 
-<section class="container container-lg images">
+<section class="container container-lg ui-card ui-card-style-dark ui-card-right images">
     <div class="images-best">
         <div class="images-content">
             <h1 class="images-title">Лучшие работы в галерее за месяц</h1>
@@ -34,7 +35,7 @@ $this->setCss('components/images/style');
     <div class="images-news-wrapper">
         <div class="images-news">
 
-            <div class="images-news-item">
+            <div class="ui-card ui-card-style-blur images-news-item">
                 <? $this->Ui(
                     'image',
                     [

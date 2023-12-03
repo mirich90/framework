@@ -30,10 +30,26 @@ abstract class Controller
     }
 
     if ($this->access()) {
-      $this->handle();
+      $this->setMeta();
+      $this->construct();
     } else {
       die('Нет');
     }
+  }
+
+  protected function name_page()
+  {
+    return getNameCss($this);
+  }
+
+  protected function setMeta()
+  {
+    $this->meta->title = $this->title();
+    $this->meta->description = $this->description();
+    $this->meta->keywords = $this->keywords();
+    $this->meta->author = $this->author();
+    $this->meta->name_page = $this->name_page();
+    $this->view->meta = $this->meta;
   }
 
   protected function setCss($css)
@@ -49,17 +65,16 @@ abstract class Controller
     $this->view->setJs($fonts);
   }
 
+
   // пока не рбаотае почему-то. должен выявить был ажакс запрос или нет
   public function isAjax()
   {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
   }
 
-  abstract protected function handle();
-  abstract protected function setMeta();
+  abstract protected function construct();
   abstract protected function title();
   abstract protected function description();
   abstract protected function keywords();
   abstract protected function author();
-  abstract protected function name_page();
 }

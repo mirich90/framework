@@ -1,4 +1,5 @@
 <?
+$this->setCss('ui/card/style');
 $this->setCss('components/notes/style');
 
 $notes = [
@@ -25,18 +26,15 @@ $notes = [
 ];
 ?>
 
-<section class="container notes">
+<section class="ui-card notes container">
 
-    <?
-    $this->Component(
-        'breadcrumbs',
+    <? $this->Ui(
+        'title_description',
         [
-            'parent' => '',
-            'text' => '<h1>заметки</h1>',
-            'link' => '/post?id=',
+            'text' => '<h1>заметки</h1> за неделю',
         ]
-    );
-    ?>
+    ); ?>
+
 
 
     <? $this->Ui(
@@ -54,5 +52,16 @@ $notes = [
             array_merge($note)
         );
     } ?>
+
+    <? $this->Ui(
+        'button',
+        [
+            'text' => "Создать заметку",
+            'href' => "/note?create",
+            'color' => 'primary',
+            'flat' => true,
+            'transparent' => true
+        ]
+    ); ?>
 
 </section>

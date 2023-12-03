@@ -23,6 +23,19 @@ function p($path)
   return d($public_dir . $path);
 }
 
+function getObContent()
+{
+  $ob_content = ob_get_contents();
+  ob_end_clean();
+  return $ob_content;
+}
+
+function getNameCss($class)
+{
+  $class =  explode('\\', get_class($class));
+  return 'page' . $class[2] . ucfirst($class[3]);
+}
+
 function getUri()
 {
   $uri = $_SERVER['REQUEST_URI'];
@@ -39,12 +52,32 @@ function getControllerName()
 
 function getClassName($ctrl)
 {
-  $class = '\App\Controllers\NotFound';
-  $file = d("/App/Controllers/$ctrl.php");
+  if (isset($_GET['id'])) {
+    $filename = 'show';
+  } else if (isset($_GET['create'])) {
+    $filename = 'create';
+  } else {
+    $filename = 'index';
+  }
 
-  if (file_exists($file)) {
-    $class = "\App\Controllers\\$ctrl";
+
+  $class = '\App\Controllers\NotFound\index';
+  $path = d("/App/Controllers/$ctrl/$filename.php");
+
+  if (file_exists($path)) {
+    $class = "\App\Controllers\\$ctrl\\$filename";
   }
 
   return new $class;
+}
+
+function props($props, $key, $default = '', $new_value = null)
+{
+  if (isset($props[$key])) {
+    if ($new_value == null) return $props[$key];
+    $new_value = str_replace('___', $props[$key], $new_value);
+    return $new_value;
+  } else {
+    return $default;
+  }
 }

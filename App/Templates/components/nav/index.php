@@ -8,7 +8,7 @@ $uri = getUri();
 $navs = [
     ['link' => '', 'text' => 'Главная'],
     ['link' => 'profile', 'text' => 'Профиль'],
-    ['link' => 'post', 'text' => 'Статьи'],
+    ['link' => 'article', 'text' => 'Статьи'],
     ['link' => 'game', 'text' => 'Игры'],
     ['link' => 'image', 'text' => 'Графика'],
     ['link' => 'code', 'text' => 'Код'],

@@ -1,0 +1,110 @@
+.biocard ul {
+  list-style: none;
+}
+
+/* Utilities */
+.biocard::after,
+.biocard img {
+  max-width: 100%;
+  display: block;
+  border-radius: 50%;
+}
+
+.biocard .stats {
+  display: flex;
+}
+
+.biocard {
+  display: block;
+  padding: 2.5rem 2rem;
+  /* border-radius: 10px; */
+  /* background-color: var(--color-primary-light); */
+  width: 100%;
+  max-width: 500px;
+  /* box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.15); */
+  /* margin: 1rem; */
+  position: relative;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+.biocard::before,
+.biocard::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+.biocard::before {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  inset: 0;
+}
+.biocard::after {
+  height: 15rem;
+  width: 15rem;
+  background-color: var(--color-primary);
+  top: -8rem;
+  right: -8rem;
+}
+
+.biocard img {
+  width: 8rem;
+  min-width: 80px;
+  box-shadow: 0 0 0 5px #fff;
+}
+
+.infos {
+  margin-left: 0;
+  margin-top: 1.5rem;
+}
+
+.name {
+  margin-bottom: 1rem;
+}
+.biocard .name h1 {
+  font-size: 1.3rem;
+}
+.biocard .name h2 {
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.biocard .text {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.biocard .stats {
+  margin-bottom: 1rem;
+}
+.biocard .stats li {
+  min-width: 5rem;
+}
+.biocard .stats li h3 {
+  font-size: 0.99rem;
+}
+.biocard .stats li h4 {
+  font-size: 0.75rem;
+}
+
+.biocard .links button {
+  font-family: "Poppins", sans-serif;
+  min-width: 100px;
+  padding: 0.5rem;
+  border: 1px solid #222;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s linear;
+}
+.biocard .links .follow,
+.biocard .links .view:hover {
+  background-color: #222;
+  color: #fff;
+}
+.biocard .links .view,
+.biocard .links .follow:hover {
+  background-color: transparent;
+  color: #222;
+}

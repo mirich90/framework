@@ -1,5 +1,7 @@
 <?
+$this->setCss('ui/card/style');
 $this->setCss('components/articles/style');
+
 
 $articles = [
     [
@@ -29,55 +31,52 @@ $articles = [
 ]
 ?>
 
-<div class="container">
-    <div class="posts">
-        <? $this->Ui(
-            'title_description',
-            [
-                'text' => '3 поста за неделю',
-            ]
-        ); ?>
+<section class="ui-card posts container">
 
-        <? $this->Ui(
-            'title',
-            [
-                'text' => 'Последние посты:',
-                'link' => '/post',
-                'level' => 2,
-            ]
-        ); ?>
+    <? $this->Ui(
+        'title_description',
+        [
+            'text' => '<h1>посты</h1> за неделю',
+        ]
+    ); ?>
 
-        <div>
-            <? foreach ($this->categories as $category) {
-                $this->Ui(
-                    'button',
-                    [
-                        'text' => $category['name'],
-                        'href' => "/posts?categories={$category['index']}",
-                        'color' => 'primary',
-                        'flat' => true,
-                        'transparent' => true
-                    ]
-                );
-            } ?>
-        </div>
+    <? $this->Ui(
+        'title',
+        [
+            'text' => 'Последние посты:',
+            'link' => '/post',
+            'level' => 2,
+        ]
+    ); ?>
 
-        <br />
-
-
-        <? foreach ($articles as $article) {
-            $this->Component(
-                'articles_item',
-                array_merge($article, ['title_level' => 3])
+    <div>
+        <? foreach ($this->categories as $category) {
+            $this->Ui(
+                'button',
+                [
+                    'text' => $category['name'],
+                    'href' => "/posts?categories={$category['index']}",
+                    'color' => 'primary',
+                    'flat' => true,
+                    'transparent' => true
+                ]
             );
         } ?>
-
-        <? $this->Component(
-            'pagination',
-            ['count' => 6]
-        ); ?>
-
     </div>
-</div>
-</div>
-</div>
+
+    <br />
+
+
+    <? foreach ($articles as $article) {
+        $this->Component(
+            'articles_item',
+            array_merge($article, ['title_level' => 3])
+        );
+    } ?>
+
+    <? $this->Component(
+        'pagination',
+        ['count' => 6]
+    ); ?>
+
+</section>

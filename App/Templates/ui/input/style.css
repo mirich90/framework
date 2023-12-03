@@ -1,0 +1,52 @@
+.ui-input-fieldset {
+  /* display: flex;
+  flex-flow: column;
+  width: 100%;
+  border: 0;
+  padding: 0.75em 0;
+  margin: 0; */
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+.ui-input-label {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-left: 0.5rem;
+  font-weight: 700;
+  font-size: 0.7em;
+}
+
+.ui-input-input {
+  /* background: var(--color-bg); */
+  font-weight: 500;
+  display: block;
+}
+
+.ui-input-input,
+.ui-input-select,
+.ui-input-textarea {
+  height: 50px;
+  border: 2px solid var(--color-grey);
+  width: 100%;
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.ui-input-input.active,
+.ui-input-input:focus,
+.ui-input-select.active,
+.ui-input-select:focus,
+.ui-input-textarea.active,
+.ui-input-textarea:focus {
+  outline: 0;
+  border-color: var(--color-primary-light2);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

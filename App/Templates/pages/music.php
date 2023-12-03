@@ -1,1 +1,0 @@
-    <? $this->Component('music'); ?>

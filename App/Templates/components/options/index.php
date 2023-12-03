@@ -1,10 +1,5 @@
 <? $this->setCss('components/options/style'); ?>
 
 <div class="options">
-    <div class="options-wrapper">
-        <? $this->Ui(
-            'button',
-            ['text' => 'Настройки', 'color' => "primary", 'flat' => true]
-        ); ?>
-    </div>
+    <? $this->Component('profile_card', ['classes' => 'ui-card-right']); ?>
 </div>

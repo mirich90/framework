@@ -1,7 +1,7 @@
 <? $this->setCss('components/home/style'); ?>
+<? $this->setCss('ui/card/style'); ?>
 
-
-<section class="container container-lg home">
+<section class="container container-lg ui-card ui-card-style-primary_g ui-card-right home">
   <div class="home-description">
     <h1 class="home-title">
       <span class="home-gradient-text">MY_SITE</span> - сайт для индюков

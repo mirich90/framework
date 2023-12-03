@@ -5,14 +5,8 @@
   grid-template-columns: 45% 50%;
   place-items: center;
   gap: 50px;
-  background: var(--color-primary);
-  background: radial-gradient(
-    circle,
-    var(--color-primary) 3%,
-    rgba(35, 36, 57, 1) 60%
-  );
+
   overflow: hidden;
-  padding: 130px 80px;
   margin-bottom: 2rem;
 }
 

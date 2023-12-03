@@ -31,7 +31,7 @@ if (!isset($props['title_level'])) $props['title_level'] = 2;
         'title',
         [
             'text' => $props['title'],
-            'link' => '/post?id=' . $props['link'],
+            'link' => '/article?id=' . $props['link'],
             'level' => $props['title_level'],
         ]
     ); ?>

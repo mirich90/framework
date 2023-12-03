@@ -1,9 +1,10 @@
 <?
 $this->setCss('components/music/style');
+$this->setCss('ui/card/style');
 ?>
 
-<section class="container container-lg music">
-    <div class="music-gradient"></div>
+<section class="container container-lg ui-card ui-card-style-violet ui-card-style-gradient ui-card-right music">
+    <!-- <div class="music-gradient"></div> -->
     <div class="music-scroll">
         <p>Слушайте чужие треки</p>
         <p>Загружайте свои</p>
@@ -28,7 +29,7 @@ $this->setCss('components/music/style');
             ]
         ); ?>
     </div>
-    <div class="music-body">
+    <div class="ui-card ui-card-style-blur music-body">
         <h2>Популярные</h2>
         <ul>
             <li>

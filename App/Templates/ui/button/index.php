@@ -1,22 +1,14 @@
-<!-- 
-    text
-    flat ?
-    href ?
-    color ?
-    onclick ?
--->
-
 <? $this->setCss('ui/button/style'); ?>
 
 <?
-
-if (!isset($props['color'])) $props['color'] = '';
-$flat = (isset($props['flat'])) ? 'flat' : '';
-$transparent = (isset($props['transparent'])) ? 'transparent' : '';
-$tag = (isset($props['href'])) ? "a" : 'button';
+$text = props($props, 'text');
+$color = props($props, 'color');
+$flat = props($props, 'flat', '', 'flat');
+$transparent = props($props, 'transparent', '', 'transparent');
+$tag = props($props, 'href', 'button', 'a');
 $href = (isset($props['href'])) ? "href='{$props['href']}'" : '';
 ?>
 
-<<?= $tag; ?> <?= $href; ?> class="btn <?= $transparent; ?> <?= $props['color']; ?> <?= $flat; ?>">
-    <?= $props['text']; ?>
+<<?= $tag; ?> <?= $href; ?> class="btn <?= $transparent; ?> <?= $color; ?> <?= $flat; ?>">
+    <?= $text; ?>
 </<?= $tag; ?>>
