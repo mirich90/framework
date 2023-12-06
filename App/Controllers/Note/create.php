@@ -11,7 +11,7 @@ class create extends Controller
   {
     $Note = new \App\Models\Note();
 
-    if ($Note->check_response(['title', 'text'])) {
+    if ($Note->check_response(['title', 'content'])) {
       $this->create($Note);
     }
 

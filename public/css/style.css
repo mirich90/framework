@@ -54,7 +54,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
-#content {
+#page-content {
   margin-left: var(--nav-width);
   width: calc(100% - var(--nav-width));
 }

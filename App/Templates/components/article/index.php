@@ -1,4 +1,5 @@
 <?
+$this->setCss('ui/card/style');
 $article = [
     'id' => 1,
     'title' => 'Художник Руди Сисванто: милые звери, яркие характеры и добрые истории',
@@ -11,9 +12,9 @@ $article = [
 ];
 ?>
 
-<div class="container">
+<section class="ui-card notes container">
     <? $this->Component(
         'articles_item',
         array_merge($article, ['is_breadcrumbs' => true, 'title_level' => 1])
     ); ?>
-</div>
+    </div>

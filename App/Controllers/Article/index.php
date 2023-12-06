@@ -9,9 +9,6 @@ class index extends Controller
 {
   protected function construct()
   {
-
-    // $Category->create_table();
-
     $Category = new \App\Models\Category();
     $this->view->categories = $Category->select();
     $this->view->display('article/index');

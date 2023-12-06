@@ -1,4 +1,4 @@
-.notes-item header {
+.notes-item {
   display: flex;
   margin-top: 3rem;
 }
@@ -13,10 +13,10 @@
 .notes-item-author-img picture:hover {
   transform: scale(1) rotateZ(0);
 }
-.notes-item-body {
-  margin-left: 120px;
+.notes-item-body p {
   line-height: 1.7;
 }
+
 .notes-item-body span {
   color: #434b57;
   opacity: 0.8;

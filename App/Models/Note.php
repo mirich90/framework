@@ -13,7 +13,7 @@ class Note extends Model
   public $attributes = [
     'id' => NULL,
     'title' => '',
-    'text' => '',
+    'content' => '',
     'link' => '',
     'datetime' => NULL,
     'datetime_update' => NULL,
@@ -24,7 +24,7 @@ class Note extends Model
     'id' => ['type' => 'int', 'length' => 11, 'auto_increment' => true, 'primary_key' => true, 'not_null' => true],
     'title' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
     'link' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'not_null' => true, 'default' => ['translitLink', 'title']],
-    'text' => ['type' => 'varchar', 'length' => 1024, 'lengthMin' => 20],
+    'content' => ['type' => 'varchar', 'length' => 1024, 'lengthMin' => 20],
     'datetime' => ['type' => 'datetime'],
     'datetime_update' => ['type' => 'datetime'],
     'is_delete' => ['type' => 'tinyint', 'length' => 1, 'not_null' => true],

@@ -2,38 +2,54 @@
 $this->setCss('components/notes_item/style');
 ?>
 
-<div class="notes-item">
-    <header>
-        <div class="notes-item-author-img">
-            <a href="/">
-                <? $this->Ui(
-                    'image',
-                    [
-                        'src' => $props['author_img'],
-                        'alt' => $props['author_img_alt'],
-                    ]
-                ); ?>
-            </a>
+<?
+$author_img = props($props, 'author_img');
+$author_img_alt = props($props, 'author_img_alt');
+$author_name = props($props, 'author_name', 'username');
+$author_link = props($props, 'author_link');
+$title = props($props, 'title');
+$link = props($props, 'link');
+$content = props($props, 'content');
+$datetime = props($props, 'datetime');
+?>
 
-        </div>
+
+<div class="notes-item">
+    <div class="notes-item-author-img">
+        <a href="/">
+            <? $this->Ui(
+                'image',
+                [
+                    'src' => $author_img,
+                    'alt' => $author_img_alt
+                ]
+            ); ?>
+        </a>
+    </div>
+
+    <div class="notes-item-body">
 
         <div class="notes-item-title">
-            <a class="notes-item-author-name" href="/author/cosima-mielke"><?= $props['author_name']; ?></a>
+            <a class="notes-item-author-name" href="/author&id=<?= $author_link; ?>">
+                <?= $author_name; ?>
+            </a>
+
             <? $this->Ui(
                 'title',
                 [
-                    'text' => $props['title'],
-                    'link' => $props['link'],
+                    'text' => $title,
+                    'link' => "/note?id=$link",
                     'level' => 3,
                 ]
             ); ?>
 
         </div>
-    </header>
 
-    <p class="notes-item-body">
-        <span><?= $props['date']; ?> — </span><?= $props['content']; ?>
-    </p>
+        <p>
+            <span><?= $datetime; ?> — </span>
+            <?= $content; ?>
+        </p>
+    </div>
 
 
 </div>

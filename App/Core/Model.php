@@ -28,13 +28,14 @@ abstract class Model
         foreach ($this->attributes as $key => $value) {
 
             if (isset($data[$key])) {
+                // if ($this->isDatetime($data[$key], $key)) continue;
                 $this->attributes[$key] = $this->prepared($data[$key], $key);
             }
             $this->attributes[$key] = $this->setDefaultValue($key);
         }
     }
 
-    function prepared($str, $key)
+    private function prepared($str, $key)
     {
         $type = $this->rules[$key]['type'];
         if ($type === 'varchar' || $type === 'text') {
@@ -44,7 +45,17 @@ abstract class Model
         return $str;
     }
 
-    public function setDefaultValue($key)
+    // private function isDatetime($value, $key)
+    // {
+    //     c($value);
+    //     c($this->rules[$key]['type']);
+    //     if (!$value && $this->rules[$key]['type'] === 'datetime') {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+    private function setDefaultValue($key)
     {
         if ($this->attributes[$key] === '' && isset($this->rules[$key]['default'])) {
             $default = $this->rules[$key]['default'];
@@ -144,7 +155,8 @@ abstract class Model
         $data = [];
 
         foreach ($fields as $name => $value) {
-            if ('id' == $name) {
+            $is_datetime = $this->rules[$name]['type'] === 'datetime' && !$value;
+            if ('id' == $name || $is_datetime) {
                 continue;
             }
 

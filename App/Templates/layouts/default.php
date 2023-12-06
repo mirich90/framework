@@ -12,7 +12,7 @@ $this->setCss('style');
   <main>
     <? $this->Component('nav') ?>
 
-    <section id="content">
+    <section id="page-content">
       <?= $this->content; ?>
     </section>
   </main>
