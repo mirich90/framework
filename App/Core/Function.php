@@ -23,6 +23,17 @@ function p($path)
   return d($public_dir . $path);
 }
 
+function redirect($http = false)
+{
+  if ($http) {
+    $redirect = $http;
+  } else {
+    $redirect = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+  }
+  header("Location: $redirect");
+  die;
+}
+
 function getObContent()
 {
   $ob_content = ob_get_contents();
@@ -30,9 +41,14 @@ function getObContent()
   return $ob_content;
 }
 
+function getNameClass($class)
+{
+  return explode('\\', get_class($class));
+}
+
 function getNameCss($class)
 {
-  $class =  explode('\\', get_class($class));
+  $class = getNameClass($class);
   return 'page' . $class[2] . ucfirst($class[3]);
 }
 
@@ -80,4 +96,49 @@ function props($props, $key, $default = '', $new_value = null)
   } else {
     return $default;
   }
+}
+
+
+function translit($value)
+{
+  $converter = array(
+    'а' => 'a',    'б' => 'b',    'в' => 'v',    'г' => 'g',    'д' => 'd',
+    'е' => 'e',    'ё' => 'e',    'ж' => 'zh',   'з' => 'z',    'и' => 'i',
+    'й' => 'y',    'к' => 'k',    'л' => 'l',    'м' => 'm',    'н' => 'n',
+    'о' => 'o',    'п' => 'p',    'р' => 'r',    'с' => 's',    'т' => 't',
+    'у' => 'u',    'ф' => 'f',    'х' => 'h',    'ц' => 'c',    'ч' => 'ch',
+    'ш' => 'sh',   'щ' => 'sch',  'ь' => '',     'ы' => 'y',    'ъ' => '',
+    'э' => 'e',    'ю' => 'yu',   'я' => 'ya',
+  );
+
+  $value = mb_strtolower($value);
+  $value = strtr($value, $converter);
+  $value = mb_ereg_replace('[^-0-9a-z]', '-', $value);
+  $value = mb_ereg_replace('[-]+', '-', $value);
+  $value = trim($value, '-');
+
+  return $value;
+}
+
+function translitSrc($str)
+{
+  $image_name = translit($str);
+  $random = random_int(100, 999);
+  $date = date('Ymd_His_');
+  $src = $date . $random . "_$image_name";
+  return $src;
+}
+
+function randomCode($len)
+{
+  $code = "";
+  $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  $pos = strlen($char);
+  $pos = pow($pos, $len);
+  $total = strlen($char) - 1;
+
+  for ($i = 0; $i < $len; $i++) {
+    $code = $code . $char[rand(0, $total)];
+  }
+  return $code;
 }

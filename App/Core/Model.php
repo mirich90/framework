@@ -7,6 +7,9 @@ abstract class Model
 {
 
     const TABLE = '';
+    const FIELD_BASE = '';
+    const NAME = '';
+
     protected $pdo;
     public $id;
     public $attributes = [];
@@ -23,10 +26,64 @@ abstract class Model
     public function load($data)
     {
         foreach ($this->attributes as $key => $value) {
+
             if (isset($data[$key])) {
-                $this->attributes[$key] = $data[$key];
+                $this->attributes[$key] = $this->prepared($data[$key], $key);
+            }
+            $this->attributes[$key] = $this->setDefaultValue($key);
+        }
+    }
+
+    function prepared($str, $key)
+    {
+        $type = $this->rules[$key]['type'];
+        if ($type === 'varchar' || $type === 'text') {
+            return htmlspecialchars($str, ENT_QUOTES);
+        }
+
+        return $str;
+    }
+
+    public function setDefaultValue($key)
+    {
+        if ($this->attributes[$key] === '' && isset($this->rules[$key]['default'])) {
+            $default = $this->rules[$key]['default'];
+
+            if (is_array($default) && $default[0] === 'translitLink') {
+                return $this->translitLink($this->attributes[$default[1]]);
+            } else {
+                return $this->rules[$key]['default'];
             }
         }
+
+        return $this->attributes[$key];
+    }
+
+    public function check_response($fields)
+    {
+        foreach ($fields as $field) {
+            if (!isset($_POST[$field])) return false;
+            if (empty($_POST[$field]))  return false;
+        }
+
+        return true;
+    }
+
+    public function validate($data)
+    {
+
+        // $v->rules($this->rules);
+        // if ($v->validate()) {
+        //     return true;
+        // }
+        // $this->errors_validation = $v->errors();
+        // return false;
+        return true;
+    }
+
+    private function translitLink($name)
+    {
+        return translitSrc($name);
     }
 
     public function select($fields = '*')
@@ -41,7 +98,6 @@ abstract class Model
         );
     }
 
-
     public function selectOne($value, $field = 'id')
     {
         $table = static::TABLE;
@@ -53,6 +109,56 @@ abstract class Model
             true
         );
         return $data ? $data[0] : null;
+    }
+
+    public function save($field_name = null)
+    {
+        $link = $this->insert($field_name);
+
+        if ($link) {
+            $name = static::NAME;
+            $table_link = substr(static::TABLE, 0, -1);
+            $field_base = static::FIELD_BASE;
+            $title = "«" . $this->attributes[$field_base] . "»";
+            $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создана", ["link" => $link]);
+            redirect();
+        } else {
+            $this->sendResponse('Ошибка! Попробуте позже', [], true);
+            redirect();
+        }
+    }
+
+    private function sendResponse($message, $data = [], $error = null)
+    {
+        $status = ($error) ? 500 : 200;
+        $request = ["status" => $status, 'message' => $message, "data" => $data];
+        $json =  json_encode($request);
+        $_SESSION['request'] = $json;
+    }
+
+
+    private function insert($field_name = null)
+    {
+        $fields = $this->attributes;
+        $cols = [];
+        $data = [];
+
+        foreach ($fields as $name => $value) {
+            if ('id' == $name) {
+                continue;
+            }
+
+            $cols[] = $name;
+            $data[":$name"] = $value;
+        }
+
+        $name = implode(',', $cols);
+        $value = implode(',', array_keys($data));
+        $sql = 'INSERT INTO ' . static::TABLE . " ($name) VALUES ($value)";
+
+        $this->pdo->execute($sql, $data);
+        $this->id = $this->pdo->getLastId();
+        return ($field_name) ? $data[":$field_name"] : $this->id;
     }
 
     public function create_table()
@@ -69,8 +175,10 @@ abstract class Model
             $auto_increment = $this->getValue($rule, 'auto_increment', 'AUTO_INCREMENT');
             $type =  $this->getValue($rule, 'type');
             $length =  $this->getValue($rule, 'length');
+            $default = $this->getDefault($rule, 'type', 'not_null');
 
-            $fields .= "`$key` $type($length) $not_null $auto_increment, ";
+            $type_length = ($length === '') ? $type : $type . '(' . $length . ')';
+            $fields .= "`$key` $type_length $not_null $auto_increment $default, ";
 
             if (isset($rule['primary_key'])) {
                 $primary_key = "PRIMARY KEY ($key)";
@@ -82,12 +190,24 @@ abstract class Model
         return $this->pdo->execute($sql);
     }
 
-
     private function getValue($rule, $key,  $correct = null, $incorrect = '')
     {
         if (isset($rule[$key])) {
             return $correct ? $correct : $rule[$key];
         }
         return  $incorrect;
+    }
+
+    private function getDefault($rule, $type, $not_null)
+    {
+        if (isset($rule[$not_null])) {
+            return  '';
+        }
+
+        if ($rule[$type] === 'datetime') {
+            return 'DEFAULT CURRENT_TIMESTAMP';
+        }
+
+        return 'DEFAULT NULL';
     }
 }

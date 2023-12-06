@@ -2,7 +2,7 @@
 
 
 <?
-$id = props($props, 'text');
+$id = props($props, 'id');
 $type = props($props, 'type', 'text');
 $value = props($props, 'value');
 $label = props($props, 'label');
@@ -15,6 +15,10 @@ $placeholder = props($props, 'placeholder');
         <?= $label; ?>
     </label>
 
-    <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-input">
+    <? if ($type === 'textarea') : ?>
+        <textarea autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-textarea"></textarea>
+    <? else : ?>
+        <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-input">
+    <? endif ?>
 
 </fieldset>

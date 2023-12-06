@@ -1,6 +1,5 @@
 <section class="ui-card posts container">
 
-
     <? $this->Ui(
         'title_description',
         [
@@ -13,29 +12,31 @@
         [
             'text' => 'Создать заметку',
             'level' => 2,
+            'link' => '/note?create',
         ]
     ); ?>
 
-    <form>
+    <? $this->Ui('alert_session'); ?>
+
+    <form action="/note?create" method="post">
         <? $this->Ui(
             'input',
-            ['text' => 'Название', 'label' => 'Заголовок', 'placeholder' => 'Введите заголовок заметки']
+            ['id' => 'title', 'text' => 'Название', 'label' => 'Заголовок', 'placeholder' => 'Введите заголовок заметки']
         ); ?>
 
         <? $this->Ui(
             'input',
-            ['text' => 'Название', 'label' => 'Текст', 'placeholder' => 'Введите текст заметки']
+            ['id' => 'text', 'type' => 'textarea', 'text' => 'Название', 'label' => 'Текст', 'placeholder' => 'Введите текст заметки']
         ); ?>
-
 
         <fieldset class="sign-up__input sign-up__input--horizontal">
-            <!-- <input type="submit" value="Join" class="sign-up__button"> -->
+
             <? $this->Ui(
                 'button',
                 [
                     'text' => "Создать заметку",
-                    'href' => "/note?create",
                     'color' => 'primary',
+                    'type' => 'submit',
                     'flat' => true,
                     'transparent' => true
                 ]

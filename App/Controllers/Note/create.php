@@ -9,27 +9,41 @@ class create extends Controller
 {
   protected function construct()
   {
+    $Note = new \App\Models\Note();
+
+    if ($Note->check_response(['title', 'text'])) {
+      $this->create($Note);
+    }
+
     $this->view->display('Note/create');
   }
 
 
+  private function create($Note)
+  {
+    $Note->load($_POST);
+    $Note->validate($_POST);
+
+    $Note->save('link');
+  }
+
   protected function title()
   {
-    return "Indyground";
+    return "Создание заметки";
   }
 
   protected function description()
   {
-    return "Indyground - сайт о создателях игр, музыки, графики и всего осталнього творчества";
+    return "Создание заметки";
   }
 
   protected function keywords()
   {
-    return "Indyground, инди, RPG maker";
+    return "заметка, журнал";
   }
 
   protected function author()
   {
-    return "Yuryol";
+    return "Username";
   }
 }

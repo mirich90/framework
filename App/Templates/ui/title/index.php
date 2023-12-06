@@ -8,5 +8,5 @@ $this->setCss('ui/title/style');
 ?>
 
 <a class="title" href="<?= $props['link']; ?>">
-    <h<?= $props["level"]; ?>><?= $props['text']; ?></h<?= $props['level']; ?>>
+    <h<?= $props['level']; ?>><?= $props['text']; ?></h<?= $props['level']; ?>>
 </a>

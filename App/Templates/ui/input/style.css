@@ -14,7 +14,7 @@
   margin-bottom: 5px;
   margin-left: 0.5rem;
   font-weight: 700;
-  font-size: 0.7em;
+  font-size: 0.7rem;
 }
 
 .ui-input-input {
@@ -33,6 +33,13 @@
   border-radius: 0.5rem;
   color: var(--color-text);
   background: var(--color-bg);
+}
+
+.ui-input-textarea {
+  padding: 1rem;
+  resize: vertical;
+  min-height: 117px;
+  white-space: nowrap;
 }
 
 .ui-input-input.active,

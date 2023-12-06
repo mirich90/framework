@@ -85,7 +85,7 @@ class View implements \Countable, \ArrayAccess
     include d("/App/Templates/components/$name/index.php");
   }
 
-  public function Ui($name, $props): void
+  public function Ui($name, $props = []): void
   {
     $props = $props;
     include d("/App/Templates/ui/$name/index.php");
