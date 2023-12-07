@@ -9,14 +9,12 @@ abstract class Model
     const TABLE = '';
     const FIELD_BASE = '';
     const NAME = '';
+    const CONFIRM_PASSWORD_KEY = NULL;
 
     protected $pdo;
     public $id;
     public $attributes = [];
     public $rules = [];
-
-    public $errors_validation = [];
-    public $rules_validation = [];
 
     public function __construct()
     {
@@ -28,11 +26,11 @@ abstract class Model
         foreach ($this->attributes as $key => $value) {
 
             if (isset($data[$key])) {
-                // if ($this->isDatetime($data[$key], $key)) continue;
                 $this->attributes[$key] = $this->prepared($data[$key], $key);
             }
-            $this->attributes[$key] = $this->setDefaultValue($key);
+            $this->attributes[$key] = $this->setValue($key);
         }
+        c($this->attributes);
     }
 
     private function prepared($str, $key)
@@ -45,25 +43,22 @@ abstract class Model
         return $str;
     }
 
-    // private function isDatetime($value, $key)
-    // {
-    //     c($value);
-    //     c($this->rules[$key]['type']);
-    //     if (!$value && $this->rules[$key]['type'] === 'datetime') {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    private function setDefaultValue($key)
+    private function setValue($key)
     {
-        if ($this->attributes[$key] === '' && isset($this->rules[$key]['default'])) {
-            $default = $this->rules[$key]['default'];
+        if (isset($this->rules[$key]['function'])) {
+            $function = $this->rules[$key]['function'];
+            $value = $this->attributes[$function[1]];
 
-            if (is_array($default) && $default[0] === 'translitLink') {
-                return $this->translitLink($this->attributes[$default[1]]);
-            } else {
-                return $this->rules[$key]['default'];
+            switch ($function[0]) {
+                case 'translitLink':
+                    return $this->translitLink($value);
+                    break;
+                case 'securing':
+                    return $this->securing($value);
+                    break;
+                case 'generateCode':
+                    return $this->generateCode();
+                    break;
             }
         }
 
@@ -73,28 +68,55 @@ abstract class Model
     public function check_response($fields)
     {
         foreach ($fields as $field) {
-            if (!isset($_POST[$field])) return false;
-            if (empty($_POST[$field]))  return false;
+            if (!isset($_GET[$field])) return false;
         }
 
         return true;
     }
 
-    public function validate($data)
+    public function sendMail($email_to, $email_from, $subject, $body, $message_success, $message_error)
     {
+        $headers = $this->setHeaderMail($email_from);
+        $is_sent = mail($email_to, $subject, $body, $headers);
+        if ($is_sent) {
+            $this->sendResponse($message_success, []);
+        } else {
+            $this->sendResponse($message_error, [], true);
+            redirect();
+        }
+    }
 
-        // $v->rules($this->rules);
-        // if ($v->validate()) {
-        //     return true;
-        // }
-        // $this->errors_validation = $v->errors();
-        // return false;
+    public function setHeaderMail($from)
+    {
+        $headers = array(
+            'From' => $from,
+            'Reply-To' => $from,
+            'Content-Type' => ' text/html; charset=utf-8',
+            'X-Mailer' => 'PHP/' . phpversion(),
+        );
+        return $headers;
+    }
+
+    public function validate($data, $is_validate_password = false)
+    {
+        $this->validateEmail($data);
+        $this->validatePassword($data, $is_validate_password);
         return true;
     }
 
     private function translitLink($name)
     {
         return translitSrc($name);
+    }
+
+    private function generateCode()
+    {
+        return generateCode();
+    }
+
+    private function securing($name)
+    {
+        return securing($name);
     }
 
     public function select($fields = '*')
@@ -131,15 +153,52 @@ abstract class Model
             $table_link = substr(static::TABLE, 0, -1);
             $field_base = static::FIELD_BASE;
             $title = "«" . $this->attributes[$field_base] . "»";
-            $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создана", ["link" => $link]);
-            redirect();
+            $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создан(а)", ["link" => $link]);
         } else {
             $this->sendResponse('Ошибка! Попробуте позже', [], true);
-            redirect();
         }
     }
 
-    private function sendResponse($message, $data = [], $error = null)
+    public function edit($field_name = null)
+    {
+        return $this->update($field_name);
+    }
+
+
+    public function update($field_name = null)
+    {
+        $fields = $this->attributes;
+        $table = static::TABLE;
+        $data = [];
+        $sets = [];
+
+        if ($field_name) {
+            $sets[] = "$field_name = :$field_name";
+            $data[":$field_name"] = $fields[$field_name];
+            $data[":id"] = $fields['id'];
+        } else {
+            foreach ($fields as $name => $value) {
+                if ('id' != $name) {
+                    $sets[] = "$name = :$name";
+                }
+                $data[":$name"] = $value;
+            }
+        }
+
+        $sets = implode(', ', $sets);
+        $sql = "UPDATE $table SET $sets, datetime_update=CURRENT_TIMESTAMP, `id` = LAST_INSERT_ID(`id`) WHERE id = :id";
+
+        $status = $this->pdo->execute($sql, $data);
+
+        if ($status) {
+            $this->sendResponse('Данные успешно изменены', [], true);
+        } else {
+            $this->sendResponse('Ошибка! Попробуте позже', [], true);
+        }
+        return $status;
+    }
+
+    public function sendResponse($message, $data = [], $error = null)
     {
         $status = ($error) ? 500 : 200;
         $request = ["status" => $status, 'message' => $message, "data" => $data];
@@ -147,6 +206,70 @@ abstract class Model
         $_SESSION['request'] = $json;
     }
 
+    private function validatePassword($data, $is_validate_password)
+    {
+        if (!isset($data['password'])) return;
+
+        if ($is_validate_password) {
+            $confirm_password_key = $this::CONFIRM_PASSWORD_KEY;
+
+            if (empty($_POST[$confirm_password_key])) {
+                $this->sendResponse("Введите пароль два раза", [], true);
+                redirect();
+                die;
+            }
+            if ($data['password'] !== $_POST[$confirm_password_key]) {
+                $this->sendResponse("Пароли должны совпадать", [], true);
+                redirect();
+                die;
+            }
+        }
+    }
+
+    private function validateEmail($data)
+    {
+        if (!isset($data['email'])) return;
+
+        if (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data['email'])) {
+            $this->sendResponse("Пожалуйста, введите корректный email", [], true);
+            redirect();
+            die;
+        }
+    }
+
+    public function checkUnique($key)
+    {
+        $email = $this->attributes[$key];
+        $user = $this->find([$key], [$email]);
+
+        if (count($user) > 0) {
+            $this->sendResponse("Пользователь с данным электронным адресом уже зарегистрирован", [], true);
+            redirect();
+            die;
+        }
+        return true;
+    }
+
+    public function find($fields, $value, $operator = 'AND')
+    {
+        $attrs = '';
+
+        foreach ($fields as $key => $field) {
+            $op = ($key == 0) ? '' : $operator;
+            $attrs .= "$op $field=? ";
+        }
+
+
+        $table = static::TABLE;
+        $sql = "SELECT * FROM $table WHERE $attrs LIMIT 1";
+        $data = $this->pdo->query(
+            $sql,
+            $value,
+            static::class,
+            true
+        );
+        return $data ? $data[0] : null;
+    }
 
     private function insert($field_name = null)
     {

@@ -64,5 +64,6 @@ a.btn.secondary:hover {
   background: transparent !important;
 }
 .btn.transparent:hover {
+  color: var(--color-bg);
   background: var(--color-primary) !important;
 }

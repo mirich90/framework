@@ -30,6 +30,16 @@ function translitSrc($str)
     return $src;
 }
 
+function securing($password)
+{
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+
+function generateCode()
+{
+    return substr(md5(mt_rand()), 0, 15);
+}
+
 function randomCode($len)
 {
     $code = "";

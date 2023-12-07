@@ -18,7 +18,7 @@
 
     <? $this->Ui('alert_session'); ?>
 
-    <form action="/note?create" method="post">
+    <form action="/note?create&submit" method="post">
         <? $this->Ui(
             'input',
             ['id' => 'title', 'text' => 'Название', 'label' => 'Заголовок', 'placeholder' => 'Введите заголовок заметки']

@@ -15,6 +15,9 @@ function getRole()
 
 function isLogin()
 {
-    $user = $_SESSION['user'];
-    return isset($user['id']);
+    if (isset($_SESSION['user'])) {
+        $user = $_SESSION['user'];
+        return isset($user['id']);
+    }
+    return NULL;
 }
