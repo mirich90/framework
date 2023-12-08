@@ -4,7 +4,7 @@ $this->setCss('components/options/style');
 ?>
 
 <div class="options">
-    <? if (isLogin()) : ?>
+    <? if ($this->user) : ?>
         <? $this->Component('profile_card', ['classes' => 'ui-card-right']); ?>
     <? else : ?>
         <div class="ui-card">

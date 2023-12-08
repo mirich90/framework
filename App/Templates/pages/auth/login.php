@@ -17,7 +17,7 @@
 
     <? $this->Ui('alert_session'); ?>
 
-    <form action="/login&submit" method="post">
+    <form action="/login?submit" method="post">
         <? $this->Ui(
             'input',
             ['id' => 'email', 'type' => 'email', 'text' => 'e-mail (электронный адрес)', 'label' => 'E-mail', 'placeholder' => 'Введите e-mail (электронный адрес)']

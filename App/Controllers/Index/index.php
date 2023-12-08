@@ -3,7 +3,6 @@
 namespace App\Controllers\Index;
 
 use App\Core\Controller;
-use App\Db;
 
 class index extends Controller
 {
@@ -11,6 +10,8 @@ class index extends Controller
   {
     $Category = new \App\Models\Category();
     $this->view->categories = $Category->select();
+    $Note = new \App\Models\Note();
+    $this->view->notes = $Note->select();
     // $Category->create_table();
     // $this->view->setCss('index');
     // $this->view->setJs('filter');

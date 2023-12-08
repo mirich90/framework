@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Functions\FUser;
+
 abstract class Controller
 {
   protected $view;
@@ -21,13 +23,8 @@ abstract class Controller
 
   public function __invoke()
   {
-
-    $this->view->is_user = isset($_SESSION['user']);
-
-    if ($this->view->is_user) {
-      $this->view->user = $_SESSION['user'];
-      $this->view->is_admin = ($_SESSION['user']["role"] == 'admin');
-    }
+    $this->view->user = FUser::getUser();
+    $this->view->is_admin = FUser::checkRole('admin');
 
     if ($this->access()) {
       $this->setMeta();

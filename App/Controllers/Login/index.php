@@ -23,11 +23,11 @@ class index extends Controller
     $UsersSecretData->validate($_POST);
 
     if ($UsersSecretData->login()) {
-      $UsersSecretData->sendResponse('Вы успешно авторизованы', [], true);;
+      $UsersSecretData->sendResponse('Вы успешно авторизованы');;
     } else {
       $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], true);;
     }
-    redirect();
+    redirect('/profile');
   }
 
   protected function title()

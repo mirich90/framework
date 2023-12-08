@@ -30,7 +30,6 @@ abstract class Model
             }
             $this->attributes[$key] = $this->setValue($key);
         }
-        c($this->attributes);
     }
 
     private function prepared($str, $key)

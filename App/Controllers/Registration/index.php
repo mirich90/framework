@@ -3,7 +3,6 @@
 namespace App\Controllers\Registration;
 
 use App\Core\Controller;
-use App\Db;
 
 class index extends Controller
 {

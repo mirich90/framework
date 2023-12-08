@@ -55,16 +55,17 @@ class UsersSecretData extends Model
 
   public function login()
   {
-    $email = !empty(trim($_POST['email'])) ? trim($_POST['email']) : null;
+    $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
     $password = !empty($_POST['password']) ? $_POST['password'] : null;
 
     if ($email && $password) {
       $user = $this->find(['email'], [$this->attributes['email']]);
       if ($user) {
         if (password_verify($password, $user['password'])) {
-          foreach ($user as $key => $value) {
-            if ($key != 'password') $_SESSION['user'][$key] = $value;
-          }
+          unset($_SESSION['user']);
+          $_SESSION['user'] = ['email' => $user['email'], 'id' => $user['id']];
+          // c($_SESSION);
+          // die;
           return true;
         }
       }

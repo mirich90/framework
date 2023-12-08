@@ -7,7 +7,6 @@ $uri = getUri();
 
 $navs = [
     ['link' => '', 'text' => 'Главная'],
-    ['link' => 'profile', 'text' => 'Профиль'],
     ['link' => 'article', 'text' => 'Статьи'],
     ['link' => 'game', 'text' => 'Игры'],
     ['link' => 'image', 'text' => 'Графика'],
@@ -16,6 +15,8 @@ $navs = [
     ['link' => 'text', 'text' => 'Текст'],
     ['link' => 'note', 'text' => 'Заметки'],
     ['link' => 'setting', 'text' => 'Настройки'],
+    ['link' => 'profile', 'text' => 'Профиль'],
+    ['link' => 'logout?submit', 'text' => 'Выйти'],
 ];
 ?>
 
