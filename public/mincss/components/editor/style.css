@@ -1,0 +1,122 @@
+._inputPlus_18w8b_1 {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 45px;
+}
+._inputPlusValue_18w8b_6 {
+  border: 1px solid #b1b1b1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 9px 10px;
+  font: 1rem/1em Roboto, sans-serif;
+  min-height: 32px;
+  border-left: right;
+}
+._inputPlusValue_18w8b_6::placeholder {
+  color: #7b7b7b;
+}
+._inputPlusButton_18w8b_18 {
+  min-height: 32px;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  background: url(/assets/plus.d7a3729d.svg) center center no-repeat #3f72af;
+  width: 60px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+._inputPlusButton_18w8b_18:hover {
+  background-color: #0b4283;
+}
+._inputTask_13vi2_1 {
+  background: #dbe2ef;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  padding-right: 15px;
+}
+._inputTask_13vi2_1:last-child {
+  margin-bottom: 0;
+}
+._inputTaskCheckbox_13vi2_13 {
+  border: 1px solid #3f72af;
+  border-radius: 2px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+._inputTaskLabel_13vi2_20 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px 15px;
+}
+._inputTaskTitle_13vi2_27 {
+  padding: 5px;
+  line-height: 1.2;
+}
+._inputTaskTitleEdit_13vi2_31 {
+  font: 1rem/1em Roboto, sans-serif;
+  border: none;
+  padding: 5px;
+  background: 0 0;
+  box-shadow: 0 4px 0 -3px #3f72af;
+}
+._inputTaskEdit_13vi2_38,
+._inputTaskRemove_13vi2_38,
+._inputTaskSave_13vi2_38 {
+  display: block;
+  height: 100%;
+  width: 50px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+._inputTaskEdit_13vi2_38:hover,
+._inputTaskRemove_13vi2_38:hover,
+._inputTaskSave_13vi2_38:hover {
+  opacity: 0.7;
+}
+._inputTaskEdit_13vi2_38 {
+  background: url(/assets/edit.cd2e3131.svg) center center no-repeat;
+}
+._inputTaskSave_13vi2_38 {
+  background: url(/assets/check.7382efa7.svg) center center no-repeat;
+}
+._inputTaskRemove_13vi2_38 {
+  background: url(/assets/trash.19c5f018.svg) center center no-repeat;
+}
+._article_o25nn_1 {
+  background: #fff;
+  min-width: 600px;
+  border-radius: 20px;
+  padding: 25px 50px 40px;
+}
+._articleTitle_o25nn_7 {
+  font-size: 40px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.3em;
+}
+._articleSection_o25nn_13 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+._articleSection_o25nn_13:last-child {
+  padding-bottom: 0;
+}
+._articleText_o25nn_20 {
+  text-align: center;
+}
+#editor {
+  font: 16px/1.4 Roboto, sans-serif;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

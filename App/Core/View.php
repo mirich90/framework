@@ -62,7 +62,8 @@ class View implements \Countable, \ArrayAccess
 
     $dir =  p("/mincss");
     $name_file = "$name_page.css";
-    $save_file = "$dir/$name_file";
+    $name_package = "common_pages";
+    $save_file = "$dir/$name_package/$name_file";
     $file_content = '';
 
     foreach ($this->css as $value) {
@@ -71,7 +72,7 @@ class View implements \Countable, \ArrayAccess
 
     file_put_contents($save_file, $file_content,  LOCK_EX);
 
-    return "<link rel='stylesheet' href='/mincss/$name_file'>\n";
+    return "<link rel='stylesheet' href='/mincss/$name_package/$name_file'>\n";
   }
 
   public function setFonts($fonts): void
