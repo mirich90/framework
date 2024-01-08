@@ -47,7 +47,56 @@ if (!isset($props['title_level'])) $props['title_level'] = 2;
             ); ?>
         </div>
 
-
         <p class="post-description-text"><?= $props['description']; ?></p>
+    </div>
+
+    <div class="post-action">
+        <? $this->Ui(
+            'icon',
+            [
+                'label' => 12,
+                'icon' => "favorite",
+                'active' => false,
+                'click' => '',
+                'id' => 1,
+                'table' => "articles",
+                'action' => 'like',
+            ]
+        ); ?>
+
+        <? $this->Ui(
+            'icon',
+            [
+                'label' => 1,
+                'icon' => "bookmark",
+                'active' => true,
+                'click' => '',
+                'id' => 1,
+                'table' => "articles",
+                'action' => 'bookmark',
+            ]
+        ); ?>
+
+        <? $this->Ui(
+            'icon',
+            [
+                'label' => 12,
+                'icon' => "comment",
+                'active' => true,
+                'click' => '',
+            ]
+        ); ?>
+
+        <? $this->Ui(
+            'icon',
+            [
+                'icon' => "menu",
+                'active' => false,
+                'click' => '',
+                'id' => 1,
+                'table' => "articles",
+                'action' => 'bookmark',
+            ]
+        ); ?>
     </div>
 </div>

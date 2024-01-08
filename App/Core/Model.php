@@ -143,18 +143,18 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
-    public function save($field_name = null)
+    public function save($field_name = null, $update = false)
     {
-        $link = $this->insert($field_name);
+        $link = $this->insert($field_name, $update);
 
-        if ($link) {
+        if (is_null($link)) {
+            return $this->sendResponse('Ошибка! Попробуйте позже', [], true);
+        } else {
             $name = static::NAME;
             $table_link = substr(static::TABLE, 0, -1);
             $field_base = static::FIELD_BASE;
             $title = "«" . $this->attributes[$field_base] . "»";
-            $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создан(а)", ["link" => $link]);
-        } else {
-            $this->sendResponse('Ошибка! Попробуте позже', [], true);
+            return $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создан(а)", ["link" => $link, $field_name => $link]);
         }
     }
 
@@ -197,12 +197,26 @@ abstract class Model
         return $status;
     }
 
+    public function response($value, $data = [], $message_success = "Success", $message_error = "Error")
+    {
+        if ($value) {
+            return $this->sendResponse($message_success, $data);
+        } else {
+            return $this->sendResponse($message_error, $data, true);
+        }
+    }
+
     public function sendResponse($message, $data = [], $error = null)
     {
+        if (!is_array($data)) {
+            $data = array("data" => $data);
+        }
+
         $status = ($error) ? 500 : 200;
         $request = ["status" => $status, 'message' => $message, "data" => $data];
-        $json =  json_encode($request);
+        $json = json_encode($request, JSON_UNESCAPED_UNICODE);
         $_SESSION['request'] = $json;
+        return $json;
     }
 
     private function validatePassword($data, $is_validate_password)
@@ -270,7 +284,7 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
-    private function insert($field_name = null)
+    private function insert($field_name = null, $update = false)
     {
         $fields = $this->attributes;
         $cols = [];
@@ -289,6 +303,10 @@ abstract class Model
         $name = implode(',', $cols);
         $value = implode(',', array_keys($data));
         $sql = 'INSERT INTO ' . static::TABLE . " ($name) VALUES ($value)";
+
+        if ($update) {
+            $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
+        }
 
         $this->pdo->execute($sql, $data);
         $this->id = $this->pdo->getLastId();
@@ -334,12 +352,12 @@ abstract class Model
 
     private function getDefault($rule, $type, $not_null)
     {
-        if (isset($rule[$not_null])) {
-            return  '';
-        }
-
         if ($rule[$type] === 'datetime') {
             return 'DEFAULT CURRENT_TIMESTAMP';
+        }
+
+        if (isset($rule[$not_null])) {
+            return  '';
         }
 
         return 'DEFAULT NULL';

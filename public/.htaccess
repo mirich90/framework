@@ -16,7 +16,7 @@ AddDefaultCharset UTF-8
   <FilesMatch "\.(php|html|htm|xml)$">
     Header set Cache-Control "no-store, no-cache, max-age=0"
   </FilesMatch> 
-  <FilesMatch "\.(gif|ico|jpg.webp|jpeg|webp|png|svg)$">
+  <FilesMatch "\.(gif|ico|jpg.webp|jpeg|webp|wepb|png|svg)$">
     Header set Cache-Control "max-age=4592000"
   </FilesMatch>
   <FilesMatch "\.(js|css)$">
