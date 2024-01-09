@@ -7,7 +7,6 @@ use App\Core\Model;
 class Like extends Model
 {
   const TABLE = 'likes';
-  const FIELD_BASE = 'name_table';
   const NAME = 'Лайк';
 
   public $attributes = [

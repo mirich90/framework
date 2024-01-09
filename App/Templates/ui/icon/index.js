@@ -53,21 +53,22 @@
       });
 
     function changeStateIconAfterAdd(commit, el) {
-      if (+commit.state === 1) el.classList.remove("noactive");
+      if (+commit.data.state === 1) el.classList.remove("noactive");
       else el.classList.add("noactive");
-      el.firstElementChild.innerText = commit.count;
+      console.log(commit.data);
+      el.firstElementChild.innerText = commit.data.count;
     }
 
     function changeStateRaitingAfterAdd(commit, el, id) {
       Array.from(el.parentElement.children).forEach((e, i) => {
-        if (i < commit.state) e.classList.remove("noactive");
+        if (i < commit.data.state) e.classList.remove("noactive");
         else e.classList.add("noactive");
       });
 
-      document.querySelector(`.raiting_${id}`).innerText = commit.state;
+      document.querySelector(`.raiting_${id}`).innerText = commit.data.state;
       document.querySelector(
         `.raiting_count_${id}`
-      ).innerText = `(${commit.count} РѕС†РµРЅРѕРє, РјРѕСЏ ${commit.my})`;
+      ).innerText = `(${commit.data.count} РѕС†РµРЅРѕРє, РјРѕСЏ ${commit.data.my})`;
     }
   }
 })();

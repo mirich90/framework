@@ -7,7 +7,6 @@ use App\Core\Model;
 class Note extends Model
 {
   const TABLE = 'notes';
-  const FIELD_BASE = 'title';
   const NAME = 'Заметка';
 
   public $attributes = [

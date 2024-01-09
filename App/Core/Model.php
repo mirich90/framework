@@ -7,7 +7,6 @@ abstract class Model
 {
 
     const TABLE = '';
-    const FIELD_BASE = '';
     const NAME = '';
     const CONFIRM_PASSWORD_KEY = NULL;
 
@@ -118,16 +117,27 @@ abstract class Model
         return securing($name);
     }
 
-    public function select($fields = '*')
+    public function select($fields = '*', $where = [])
     {
         $table = static::TABLE;
-        $sql = "SELECT $fields FROM $table";
+        $attributes = $this->parseAttributes($where);
+        $where = $attributes['where'];
+        $data = $attributes['data'];
+
+        $sql = "SELECT $fields FROM $table $where";
+
         return $this->pdo->query(
             $sql,
-            [':table' => $table, ':fields' => $fields],
+            $data,
             static::class,
             true
         );
+    }
+
+    public function getCount($where = null)
+    {
+        $select = $this->select('id', $where);
+        return count($select);
     }
 
     public function selectOne($value, $field = 'id')
@@ -143,26 +153,48 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
-    public function save($field_name = null, $update = false)
+    public function save($field_name = null, $update = false, $show = true)
     {
-        $link = $this->insert($field_name, $update);
+        $value = $this->insert($field_name, $update);
 
-        if (is_null($link)) {
-            return $this->sendResponse('Ошибка! Попробуйте позже', [], true);
+        if (is_null($value)) {
+            return $this->sendResponse('Ошибка! Попробуйте позже', [], true, $show);
         } else {
             $name = static::NAME;
-            $table_link = substr(static::TABLE, 0, -1);
-            $field_base = static::FIELD_BASE;
-            $title = "«" . $this->attributes[$field_base] . "»";
-            return $this->sendResponse("$name <a href='/$table_link?id=$link'>$title</a> успешно создан(а)", ["link" => $link, $field_name => $link]);
+            $class_link = $this->getClassName();
+            $link = "<a href='/$class_link?id=$value'>$value</a>";
+            return $this->sendResponse("$name $link успешно создан(а)", [$field_name => $value], false, $show);
         }
+    }
+
+    private function insert($field_name = null, $update = false)
+    {
+        $table = static::TABLE;
+        $fields = $this->parseAttributes();
+        $keys = $fields['keys'];
+        $values = $fields['values'];
+        $data = $fields['data'];
+
+        $sql = "INSERT INTO $table ($keys) VALUES ($values)";
+
+        if ($update) {
+            $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
+        }
+
+        $this->pdo->execute($sql, $data);
+        $this->id = $this->pdo->getLastId();
+        return ($field_name) ? $data[":$field_name"] : $this->id;
+    }
+
+    private function getClassName()
+    {
+        return basename(get_class($this));
     }
 
     public function edit($field_name = null)
     {
         return $this->update($field_name);
     }
-
 
     public function update($field_name = null)
     {
@@ -206,15 +238,31 @@ abstract class Model
         }
     }
 
-    public function sendResponse($message, $data = [], $error = null)
+    public function sendResponse($message, $data = [], $error = null, $show = true)
     {
+        $status = ($error) ? 500 : 200;
+
         if (!is_array($data)) {
             $data = array("data" => $data);
         }
 
-        $status = ($error) ? 500 : 200;
-        $request = ["status" => $status, 'message' => $message, "data" => $data];
-        $json = json_encode($request, JSON_UNESCAPED_UNICODE);
+        $response = [
+            "status" => $status,
+            'message' => $message,
+            "data" => $data,
+            'class' => $this->getClassName()
+        ];
+
+        if ($show) {
+            return $this->createResponse($response);
+        }
+
+        return $response;
+    }
+
+    public function createResponse($response)
+    {
+        $json = json_encode($response, JSON_UNESCAPED_UNICODE);
         $_SESSION['request'] = $json;
         return $json;
     }
@@ -284,33 +332,36 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
-    private function insert($field_name = null, $update = false)
+    private function parseAttributes($filter = [])
     {
-        $fields = $this->attributes;
+        $attributes = $this->attributes;
+
+        if (count($filter)) {
+            $attributes = array_intersect_key($attributes, array_flip($filter));
+        }
+
         $cols = [];
         $data = [];
+        $where = [];
 
-        foreach ($fields as $name => $value) {
-            $is_datetime = $this->rules[$name]['type'] === 'datetime' && !$value;
-            if ('id' == $name || $is_datetime) {
+        foreach ($attributes as $key => $value) {
+            $is_datetime = $this->rules[$key]['type'] === 'datetime' && !$value;
+            if ('id' == $key || $is_datetime) {
                 continue;
             }
 
-            $cols[] = $name;
-            $data[":$name"] = $value;
+            $cols[] = $key;
+            $data[":$key"] = $value;
+            if (count($filter)) {
+                $where[] = "$key=:$key";
+            }
         }
 
-        $name = implode(',', $cols);
-        $value = implode(',', array_keys($data));
-        $sql = 'INSERT INTO ' . static::TABLE . " ($name) VALUES ($value)";
+        $keys = implode(',', $cols);
+        $values = implode(',', array_keys($data));
+        $where = (count($where)) ? 'WHERE ' . implode(' AND ', $where) : '';
 
-        if ($update) {
-            $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
-        }
-
-        $this->pdo->execute($sql, $data);
-        $this->id = $this->pdo->getLastId();
-        return ($field_name) ? $data[":$field_name"] : $this->id;
+        return array('keys' => $keys, 'values' => $values, 'data' => $data, 'where' => $where);
     }
 
     public function create_table()

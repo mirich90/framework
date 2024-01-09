@@ -16,12 +16,22 @@ class create extends Controller
     }
   }
 
-
   private function create($Like)
   {
     $Like->load($_POST);
     $Like->validate($_POST);
-    echo $Like->save('state', true);
+    $response = $Like->save('state', true, false);
+
+    $Like->attributes['state'] = 1;
+    $count = $Like->getCount(['name_table', 'item_id', 'state']);
+    $isMyLike = $Like->getCount(['name_table', 'item_id', 'state', 'user_id']);
+
+    $response["data"]['count'] =  $count;
+    $response["data"]['state'] =  $isMyLike;
+    // var_dump($response);
+    // var_dump($Like->createResponse($response));
+    // die;
+    echo $Like->createResponse($response);
   }
 
   protected function title()

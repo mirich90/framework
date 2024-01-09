@@ -4,7 +4,7 @@
 .icon {
   display: inline-block;
   text-align: center;
-
+  user-select: none;
   color: var(--color-primary);
 }
 .icon:hover {

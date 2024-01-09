@@ -23,9 +23,9 @@ class index extends Controller
     $UsersSecretData->validate($_POST);
 
     if ($UsersSecretData->login()) {
-      $UsersSecretData->sendResponse('Вы успешно авторизованы');;
+      $UsersSecretData->sendResponse('Вы успешно авторизованы');
     } else {
-      $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], true);;
+      $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], true);
     }
     redirect('/profile');
   }

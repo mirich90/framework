@@ -7,7 +7,6 @@ use App\Core\Model;
 class UsersSecretData extends Model
 {
   const TABLE = 'users_secret_data';
-  const FIELD_BASE = 'email';
   const NAME = 'Пользователь';
   const CONFIRM_PASSWORD_KEY = 'password2';
 

@@ -8,7 +8,7 @@ if ($request && $request->status === 500) {
 }
 ?>
 
-<?php if ($request) : ?>
+<?php if ($request && getControllerName() === $request->class) : ?>
     <div class="alert <?= $class; ?>">
         <?
         echo $request->message;

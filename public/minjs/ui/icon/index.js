@@ -24,7 +24,7 @@
     fd.append("name_table", table);
     fd.append("action", action);
     fd.append("user_id", 1);
-    fd.append("state", v);
+    fd.append("state", 1);
 
     let req = new Request(`/${action}?create&submit`, {
       method: "POST",
@@ -33,10 +33,11 @@
     });
 
     await fetch(req)
-      //   .then((res) => res.json())
-      .then((res) => res.text())
+      .then((res) => res.json())
+      // .then((res) => res.text())
       .then((commit) => {
-        console.log("commit:", commit);
+        console.log(commit);
+        // console.log("commit:", commit);
         if (commit.user == 0) {
           document.location.href = "/login";
         } else {
@@ -52,21 +53,22 @@
       });
 
     function changeStateIconAfterAdd(commit, el) {
-      if (commit.state == 1) el.classList.remove("noactive");
+      if (+commit.data.state === 1) el.classList.remove("noactive");
       else el.classList.add("noactive");
-      el.firstElementChild.innerText = commit.count;
+      console.log(commit.data);
+      el.firstElementChild.innerText = commit.data.count;
     }
 
     function changeStateRaitingAfterAdd(commit, el, id) {
       Array.from(el.parentElement.children).forEach((e, i) => {
-        if (i < commit.state) e.classList.remove("noactive");
+        if (i < commit.data.state) e.classList.remove("noactive");
         else e.classList.add("noactive");
       });
 
-      document.querySelector(`.raiting_${id}`).innerText = commit.state;
+      document.querySelector(`.raiting_${id}`).innerText = commit.data.state;
       document.querySelector(
         `.raiting_count_${id}`
-      ).innerText = `(${commit.count} РѕС†РµРЅРѕРє, РјРѕСЏ ${commit.my})`;
+      ).innerText = `(${commit.data.count} РѕС†РµРЅРѕРє, РјРѕСЏ ${commit.data.my})`;
     }
   }
 })();
