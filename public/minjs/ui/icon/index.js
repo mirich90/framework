@@ -23,7 +23,6 @@
     fd.append("item_id", id);
     fd.append("name_table", table);
     fd.append("action", action);
-    fd.append("user_id", 1);
     fd.append("state", 1);
 
     let req = new Request(`/${action}?create&submit`, {
@@ -36,7 +35,7 @@
       .then((res) => res.json())
       // .then((res) => res.text())
       .then((commit) => {
-        console.log(commit);
+        // console.log(commit);
         // console.log("commit:", commit);
         if (commit.user == 0) {
           document.location.href = "/login";

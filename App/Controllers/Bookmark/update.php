@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Controllers\Article;
+namespace App\Controllers\Note;
 
 use App\Core\Controller;
 use App\Db;
 
-class show extends Controller
+class update extends Controller
 {
   protected function construct()
   {
-    $Bookmark = new \App\Models\Bookmark();
-    // $Bookmark->create_table();
-    $this->view->display('article/show');
+    $this->view->display('Note/update');
   }
 
   protected function title()

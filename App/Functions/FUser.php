@@ -12,15 +12,21 @@ class FUser
         return NULL;
     }
 
-    public static function getParam($user, $name)
+    public static function getParam($user, $name, $default = '')
     {
-        return ($user && isset($user[$name])) ? $user[$name] : '';
+        return ($user && isset($user[$name])) ? $user[$name] : $default;
     }
 
     public static function getMail()
     {
         $user = self::getUser();
         return self::getParam($user, 'email');
+    }
+
+    public static function getId()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'id', 0);
     }
 
     public static function getRole()

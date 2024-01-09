@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Article;
+namespace App\Controllers\Note;
 
 use App\Core\Controller;
 use App\Db;
@@ -9,9 +9,9 @@ class show extends Controller
 {
   protected function construct()
   {
-    $Bookmark = new \App\Models\Bookmark();
-    // $Bookmark->create_table();
-    $this->view->display('article/show');
+    $Note = new \App\Models\Note();
+    $this->view->note = $Note->selectOne($_GET['id'], 'link');
+    $this->view->display('Note/show');
   }
 
   protected function title()

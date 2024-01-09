@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Functions\FUser;
 
 abstract class Model
 {
@@ -170,6 +171,7 @@ abstract class Model
     private function insert($field_name = null, $update = false)
     {
         $table = static::TABLE;
+        $this->addUser('user_id');
         $fields = $this->parseAttributes();
         $keys = $fields['keys'];
         $values = $fields['values'];
@@ -332,6 +334,16 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
+    private function addAttributes($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    private function addUser($key)
+    {
+        $this->attributes[$key] = FUser::getId();
+    }
+
     private function parseAttributes($filter = [])
     {
         $attributes = $this->attributes;
@@ -369,6 +381,7 @@ abstract class Model
         $table = static::TABLE;
         $sql = "CREATE TABLE `$table` (";
         $fields = "";
+        $uniques = [];
         $primary_key = '';
 
         foreach ($this->attributes as $key => $value) {
@@ -379,16 +392,25 @@ abstract class Model
             $type =  $this->getValue($rule, 'type');
             $length =  $this->getValue($rule, 'length');
             $default = $this->getDefault($rule, 'type', 'not_null');
+            $unique = $this->getValue($rule, 'unique', $key, null);
 
-            $type_length = ($length === '') ? $type : $type . '(' . $length . ')';
+            if ($unique) {
+                $uniques[] = $unique;
+            }
+
+            $type_length = ($length === '') ? $type : "$type($length)";
             $fields .= "`$key` $type_length $not_null $auto_increment $default, ";
 
             if (isset($rule['primary_key'])) {
                 $primary_key = "PRIMARY KEY ($key)";
             }
         }
+        $sql .=  "$fields $primary_key) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
-        $sql .=  $fields . $primary_key . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+        if (count($uniques)) {
+            $unique_fields = implode(',', $uniques);;
+            $sql .= "ALTER TABLE $table ADD UNIQUE($unique_fields);";
+        }
 
         return $this->pdo->execute($sql);
     }

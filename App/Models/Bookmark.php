@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class Like extends Model
+class Bookmark extends Model
 {
-  const TABLE = 'likes';
-  const NAME = 'Лайк';
+  const TABLE = 'bookmarks';
+  const NAME = 'Закладка';
 
   public $attributes = [
     'id' => NULL,

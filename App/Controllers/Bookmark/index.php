@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Controllers\Article;
+namespace App\Controllers\Note;
 
 use App\Core\Controller;
-use App\Db;
 
-class show extends Controller
+class index extends Controller
 {
   protected function construct()
   {
-    $Bookmark = new \App\Models\Bookmark();
-    // $Bookmark->create_table();
-    $this->view->display('article/show');
+    $Note = new \App\Models\Note();
+    $this->view->notes = $Note->select();
+
+    $this->view->display('Note/index');
   }
 
   protected function title()
   {
-    return "Indyground";
+    return "Заметки сайта Indyground";
   }
 
   protected function description()
