@@ -20,7 +20,12 @@ $this->setJs('components/form_registration/index');
 
     <? $this->Ui(
         'input',
-        ['id' => 'fp', 'type' => 'hidden']
+        ['id' => 'fp_1', 'type' => 'hidden']
+    ); ?>
+
+    <? $this->Ui(
+        'input',
+        ['id' => 'fp_2', 'type' => 'hidden']
     ); ?>
 
     <fieldset class="sign-up__input sign-up__input--horizontal">

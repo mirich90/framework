@@ -27,6 +27,8 @@ class index extends Controller
     $this->createRefreshToken($UsersSecretData, $response);
 
     $UsersSecretData->sendMailRegistration('email', 'activation_code');
+
+    $UsersSecretData->createResponse($response, getControllerName());
     redirect();
   }
 
@@ -34,9 +36,10 @@ class index extends Controller
   {
 
     $JWT = new FJWT;
-    $finger_print = $_POST['fp'];
+    $finger_print = $_POST['fp_1'];
+    $server_finger_print = $this->getServerFingerPrint();
     $user_id = $response['data']['id'];
-    // $finger_print = base64_decode($decoded_fingerprint);
+
     $header = '{"typ":"JWT", "alg":"HS256"}';
     $refresh_key = env('refresh_token_secret_key');
     $access_key = env('access_token_secret_key');
@@ -60,6 +63,7 @@ class index extends Controller
     $data_refresh_token = [
       'user_id' => $user_id,
       'finger_print' => $finger_print,
+      'server_finger_print' => $server_finger_print,
       'refresh_token' => $refresh_token,
     ];
     $Refresh_sessions = new \App\Models\Refresh_sessions();
@@ -76,6 +80,17 @@ class index extends Controller
       false,
       false
     );
+  }
+
+  private function getServerFingerPrint()
+  {
+    $finger_print = array(
+      'REMOTE_ADDR' => $_SERVER['REMOTE_ADDR'],
+      'HTTP_USER_AGENT' => $_SERVER['HTTP_USER_AGENT']
+    );
+    $json = json_encode($finger_print);
+    $encode = base64_encode($json);
+    return $encode;
   }
 
   protected function title()

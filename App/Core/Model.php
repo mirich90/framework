@@ -265,8 +265,11 @@ abstract class Model
         return $response;
     }
 
-    public function createResponse($response)
+    public function createResponse($response, $class = null)
     {
+        if ($class) {
+            $response["class"] = $class;
+        }
         $json = JSON($response);
         $_SESSION['request'] = $json;
         return $json;
