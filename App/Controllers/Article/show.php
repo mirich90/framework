@@ -4,13 +4,14 @@ namespace App\Controllers\Article;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FJWT;
 
 class show extends Controller
 {
   protected function construct()
   {
+    // $Refresh_sessions->create_table();
     $Bookmark = new \App\Models\Bookmark();
-    // $Bookmark->create_table();
     $this->view->display('article/show');
   }
 

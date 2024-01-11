@@ -74,8 +74,8 @@ class UsersSecretData extends Model
 
   public function sendMailRegistration($keyEmail, $keyCode)
   {
-    $config = (include d('/.env.php'))['mail'];
-    $url_site = (include d('/.env.php'))['url_site'];
+    $config = env('mail');
+    $url_site = env('url_site');
 
     $site_email = $config['site_email'];
     $message_verification = $config['message_verification'];

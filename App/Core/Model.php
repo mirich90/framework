@@ -164,6 +164,9 @@ abstract class Model
             $name = static::NAME;
             $class_link = $this->getClassName();
             $link = "<a href='/$class_link?id=$value'>$value</a>";
+            if (is_null($field_name)) {
+                $field_name = 'id';
+            }
             return $this->sendResponse("$name $link успешно создан(а)", [$field_name => $value], false, $show);
         }
     }
@@ -264,7 +267,7 @@ abstract class Model
 
     public function createResponse($response)
     {
-        $json = json_encode($response, JSON_UNESCAPED_UNICODE);
+        $json = JSON($response);
         $_SESSION['request'] = $json;
         return $json;
     }
@@ -331,7 +334,7 @@ abstract class Model
             static::class,
             true
         );
-        return $data ? $data[0] : null;
+        return $data ? $data[0] : [];
     }
 
     private function addAttributes($key, $value)
@@ -341,7 +344,14 @@ abstract class Model
 
     private function addUser($key)
     {
-        $this->attributes[$key] = FUser::getId();
+        $has_user_id = isset($this->attributes['user_id']);
+        if (!$has_user_id) return;
+
+        $user_id = $this->attributes['user_id'];
+
+        if (!$user_id) {
+            $this->attributes[$key] = FUser::getId();
+        }
     }
 
     private function parseAttributes($filter = [])

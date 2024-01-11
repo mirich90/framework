@@ -36,6 +36,12 @@ function $click(e, func) {
     $inEl(e).addEventListener("click", func);
   }
 }
+
+function $submit(e, func) {
+  if ($inEl(e)) {
+    $inEl(e).addEventListener("submit", func);
+  }
+}
 function $change(e, func) {
   if ($inEl(e)) {
     $inEl(e).addEventListener("change", func);

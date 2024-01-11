@@ -2,7 +2,7 @@
 $this->setCss('components/nav/style');
 $this->setJs('components/nav/index');
 
-$name_site = (include d('/.env.php'))['name_site'];
+$name_site = env('name_site');
 $uri = getUri();
 
 $navs = [

@@ -18,7 +18,7 @@ function d($path)
 
 function p($path)
 {
-  $is_local = (include d('/.env.php'))['is_local'];
+  $is_local = env('is_local');
   $public_dir = ($is_local) ? 'public' : 'public_html';
   return d($public_dir . $path);
 }
@@ -85,6 +85,17 @@ function getClassName($ctrl)
   }
 
   return new $class;
+}
+
+function env($key)
+{
+  $env = (include d('/.env.php'));
+  return $env[$key];
+}
+
+function JSON($array)
+{
+  return  json_encode($array, JSON_UNESCAPED_UNICODE);
 }
 
 function props($props, $key, $default = '', $new_value = null)
