@@ -19,7 +19,6 @@ class UsersSecretData extends Model
     'fpassword_key' => '',
     'password' => '',
     'registration' => NULL,
-    'token' => NULL,
     'datetime' => NULL,
     'datetime_update' => NULL,
     'is_delete' => 0
@@ -32,15 +31,47 @@ class UsersSecretData extends Model
   // `status` => '',
 
   public $rules = [
-    'id' => ['type' => 'int', 'length' => 11, 'auto_increment' => true, 'primary_key' => true, 'not_null' => true],
+    'id' => [
+      'type' => 'int',
+      'length' => 11,
+      'auto_increment' => true,
+      'primary_key' => true,
+      'not_null' => true
+    ],
     'login' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
-    'email' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
+    'email' => [
+      'type' => 'varchar',
+      'length' => 255,
+      'lengthMin' => 2,
+      'required' => true,
+      'not_null' => true,
+      'unique' => true
+    ],
     'is_activated' => ['type' => 'tinyint', 'length' => 1, 'not_null' => true],
-    'activation_code' => ['type' => 'varchar', 'length' => 16, 'lengthMin' => 2, 'required' => true, 'not_null' => true, 'function' => ['generateCode', 'password']],
-    'fpassword_key' => ['type' => 'varchar', 'length' => 128, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
-    'password' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true, 'not_null' => true, 'function' => ['securing', 'password']],
+    'activation_code' => [
+      'type' => 'varchar',
+      'length' => 16,
+      'lengthMin' => 2,
+      'required' => true,
+      'not_null' => true,
+      'function' => ['generateCode', 'password']
+    ],
+    'fpassword_key' => [
+      'type' => 'varchar',
+      'length' => 128,
+      'lengthMin' => 2,
+      'required' => true,
+      'not_null' => true
+    ],
+    'password' => [
+      'type' => 'varchar',
+      'length' => 255,
+      'lengthMin' => 2,
+      'required' => true,
+      'not_null' => true,
+      'function' => ['securing', 'password']
+    ],
     'registration' => ['type' => 'datetime', 'not_null' => true],
-    'token' => ['type' => 'int', 'length' => 11],
     'datetime' => ['type' => 'datetime', 'not_null' => true],
     'datetime_update' => ['type' => 'datetime', 'not_null' => true],
     'is_delete' => ['type' => 'tinyint', 'length' => 1, 'not_null' => true]
@@ -114,7 +145,7 @@ class UsersSecretData extends Model
         }
       }
 
-      $this->sendResponse("Пользователь с данным электронным адресом уже активирован, не существует или код неверен", [], true);
+      $this->sendResponse("Пользователь с данным электронным адресом уже активирован, не существует или код неверен", [], 500);
       redirect('/login');
     }
   }

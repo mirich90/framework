@@ -15,7 +15,7 @@
         ]
     ); ?>
 
-    <? $this->Ui('alert_session'); ?>
+    <? $this->Ui('alert'); ?>
 
     <? $this->Component('form_registration'); ?>
 

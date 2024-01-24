@@ -1,10 +1,13 @@
 <?
+
+use App\Functions\FUser;
+
 $this->setCss('ui/card/style');
 $this->setCss('components/options/style');
 ?>
 
 <div class="options">
-    <? if ($this->user) : ?>
+    <? if (FUser::getUser()) : ?>
         <? $this->Component('profile_card', ['classes' => 'ui-card-right']); ?>
     <? else : ?>
         <div class="ui-card">

@@ -28,6 +28,7 @@
     let req = new Request(`/${action}?create&submit`, {
       method: "POST",
       cache: "no-cache",
+      headers: h,
       body: fd,
     });
 

@@ -80,7 +80,7 @@ abstract class Model
         if ($is_sent) {
             $this->sendResponse($message_success, []);
         } else {
-            $this->sendResponse($message_error, [], true);
+            $this->sendResponse($message_error, [], 500);
             redirect();
         }
     }
@@ -159,7 +159,7 @@ abstract class Model
         $value = $this->insert($field_name, $update);
 
         if (is_null($value)) {
-            return $this->sendResponse('Ошибка! Попробуйте позже', [], true, $show);
+            return $this->sendResponse('Ошибка! Попробуйте позже', [], 500, $show);
         } else {
             $name = static::NAME;
             $class_link = $this->getClassName();
@@ -167,28 +167,39 @@ abstract class Model
             if (is_null($field_name)) {
                 $field_name = 'id';
             }
-            return $this->sendResponse("$name $link успешно создан(а)", [$field_name => $value], false, $show);
+            return $this->sendResponse("$name $link успешно создан(а)", [$field_name => $value], 200, $show);
         }
     }
 
     private function insert($field_name = null, $update = false)
     {
-        $table = static::TABLE;
-        $this->addUser('user_id');
-        $fields = $this->parseAttributes();
-        $keys = $fields['keys'];
-        $values = $fields['values'];
-        $data = $fields['data'];
+        try {
+            $table = static::TABLE;
+            $this->addUser('user_id');
+            $fields = $this->parseAttributes();
+            $keys = $fields['keys'];
+            $values = $fields['values'];
+            $data = $fields['data'];
 
-        $sql = "INSERT INTO $table ($keys) VALUES ($values)";
+            $sql = "INSERT INTO $table ($keys) VALUES ($values)";
 
-        if ($update) {
-            $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
+            if ($update) {
+                $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
+            }
+
+            $this->pdo->execute($sql, $data);
+            $this->id = $this->pdo->getLastId();
+            return ($field_name) ? $data[":$field_name"] : $this->id;
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                echo $this->sendResponse("Пользователь с данным email уже существует", [], 400);
+                die;
+            } else {
+                header('HTTP/1.0 500');
+                echo $this->sendResponse($th->getMessage(), [], 500);
+                die;
+            }
         }
-
-        $this->pdo->execute($sql, $data);
-        $this->id = $this->pdo->getLastId();
-        return ($field_name) ? $data[":$field_name"] : $this->id;
     }
 
     private function getClassName()
@@ -227,9 +238,9 @@ abstract class Model
         $status = $this->pdo->execute($sql, $data);
 
         if ($status) {
-            $this->sendResponse('Данные успешно изменены', [], true);
+            $this->sendResponse('Данные успешно изменены', []);
         } else {
-            $this->sendResponse('Ошибка! Попробуте позже', [], true);
+            $this->sendResponse('Ошибка! Попробуте позже', [], 500);
         }
         return $status;
     }
@@ -239,14 +250,12 @@ abstract class Model
         if ($value) {
             return $this->sendResponse($message_success, $data);
         } else {
-            return $this->sendResponse($message_error, $data, true);
+            return $this->sendResponse($message_error, $data, 500);
         }
     }
 
-    public function sendResponse($message, $data = [], $error = null, $show = true)
+    public function sendResponse($message, $data = [], $status = 200, $show = true)
     {
-        $status = ($error) ? 500 : 200;
-
         if (!is_array($data)) {
             $data = array("data" => $data);
         }
@@ -283,12 +292,12 @@ abstract class Model
             $confirm_password_key = $this::CONFIRM_PASSWORD_KEY;
 
             if (empty($_POST[$confirm_password_key])) {
-                $this->sendResponse("Введите пароль два раза", [], true);
+                $this->sendResponse("Введите пароль два раза", [], 500);
                 redirect();
                 die;
             }
             if ($data['password'] !== $_POST[$confirm_password_key]) {
-                $this->sendResponse("Пароли должны совпадать", [], true);
+                $this->sendResponse("Пароли должны совпадать", [], 500);
                 redirect();
                 die;
             }
@@ -304,19 +313,6 @@ abstract class Model
             redirect();
             die;
         }
-    }
-
-    public function checkUnique($key)
-    {
-        $email = $this->attributes[$key];
-        $user = $this->find([$key], [$email]);
-
-        if (count($user) > 0) {
-            $this->sendResponse("Пользователь с данным электронным адресом уже зарегистрирован", [], true);
-            redirect();
-            die;
-        }
-        return true;
     }
 
     public function find($fields, $value, $operator = 'AND')

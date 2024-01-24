@@ -12,6 +12,7 @@ class index extends Controller
     $UsersSecretData = new \App\Models\UsersSecretData();
     if ($UsersSecretData->check_response(['submit'])) {
       $this->create($UsersSecretData);
+      die;
     }
 
     $this->view->display('auth/registration');
@@ -22,22 +23,21 @@ class index extends Controller
   {
     $UsersSecretData->load($_POST);
     $UsersSecretData->validate($_POST, true);
-    $UsersSecretData->checkUnique('email');
+
     $response = $UsersSecretData->save(null, false, false);
-    $this->createRefreshToken($UsersSecretData, $response);
+    $token_info = $this->createRefreshToken($UsersSecretData, $response);
+
+    $response["data"] = array_merge($response["data"], $token_info);
 
     $UsersSecretData->sendMailRegistration('email', 'activation_code');
 
-    $UsersSecretData->createResponse($response, getControllerName());
-    redirect();
+    echo $UsersSecretData->createResponse($response, getControllerName());
   }
 
   private function createRefreshToken($UsersSecretData, $response)
   {
-
     $JWT = new FJWT;
     $finger_print = $_POST['fp_1'];
-    $server_finger_print = $this->getServerFingerPrint();
     $user_id = $response['data']['id'];
 
     $header = '{"typ":"JWT", "alg":"HS256"}';
@@ -46,40 +46,46 @@ class index extends Controller
 
     $payload = array(
       'id' => $user_id,
-      'exp' => 15,
       'email' => $UsersSecretData->attributes['email'],
     );
     $access_token = $JWT->encode($header, $payload, $refresh_key);
-
-    $expires = 60 * 60 * 24 * 10; // 10days
-    $payload = array(
-      'id' => $user_id,
-      'exp' => $expires,
-      'email' => $UsersSecretData->attributes['email'],
-    );
     $refresh_token = $JWT->encode($header, $payload, $access_key);
     // $json = $JWT->decode($token, $key);
 
+    $this->saveRefreshTokenInBd($user_id, $finger_print, $refresh_token);
+
+    $access_token_expiration = 60 * 60 * 24 * 10; // 10 days
+    $refresh_token_expiration = 60 * 10; // 10 minuts
+
+    setCookie(
+      'refreshToken',
+      $refresh_token,
+      time() + $refresh_token_expiration,
+      "/",
+      env('domain_site'),
+      false,
+      true
+    );
+
+    return array(
+      'accessToken' => $access_token,
+      'accessTokenExpiration' => $access_token_expiration
+    );
+  }
+
+  private function saveRefreshTokenInBd($user_id, $finger_print, $refresh_token)
+  {
     $data_refresh_token = [
       'user_id' => $user_id,
       'finger_print' => $finger_print,
-      'server_finger_print' => $server_finger_print,
+      'server_finger_print' => $this->getServerFingerPrint(),
       'refresh_token' => $refresh_token,
     ];
+
     $Refresh_sessions = new \App\Models\Refresh_sessions();
     $Refresh_sessions->load($data_refresh_token);
     $Refresh_sessions->validate($data_refresh_token);
-    $response = $Refresh_sessions->save(null, false, false);
-
-    setcookie(
-      'refreshToken',
-      $refresh_token,
-      time() + $expires,
-      "",
-      "",
-      false,
-      false
-    );
+    $Refresh_sessions->save(null, false, false);
   }
 
   private function getServerFingerPrint()
