@@ -25,4 +25,4 @@
 
 ### Главная страница сайта:
 
-![Alt-текст](https://raw.githubusercontent.com/mirich90/framework/master/public/img/preview/1.PNG?raw=true "Блог-платформа")
+![Alt-текст](https://github.com/mirich90/framework/blob/master/1.PNG?raw=true "Блог-платформа")
