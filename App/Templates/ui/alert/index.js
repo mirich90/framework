@@ -18,9 +18,6 @@ class AlertMessage {
   }
 
   createP() {
-    $(".alert").innerHTML = "";
-    let p = document.createElement("p");
-    p.innerHTML = this.message;
-    $(".alert").append(p);
+    $(".alert").innerHTML = `<p>${this.message}</p>`;
   }
 }

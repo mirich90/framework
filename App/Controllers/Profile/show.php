@@ -4,16 +4,15 @@ namespace App\Controllers\Profile;
 
 use App\Core\Controller;
 use App\Db;
-use App\Functions\FUser;
 
 class index extends Controller
 {
   protected function construct()
   {
     $UsersInfo = new \App\Models\UsersInfo();
-    $this->view->user = $UsersInfo->selectOne(FUser::getId(), 'user_id');
+    $this->view->note = $UsersInfo->selectOne($_GET['id'], 'link');
 
-    $this->view->display('Profile/index');
+    $this->view->display('Profile/show');
   }
 
   protected function title()

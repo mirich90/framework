@@ -23,12 +23,6 @@ class UsersSecretData extends Model
     'datetime_update' => NULL,
     'is_delete' => 0
   ];
-  // `username` => '',
-  // `link` => '',
-  // `avatar` => '',
-  // `city` => '',
-  // `role` => '',
-  // `status` => '',
 
   public $rules = [
     'id' => [
@@ -54,7 +48,7 @@ class UsersSecretData extends Model
       'lengthMin' => 2,
       'required' => true,
       'not_null' => true,
-      'function' => ['generateCode', 'password']
+      'function' => ['generateCode']
     ],
     'fpassword_key' => [
       'type' => 'varchar',
@@ -76,12 +70,6 @@ class UsersSecretData extends Model
     'datetime_update' => ['type' => 'datetime', 'not_null' => true],
     'is_delete' => ['type' => 'tinyint', 'length' => 1, 'not_null' => true]
   ];
-  // `username` => ['type' => 'varchar', 'length' => 20, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
-  // `link` => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'not_null' => true, 'function' => ['translitLink', 'username']],
-  // `avatar` => ['type' => 'varchar', 'length' => 500, 'lengthMin' => 2, 'required' => true],
-  // `city` => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true],
-  // `role` => '',
-  // `status` => '',
 
   public function login()
   {
@@ -94,8 +82,6 @@ class UsersSecretData extends Model
         if (password_verify($password, $user['password'])) {
           unset($_SESSION['user']);
           $_SESSION['user'] = ['email' => $user['email'], 'id' => $user['id']];
-          // c($_SESSION);
-          // die;
           return true;
         }
       }

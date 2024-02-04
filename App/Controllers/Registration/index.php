@@ -4,12 +4,14 @@ namespace App\Controllers\Registration;
 
 use App\Core\Controller;
 use App\Functions\FJWT;
+use App\Models\UsersInfo;
 
 class index extends Controller
 {
   protected function construct()
   {
     $UsersSecretData = new \App\Models\UsersSecretData();
+
     if ($UsersSecretData->check_response(['submit'])) {
       $this->create($UsersSecretData);
       die;
@@ -18,20 +20,54 @@ class index extends Controller
     $this->view->display('auth/registration');
   }
 
-
   private function create($UsersSecretData)
   {
-    $UsersSecretData->load($_POST);
-    $UsersSecretData->validate($_POST, true);
-
-    $response = $UsersSecretData->save(null, false, false);
+    $response = $this->createUsersSecretData($UsersSecretData);
+    $responseInfo = $this->createUsersInfo($response);
     $token_info = $this->createRefreshToken($UsersSecretData, $response);
 
-    $response["data"] = array_merge($response["data"], $token_info);
+    $responseInfo["data"] = array_merge($responseInfo["data"], $token_info);
 
     $UsersSecretData->sendMailRegistration('email', 'activation_code');
 
-    echo $UsersSecretData->createResponse($response, getControllerName());
+    $this->setUserSession($response);
+
+    echo $UsersSecretData->createResponse($responseInfo, getControllerName());
+  }
+
+  private function setUserSession($response)
+  {
+    unset($_SESSION['user']);
+
+    $email = $_POST['email'];
+    $id = $response["data"]['id'];
+    $_SESSION['user'] = [
+      'email' => $email,
+      'id' => $id,
+      'avatar' => null,
+      'info' => '',
+      'username' => '',
+      'link' => '',
+      'city' => '',
+      'role' => 0,
+      'status' => 0,
+    ];
+  }
+
+  private function createUsersSecretData($UsersSecretData)
+  {
+    $UsersSecretData->load($_POST);
+    $UsersSecretData->validate($_POST, true);
+    return $UsersSecretData->save(null, false, false);
+  }
+
+  private function createUsersInfo($response)
+  {
+    $data = ['user_id' => $response["data"]['id']];
+    $UsersInfo = new \App\Models\UsersInfo();
+    $UsersInfo->load($data);
+    $UsersInfo->validate($data);
+    return $UsersInfo->save('link', false, false, 'profile');
   }
 
   private function createRefreshToken($UsersSecretData, $response)

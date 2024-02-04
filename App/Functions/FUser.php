@@ -29,6 +29,36 @@ class FUser
         return self::getParam($user, 'id', 0);
     }
 
+    public static function getAvatar()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'avatar', 0);
+    }
+
+    public static function getInfo()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'info', 0);
+    }
+
+    public static function getCity()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'city', 0);
+    }
+
+    public static function getLink()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'link', 0);
+    }
+
+    public static function getUsername()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'username', 0);
+    }
+
     public static function getRole()
     {
         $user = self::getUser();

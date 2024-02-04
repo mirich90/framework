@@ -1,4 +1,10 @@
-<? $this->Component('profile_card', ['classes' => 'container']);
+<? $this->Component('profile_card', [
+    'classes' => 'container',
+    'link' => $this->user['link'],
+    'username' => $this->user['username'],
+    'avatar' => $this->user['avatar'],
+    'info' => $this->user['info'],
+]);
 // echo $_SERVER['HTTP_USER_AGENT'] . "\n\n";
 
 // $browser = get_browser(null, true);
@@ -22,4 +28,4 @@ function getIp()
 }
 
 // c('ip:' . getIp());
-echo getenv('USERNAME');
+// echo getenv('USERNAME');

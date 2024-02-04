@@ -1,4 +1,7 @@
 <?
+
+use App\Functions\FUser;
+
 $this->setCss('components/nav/style');
 $this->setJs('components/nav/index');
 
@@ -8,16 +11,21 @@ $uri = getUri();
 $navs = [
     ['link' => '', 'text' => 'Главная'],
     ['link' => 'article', 'text' => 'Статьи'],
-    ['link' => 'game', 'text' => 'Игры'],
+    // ['link' => 'game', 'text' => 'Игры'],
     ['link' => 'image', 'text' => 'Графика'],
-    ['link' => 'code', 'text' => 'Код'],
-    ['link' => 'music', 'text' => 'Музыка'],
-    ['link' => 'text', 'text' => 'Текст'],
+    // ['link' => 'code', 'text' => 'Код'],
+    // ['link' => 'music', 'text' => 'Музыка'],
+    // ['link' => 'text', 'text' => 'Текст'],
     ['link' => 'note', 'text' => 'Заметки'],
-    ['link' => 'setting', 'text' => 'Настройки'],
-    ['link' => 'profile', 'text' => 'Профиль'],
-    ['link' => 'logout?submit', 'text' => 'Выйти'],
+    // ['link' => 'setting', 'text' => 'Настройки'],
 ];
+
+if (FUser::getUser()) {
+    $navs[] = ['link' => 'profile', 'text' => 'Профиль'];
+    $navs[] = ['link' => 'logout?submit', 'text' => 'Выйти'];
+} else {
+    $navs[] = ['link' => 'login', 'text' => 'Войти'];
+}
 ?>
 
 <nav class="main-menu">

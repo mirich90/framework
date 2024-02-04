@@ -46,7 +46,7 @@ abstract class Model
     {
         if (isset($this->rules[$key]['function'])) {
             $function = $this->rules[$key]['function'];
-            $value = $this->attributes[$function[1]];
+            $value = (isset($function[1])) ? $this->attributes[$function[1]] : null;
 
             switch ($function[0]) {
                 case 'translitLink':
@@ -154,7 +154,7 @@ abstract class Model
         return $data ? $data[0] : null;
     }
 
-    public function save($field_name = null, $update = false, $show = true)
+    public function save($field_name = null, $update = false, $show = true, $class_link = null)
     {
         $value = $this->insert($field_name, $update);
 
@@ -162,7 +162,7 @@ abstract class Model
             return $this->sendResponse('Ошибка! Попробуйте позже', [], 500, $show);
         } else {
             $name = static::NAME;
-            $class_link = $this->getClassName();
+            $class_link = ($class_link) ? $class_link : $this->getClassName();
             $link = "<a href='/$class_link?id=$value'>$value</a>";
             if (is_null($field_name)) {
                 $field_name = 'id';

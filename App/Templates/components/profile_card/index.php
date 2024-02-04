@@ -1,20 +1,25 @@
 <? $this->setCss('ui/card/style'); ?>
 <? $this->setCss('components/profile_card/style'); ?>
 
-<? $classes = props($props, 'classes') ?>
+<?
+$classes = props($props, 'classes');
+$username = props($props, 'username');
+$link = props($props, 'link');
+$info = props($props, 'info');
+$avatar = props($props, 'avatar', 'core/ava.png');
+?>
 
 <section class="ui-card biocard <?= $classes; ?>">
     <div class="img_biocard">
-        <img src="/img/users/098098/5.jpg">
+        <img src="/img/<?= $avatar; ?>">
     </div>
     <div class="infos">
         <div class="name">
-            <h1>Den Dionigi</h1>
-            <h2>@den.dionigi</h2>
+            <h1><?= $username; ?></h1>
+            <h2>@<?= $link; ?></h2>
         </div>
         <p class="text">
-            I'm a Front End Developer, follow me to be the first
-            who see my new work.
+            <?= $info; ?>
         </p>
         <ul class="stats">
             <li>
