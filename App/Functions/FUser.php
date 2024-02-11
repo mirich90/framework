@@ -23,6 +23,12 @@ class FUser
         return self::getParam($user, 'email');
     }
 
+    public static function getDatetime()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'datetime');
+    }
+
     public static function getId()
     {
         $user = self::getUser();

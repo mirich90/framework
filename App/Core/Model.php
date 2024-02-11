@@ -146,11 +146,11 @@ abstract class Model
         $table = static::TABLE;
         $sql_fields = (count($fields) > 0) ? implode(",", $fields) : "*";
 
-        $sql = "SELECT $sql_fields FROM $table WHERE $field = :v LIMIT 1";
+        $sql = "SELECT $sql_fields FROM $table WHERE $field = :value LIMIT 1";
 
         $data = $this->pdo->query(
             $sql,
-            [":v" => $value],
+            [":value" => $value],
             static::class,
             true
         );

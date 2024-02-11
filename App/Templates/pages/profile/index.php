@@ -12,6 +12,7 @@ $this->Component('profile_card', [
     'role' => FUser::getRole(),
     'status' => FUser::getStatus(),
     'email' => FUser::getEmail(),
+    'datetime' => FUser::getDatetime(),
     'is_my' => true
 ]);
 // echo $_SERVER['HTTP_USER_AGENT'] . "\n\n";

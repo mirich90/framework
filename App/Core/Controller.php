@@ -40,6 +40,7 @@ abstract class Controller
 
     $data['id'] = $data['user_id'];
     unset($data['user_id']);
+
     $_SESSION['user'] = $data;
   }
 

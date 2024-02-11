@@ -18,6 +18,7 @@ $this->setCss('components/options/style');
             'role' => FUser::getRole(),
             'status' => FUser::getStatus(),
             'email' => FUser::getEmail(),
+            'datetime' => FUser::getDatetime(),
             'is_my' => true
         ]); ?>
     <? else : ?>
