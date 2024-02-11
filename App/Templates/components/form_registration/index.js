@@ -46,9 +46,9 @@
         .then((res) => res.json())
         .then((commit) => {
           if (commit.status === 200) {
-            // console.log(commit.data.accessToken);
+            console.log(commit.data);
             // console.log(commit.data.accessTokenExpiration);
-            document.location.href = "/profile";
+            // document.location.href = "/profile";
           } else {
             new AlertMessage(commit.message, commit.status);
           }

@@ -82,7 +82,7 @@ class UsersSecretData extends Model
         if (password_verify($password, $user['password'])) {
           unset($_SESSION['user']);
           $_SESSION['user'] = ['email' => $user['email'], 'id' => $user['id']];
-          return true;
+          return $user['id'];
         }
       }
     }

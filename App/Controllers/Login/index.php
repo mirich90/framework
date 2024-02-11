@@ -21,9 +21,14 @@ class index extends Controller
   {
     $UsersSecretData->load($_POST);
     $UsersSecretData->validate($_POST);
-
-    if ($UsersSecretData->login()) {
-      $UsersSecretData->sendResponse('Вы успешно авторизованы');
+    $user_id = $UsersSecretData->login();
+    // c($user_id);
+    // die;
+    if ($user_id) {
+      $UsersInfo = new \App\Models\UsersInfo();
+      $user_info = $UsersInfo->selectOne($user_id, 'user_id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
+      $this->setUserSession($user_info);
+      $UsersSecretData->sendResponse('Вы успешно авторизованы', $user_info);
     } else {
       $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], 400);
     }

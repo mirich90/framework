@@ -102,8 +102,8 @@ function props($props, $key, $default = '', $new_value = null)
 {
   if (isset($props[$key])) {
     if ($props[$key] === false) return $default;
-    if ($props[$key] === true) return $new_value;
     if ($new_value == null) return $props[$key];
+    if ($props[$key] === true) return $new_value;
     $new_value = str_replace('___', $props[$key], $new_value);
     return $new_value;
   } else {

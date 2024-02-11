@@ -34,6 +34,15 @@ abstract class Controller
     }
   }
 
+  public function setUserSession($data)
+  {
+    unset($_SESSION['user']);
+
+    $data['id'] = $data['user_id'];
+    unset($data['user_id']);
+    $_SESSION['user'] = $data;
+  }
+
   protected function name_page()
   {
     return getNameCss($this);

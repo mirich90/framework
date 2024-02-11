@@ -141,17 +141,21 @@ abstract class Model
         return count($select);
     }
 
-    public function selectOne($value, $field = 'id')
+    public function selectOne($value, $field = 'id', $fields = [])
     {
         $table = static::TABLE;
-        $sql = "SELECT * FROM $table WHERE $field = :v LIMIT 1";
+        $sql_fields = (count($fields) > 0) ? implode(",", $fields) : "*";
+
+        $sql = "SELECT $sql_fields FROM $table WHERE $field = :v LIMIT 1";
+
         $data = $this->pdo->query(
             $sql,
             [":v" => $value],
             static::class,
             true
         );
-        return $data ? $data[0] : null;
+
+        return ($data) ? $data[0] : null;
     }
 
     public function save($field_name = null, $update = false, $show = true, $class_link = null)

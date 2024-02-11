@@ -30,28 +30,9 @@ class index extends Controller
 
     $UsersSecretData->sendMailRegistration('email', 'activation_code');
 
-    $this->setUserSession($response);
+    $this->setUserSession($responseInfo["data"]);
 
     echo $UsersSecretData->createResponse($responseInfo, getControllerName());
-  }
-
-  private function setUserSession($response)
-  {
-    unset($_SESSION['user']);
-
-    $email = $_POST['email'];
-    $id = $response["data"]['id'];
-    $_SESSION['user'] = [
-      'email' => $email,
-      'id' => $id,
-      'avatar' => null,
-      'info' => '',
-      'username' => '',
-      'link' => '',
-      'city' => '',
-      'role' => 0,
-      'status' => 0,
-    ];
   }
 
   private function createUsersSecretData($UsersSecretData)
@@ -67,7 +48,11 @@ class index extends Controller
     $UsersInfo = new \App\Models\UsersInfo();
     $UsersInfo->load($data);
     $UsersInfo->validate($data);
-    return $UsersInfo->save('link', false, false, 'profile');
+    $response_info = $UsersInfo->save(null, false, false, 'profile');
+    $info_id = $response_info["data"]["id"];
+    $user_info = $UsersInfo->selectOne($info_id, 'id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
+    $response_info['data'] = $user_info;
+    return $response_info;
   }
 
   private function createRefreshToken($UsersSecretData, $response)

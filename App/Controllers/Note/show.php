@@ -10,7 +10,7 @@ class show extends Controller
   protected function construct()
   {
     $Note = new \App\Models\Note();
-    $this->view->note = $Note->selectOne($_GET['id'], 'link');
+    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content']);
     $this->view->display('Note/show');
   }
 

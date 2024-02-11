@@ -1,9 +1,18 @@
-<? $this->Component('profile_card', [
+<?
+
+use App\Functions\FUser;
+
+$this->Component('profile_card', [
     'classes' => 'container',
-    'link' => $this->user['link'],
-    'username' => $this->user['username'],
-    'avatar' => $this->user['avatar'],
-    'info' => $this->user['info'],
+    'link' => FUser::getLink(),
+    'username' => FUser::getUsername(),
+    'avatar' => FUser::getAvatar(),
+    'info' => FUser::getInfo(),
+    'city' => FUser::getCity(),
+    'role' => FUser::getRole(),
+    'status' => FUser::getStatus(),
+    'email' => FUser::getEmail(),
+    'is_my' => true
 ]);
 // echo $_SERVER['HTTP_USER_AGENT'] . "\n\n";
 

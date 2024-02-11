@@ -17,7 +17,7 @@ class FUser
         return ($user && isset($user[$name])) ? $user[$name] : $default;
     }
 
-    public static function getMail()
+    public static function getEmail()
     {
         $user = self::getUser();
         return self::getParam($user, 'email');
@@ -29,10 +29,16 @@ class FUser
         return self::getParam($user, 'id', 0);
     }
 
+    public static function getStatus()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'role', 0);
+    }
+
     public static function getAvatar()
     {
         $user = self::getUser();
-        return self::getParam($user, 'avatar', 0);
+        return self::getParam($user, 'avatar', null);
     }
 
     public static function getInfo()
@@ -44,7 +50,7 @@ class FUser
     public static function getCity()
     {
         $user = self::getUser();
-        return self::getParam($user, 'city', 0);
+        return self::getParam($user, 'city', '-');
     }
 
     public static function getLink()

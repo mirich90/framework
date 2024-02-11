@@ -8,6 +8,7 @@
   z-index: 99;
   cursor: pointer;
   border-radius: 15px 0 0 15px;
+  max-width: 600px;
 }
 
 .options:hover {

@@ -8,11 +8,18 @@ use App\Functions\FUser;
 
 class index extends Controller
 {
+  public function access(): bool
+  {
+    if (!FUser::isLogin()) {
+      redirect('/login');
+      die;
+    }
+
+    return true;
+  }
+
   protected function construct()
   {
-    $UsersInfo = new \App\Models\UsersInfo();
-    $this->view->user = $UsersInfo->selectOne(FUser::getId(), 'user_id');
-
     $this->view->display('Profile/index');
   }
 
