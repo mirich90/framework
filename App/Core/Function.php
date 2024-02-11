@@ -72,6 +72,8 @@ function getClassName($ctrl)
     $filename = 'show';
   } else if (isset($_GET['create'])) {
     $filename = 'create';
+  } else if (isset($_GET['update'])) {
+    $filename = 'update';
   } else {
     $filename = 'index';
   }

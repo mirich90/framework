@@ -5,7 +5,7 @@ $this->setJs('components/form_registration/index');
 <form id="form" action="/registration?index&submit" method="post">
     <? $this->Ui(
         'input',
-        ['id' => 'email', 'type' => 'text', 'text' => 'e-mail (электронный адрес)', 'label' => 'E-mail', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => 'cvb@cvb.cvb']
+        ['id' => 'email', 'type' => 'text', 'text' => 'e-mail (электронный адрес)', 'label' => 'E-mail (электронный адрес)', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => 'cvb@cvb.cvb']
     ); ?>
 
     <? $this->Ui(

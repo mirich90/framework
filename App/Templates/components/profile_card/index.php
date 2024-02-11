@@ -3,47 +3,44 @@
 
 <?
 $classes = props($props, 'classes');
-$username = props($props, 'username');
-$link = props($props, 'link');
-$info = props($props, 'info');
-$status = props($props, 'status');
-$role = props($props, 'role');
-$city = props($props, 'city');
 $is_my = props($props, 'is_my');
-$datetime = props($props, 'datetime');
-$avatar = props($props, 'avatar', 'core/ava.png');
+$user = props($props, 'user');
 
-if ($role == 0) $role = 'Пользователь';
-if ($status == 0) $status = 'Активный';
-if ($city === '') $city = '-';
-if ($info === '') $info = '-';
+if ($user["role"] == 0) $user["role"] = 'Пользователь';
+if ($user["status"] == 0) $user["status"] = 'Активный';
+if ($user["city"] === '') $user["city"] = '-';
+if ($user["info"] === '') $user["info"] = '-';
+if (!$user["avatar"]) $user["avatar"] = 'core/ava.png';
 ?>
 
 <section class="ui-card biocard <?= $classes; ?>">
     <div class="img_biocard">
-        <img src="/img/<?= $avatar; ?>">
+        <img src="/img/<?= $user["avatar"]; ?>">
     </div>
     <div class="infos">
         <div class="name">
-            <h1><?= $username; ?></h1>
-            <h2>@<?= $link; ?></h2>
+            <h1><?= $user["username"]; ?></h1>
+            <h2>@<?= $user["link"]; ?></h2>
         </div>
 
         <ul class="text">
             <li>
-                <span>Город:</span> <?= $city; ?>
+                <span>Город:</span> <?= $user["city"]; ?>
             </li>
             <li>
-                <span>Статус:</span> <?= $status; ?>
+                <span>О себе:</span> <?= $user["info"]; ?>
             </li>
             <li>
-                <span>Роль:</span> <?= $role; ?>
+                <span>Эл.почта:</span> <?= $user["email"]; ?>
             </li>
             <li>
-                <span>Дата регистрации:</span> <?= $datetime; ?>
+                <span>Статус:</span> <?= $user["status"]; ?>
             </li>
             <li>
-                <span>О себе:</span> <?= $info; ?>
+                <span>Роль:</span> <?= $user["role"]; ?>
+            </li>
+            <li>
+                <span>Дата регистрации:</span> <?= $user["datetime"]; ?>
             </li>
     </div>
 
@@ -105,6 +102,5 @@ if ($info === '') $info = '-';
                 'transparent' => true
             ]
         ) ?>
-    </div>
     </div>
 </section>

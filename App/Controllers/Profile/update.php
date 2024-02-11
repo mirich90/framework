@@ -4,15 +4,23 @@ namespace App\Controllers\Profile;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FUser;
 
-class show extends Controller
+class update extends Controller
 {
+  public function access(): bool
+  {
+    if (!FUser::isLogin()) {
+      redirect('/login');
+      die;
+    }
+
+    return true;
+  }
+
   protected function construct()
   {
-    $UsersInfo = new \App\Models\UsersInfo();
-    $this->view->note = $UsersInfo->selectOne($_GET['id'], 'link');
-
-    $this->view->display('Profile/show');
+    $this->view->display('Profile/update');
   }
 
   protected function title()

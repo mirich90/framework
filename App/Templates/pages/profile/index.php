@@ -4,21 +4,9 @@ use App\Functions\FUser;
 
 $this->Component('profile_card', [
     'classes' => 'container',
-    'link' => FUser::getLink(),
-    'username' => FUser::getUsername(),
-    'avatar' => FUser::getAvatar(),
-    'info' => FUser::getInfo(),
-    'city' => FUser::getCity(),
-    'role' => FUser::getRole(),
-    'status' => FUser::getStatus(),
-    'email' => FUser::getEmail(),
-    'datetime' => FUser::getDatetime(),
+    'user' => FUser::getUser(),
     'is_my' => true
 ]);
-// echo $_SERVER['HTTP_USER_AGENT'] . "\n\n";
-
-// $browser = get_browser(null, true);
-// print_r($browser);
 
 function getIp()
 {

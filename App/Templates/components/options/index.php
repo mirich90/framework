@@ -10,15 +10,7 @@ $this->setCss('components/options/style');
     <? if (FUser::getUser()) : ?>
         <? $this->Component('profile_card', [
             'classes' => 'container',
-            'link' => FUser::getLink(),
-            'username' => FUser::getUsername(),
-            'avatar' => FUser::getAvatar(),
-            'info' => FUser::getInfo(),
-            'city' => FUser::getCity(),
-            'role' => FUser::getRole(),
-            'status' => FUser::getStatus(),
-            'email' => FUser::getEmail(),
-            'datetime' => FUser::getDatetime(),
+            'user' => FUser::getUser(),
             'is_my' => true
         ]); ?>
     <? else : ?>

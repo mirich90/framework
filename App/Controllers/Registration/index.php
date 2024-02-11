@@ -22,11 +22,12 @@ class index extends Controller
 
   private function create($UsersSecretData)
   {
+    $email = $UsersSecretData->attributes['email'];
     $response = $this->createUsersSecretData($UsersSecretData);
     $responseInfo = $this->createUsersInfo($response);
-    $token_info = $this->createRefreshToken($UsersSecretData, $response);
+    $token_info = $this->createRefreshToken($email, $response);
 
-    $responseInfo["data"] = array_merge($responseInfo["data"], $token_info);
+    $responseInfo["data"] = array_merge($responseInfo["data"], $token_info, ['email' => $email]);
 
     $UsersSecretData->sendMailRegistration('email', 'activation_code');
 
@@ -55,7 +56,7 @@ class index extends Controller
     return $response_info;
   }
 
-  private function createRefreshToken($UsersSecretData, $response)
+  private function createRefreshToken($email, $response)
   {
     $JWT = new FJWT;
     $finger_print = $_POST['fp_1'];
@@ -67,7 +68,7 @@ class index extends Controller
 
     $payload = array(
       'id' => $user_id,
-      'email' => $UsersSecretData->attributes['email'],
+      'email' => $email,
     );
     $access_token = $JWT->encode($header, $payload, $refresh_key);
     $refresh_token = $JWT->encode($header, $payload, $access_key);
