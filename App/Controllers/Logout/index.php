@@ -8,11 +8,10 @@ class index extends Controller
 {
   protected function construct()
   {
-    $UsersSecretData = new \App\Models\UsersSecretData();
-    if ($UsersSecretData->check_response(['submit'])) {
+    if ($this->check_response(['submit'])) {
       $this->logout();
     }
-    redirect('/');
+    redirect('/login');
   }
 
   private function logout()

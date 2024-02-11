@@ -10,18 +10,18 @@ class index extends Controller
 {
   protected function construct()
   {
-    $UsersSecretData = new \App\Models\UsersSecretData();
 
-    if ($UsersSecretData->check_response(['submit'])) {
-      $this->create($UsersSecretData);
+    if ($this->check_response(['submit'])) {
+      $this->create();
       die;
     }
 
     $this->view->display('auth/registration');
   }
 
-  private function create($UsersSecretData)
+  private function create()
   {
+    $UsersSecretData = new \App\Models\UsersSecretData();
     $email = $UsersSecretData->attributes['email'];
     $response = $this->createUsersSecretData($UsersSecretData);
     $responseInfo = $this->createUsersInfo($response);

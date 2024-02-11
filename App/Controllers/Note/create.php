@@ -9,18 +9,17 @@ class create extends Controller
 {
   protected function construct()
   {
-    $Note = new \App\Models\Note();
-
-    if ($Note->check_response(['submit'])) {
-      $this->create($Note);
+    if ($this->check_response(['submit'])) {
+      $this->create();
     }
 
     $this->view->display('Note/create');
   }
 
 
-  private function create($Note)
+  private function create()
   {
+    $Note = new \App\Models\Note();
     $Note->load($_POST);
     $Note->validate($_POST);
 

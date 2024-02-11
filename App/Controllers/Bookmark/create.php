@@ -9,15 +9,14 @@ class create extends Controller
 {
   protected function construct()
   {
-    $Bookmark = new \App\Models\Bookmark();
-
-    if ($Bookmark->check_response(['submit'])) {
-      $this->create($Bookmark);
+    if ($this->check_response(['submit'])) {
+      $this->create();
     }
   }
 
-  private function create($Bookmark)
+  private function create()
   {
+    $Bookmark = new \App\Models\Bookmark();
     $Bookmark->load($_POST);
     $Bookmark->validate($_POST);
     $response = $Bookmark->save('state', true, false);

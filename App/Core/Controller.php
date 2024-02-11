@@ -44,6 +44,15 @@ abstract class Controller
     $_SESSION['user'] = $data;
   }
 
+  public function check_response($fields)
+  {
+    foreach ($fields as $field) {
+      if (!isset($_GET[$field])) return false;
+    }
+
+    return true;
+  }
+
   protected function name_page()
   {
     return getNameCss($this);

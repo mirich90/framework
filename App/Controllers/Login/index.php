@@ -9,16 +9,16 @@ class index extends Controller
 {
   protected function construct()
   {
-    $UsersSecretData = new \App\Models\UsersSecretData();
-    if ($UsersSecretData->check_response(['submit'])) {
-      $this->login($UsersSecretData);
+    if ($this->check_response(['submit'])) {
+      $this->login();
     }
 
     $this->view->display('Auth/login');
   }
 
-  private function login($UsersSecretData)
+  private function login()
   {
+    $UsersSecretData = new \App\Models\UsersSecretData();
     $UsersSecretData->load($_POST);
     $UsersSecretData->validate($_POST);
     $user_id = $UsersSecretData->login();

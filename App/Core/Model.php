@@ -21,14 +21,14 @@ abstract class Model
         $this->pdo = Db::instance();
     }
 
-    public function load($data)
+    public function load($data, $is_update = false)
     {
         foreach ($this->attributes as $key => $value) {
 
             if (isset($data[$key])) {
                 $this->attributes[$key] = $this->prepared($data[$key], $key);
             }
-            $this->attributes[$key] = $this->setValue($key);
+            $this->attributes[$key] = $this->setValue($key, $is_update);
         }
     }
 
@@ -42,9 +42,9 @@ abstract class Model
         return $str;
     }
 
-    private function setValue($key)
+    private function setValue($key, $is_update)
     {
-        if (isset($this->rules[$key]['function'])) {
+        if (!$is_update && isset($this->rules[$key]['function'])) {
             $function = $this->rules[$key]['function'];
             $value = (isset($function[1])) ? $this->attributes[$function[1]] : null;
 
@@ -62,15 +62,6 @@ abstract class Model
         }
 
         return $this->attributes[$key];
-    }
-
-    public function check_response($fields)
-    {
-        foreach ($fields as $field) {
-            if (!isset($_GET[$field])) return false;
-        }
-
-        return true;
     }
 
     public function sendMail($email_to, $email_from, $subject, $body, $message_success, $message_error)
@@ -211,42 +202,71 @@ abstract class Model
         return basename(get_class($this));
     }
 
-    public function edit($field_name = null)
+    public function edit($field_name = null, $where = null)
     {
-        return $this->update($field_name);
+        return $this->update($field_name, $where);
     }
 
-    public function update($field_name = null)
+    public function update($field_name = null, $where = null)
     {
-        $fields = $this->attributes;
-        $table = static::TABLE;
-        $data = [];
-        $sets = [];
+        try {
+            $fields = $this->attributes;
+            $table = static::TABLE;
+            $data = [];
+            $sets = [];
+            $sql_where = ($where) ? "$where[0] = :$where[0]" : 'id = :id';
 
-        if ($field_name) {
-            $sets[] = "$field_name = :$field_name";
-            $data[":$field_name"] = $fields[$field_name];
-            $data[":id"] = $fields['id'];
-        } else {
-            foreach ($fields as $name => $value) {
-                if ('id' != $name) {
-                    $sets[] = "$name = :$name";
+            if ($field_name) {
+                if (is_array($field_name)) {
+                    foreach ($field_name as $value) {
+                        [$sets, $data] = $this->parseField($fields, $value, $data, $sets);
+                    }
+                } else {
+                    [$sets, $data] = $this->parseField($fields, $field_name, $data, $sets);
                 }
-                $data[":$name"] = $value;
+            } else {
+                foreach ($fields as $name => $value) {
+                    if ('id' != $name) {
+                        $sets[] = "$name = :$name";
+                    }
+                    $data[":$name"] = $value;
+                }
+            }
+
+            if ($where) {
+                $data[":$where[0]"] = $where[1];
+            } else {
+                $data[":id"] = $fields['id'];
+            }
+
+            $sets = implode(', ', $sets);
+            $sql = "UPDATE $table SET $sets, datetime_update=CURRENT_TIMESTAMP, `id` = LAST_INSERT_ID(`id`) WHERE $sql_where";
+
+            $status = $this->pdo->execute($sql, $data);
+
+            if ($status) {
+                $this->sendResponse('Данные успешно изменены', []);
+            } else {
+                $this->sendResponse('Ошибка! Попробуте позже', [], 500);
+            }
+            return $status;
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                echo $this->sendResponse("Пользователь с данным email уже существует", [], 400);
+                die;
+            } else {
+                header('HTTP/1.0 500');
+                echo $this->sendResponse($th->getMessage(), [], 500);
+                die;
             }
         }
+    }
 
-        $sets = implode(', ', $sets);
-        $sql = "UPDATE $table SET $sets, datetime_update=CURRENT_TIMESTAMP, `id` = LAST_INSERT_ID(`id`) WHERE id = :id";
-
-        $status = $this->pdo->execute($sql, $data);
-
-        if ($status) {
-            $this->sendResponse('Данные успешно изменены', []);
-        } else {
-            $this->sendResponse('Ошибка! Попробуте позже', [], 500);
-        }
-        return $status;
+    private function parseField($fields, $field_name, $data, $sets)
+    {
+        $sets[] = "$field_name = :$field_name";
+        $data[":$field_name"] = $fields[$field_name];
+        return [$sets, $data];
     }
 
     public function response($value, $data = [], $message_success = "Success", $message_error = "Error")
@@ -340,7 +360,7 @@ abstract class Model
         return $data ? $data[0] : [];
     }
 
-    private function addAttributes($key, $value)
+    public function addAttributes($key, $value)
     {
         $this->attributes[$key] = $value;
     }

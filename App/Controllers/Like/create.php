@@ -9,15 +9,14 @@ class create extends Controller
 {
   protected function construct()
   {
-    $Like = new \App\Models\Like();
-
-    if ($Like->check_response(['submit'])) {
-      $this->create($Like);
+    if ($this->check_response(['submit'])) {
+      $this->create();
     }
   }
 
-  private function create($Like)
+  private function create()
   {
+    $Like = new \App\Models\Like();
     $Like->load($_POST);
     $Like->validate($_POST);
     $response = $Like->save('state', true, false);
