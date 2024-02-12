@@ -109,14 +109,15 @@ abstract class Model
         return securing($name);
     }
 
-    public function select($fields = '*', $where = [])
+    public function select($selected_fields = [], $where = [])
     {
         $table = static::TABLE;
+        $sql_fields = $this->getSelectedFields($selected_fields);
         $attributes = $this->parseAttributes($where);
         $where = $attributes['where'];
         $data = $attributes['data'];
 
-        $sql = "SELECT $fields FROM $table $where";
+        $sql = "SELECT $sql_fields FROM $table $where";
 
         return $this->pdo->query(
             $sql,
@@ -132,10 +133,19 @@ abstract class Model
         return count($select);
     }
 
-    public function selectOne($value, $field = 'id', $fields = [])
+    public function getSelectedFields($selected_fields)
+    {
+        if (count($selected_fields) > 0) {
+            $join = implode('`, `', $selected_fields);
+            return '`' . $join . '`';
+        }
+        return "*";
+    }
+
+    public function selectOne($value, $field = 'id', $selected_fields = [])
     {
         $table = static::TABLE;
-        $sql_fields = (count($fields) > 0) ? implode(",", $fields) : "*";
+        $sql_fields = $this->getSelectedFields($selected_fields);
 
         $sql = "SELECT $sql_fields FROM $table WHERE $field = :value LIMIT 1";
 
@@ -158,7 +168,8 @@ abstract class Model
         } else {
             $name = static::NAME;
             $class_link = ($class_link) ? $class_link : $this->getClassName();
-            $link = "<a href='/$class_link?id=$value'>$value</a>";
+            $class = lcfirst($class_link);
+            $link = "«<a href='/$class?id=$value'>$value</a>»";
             if (is_null($field_name)) {
                 $field_name = 'id';
             }

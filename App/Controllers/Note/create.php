@@ -11,19 +11,29 @@ class create extends Controller
   {
     if ($this->check_response(['submit'])) {
       $this->create();
+      die;
     }
 
+    $categories = [];
+    $Category = new \App\Models\Category();
+    $data = $Category->select(['id', 'name']);
+
+    foreach ($data as ['id' => $id, 'name' => $name]) {
+      $categories[] = [$id, $name];
+    }
+
+    $this->view->categories = $categories;
     $this->view->display('Note/create');
   }
-
 
   private function create()
   {
     $Note = new \App\Models\Note();
     $Note->load($_POST);
     $Note->validate($_POST);
-
     $Note->save('link');
+
+    redirect('/note?create');
   }
 
   protected function title()

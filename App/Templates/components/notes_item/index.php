@@ -11,6 +11,8 @@ $title = props($props, 'title');
 $link = props($props, 'link');
 $content = props($props, 'content');
 $datetime = props($props, 'datetime');
+$category = props($props, 'category');
+$category_link = props($props, 'category_link');
 
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
@@ -32,17 +34,19 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
     <div class="notes-item-body">
 
         <div class="notes-item-title">
-            <a class="notes-item-author-name" href="/author&id=<?= $author_link; ?>">
-                <?= $author_name; ?>
-            </a>
+            <div class="notes-item-author-name">
+                <a href="/author&id=<?= $author_link; ?>">
+                    <?= $author_name; ?>
+                </a>
+            </div>
 
             <? if ($props['is_breadcrumbs']) {
                 $this->Component(
                     'breadcrumbs',
                     [
                         'parent' => 'заметки',
-                        'text' => $props['category'],
-                        'link' => $props['category_link'],
+                        'text' => $category,
+                        'link' => $category_link,
                     ]
                 );
             } ?>

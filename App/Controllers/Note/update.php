@@ -15,21 +15,33 @@ class update extends Controller
     }
 
     $Note = new \App\Models\Note();
-    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content', 'link']);
+    $Category = new \App\Models\Category();
+
+    $categories = [];
+    $data = $Category->select(['id', 'name']);
+    foreach ($data as ['id' => $id, 'name' => $name]) {
+      $categories[] = [$id, $name];
+    }
+
+    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content', 'link', 'category_id']);
+    $this->view->categories = $categories;
     $this->view->display('Note/update');
   }
 
   private function update()
   {
+    $id = $_GET['id'];
     $Note = new \App\Models\Note();
     $Note->load($_POST);
     $Note->validate($_POST);
-    $is_edit = $Note->edit(['title', 'content'], ['link', $_GET['id']]);
+    $is_edit = $Note->edit(['title', 'content', 'category_id'], ['link', $id]);
 
     if ($is_edit) {
+      $title = $_POST['title'];
+      $link = "«<a href='/note?id=$id'>$title</a>»";
       $Note->createResponse([
         "status" => 200,
-        'message' => "Заметка успешно отредактирована",
+        'message' => "Заметка $link успешно отредактирована",
         "data" => [],
         'class' => 'Note'
       ]);

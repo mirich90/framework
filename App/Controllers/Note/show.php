@@ -10,7 +10,18 @@ class show extends Controller
   protected function construct()
   {
     $Note = new \App\Models\Note();
-    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content', 'datetime', 'link']);
+    $note = $Note->selectOne(
+      $_GET['id'],
+      'link',
+      ['title', 'content', 'datetime', 'link', 'category_id']
+    );
+
+    $Category = new \App\Models\Category();
+    $data = $Category->selectOne($note['category_id'], 'id', ['index', 'name']);
+    $category = ['category' => $data['name'], 'category_link' => $data['index']];
+    $this->view->note = $note;
+    $this->view->category = $category;
+
     $this->view->display('Note/show');
   }
 

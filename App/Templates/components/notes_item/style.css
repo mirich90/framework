@@ -17,6 +17,10 @@
   line-height: 1.7;
 }
 
+.notes-item-author-name {
+  margin-bottom: 1rem;
+}
+
 .notes-item-body span {
   color: #434b57;
   opacity: 0.8;

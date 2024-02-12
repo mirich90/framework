@@ -7,7 +7,7 @@ $this->setCss('components/note/style');
 
     <? $this->Component(
         'notes_item',
-        array_merge($this->note)
+        array_merge($this->note, $this->category, ['is_breadcrumbs' => true])
     ); ?>
 
 </section>

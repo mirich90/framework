@@ -26,6 +26,11 @@
 
         <? $this->Ui(
             'input',
+            ['id' => 'category_id', 'type' => 'select', 'label' => 'Категория', 'placeholder' => 'Выберите категорию заметки', 'options' => $this->categories]
+        ); ?>
+
+        <? $this->Ui(
+            'input',
             ['id' => 'content', 'type' => 'textarea', 'text' => 'Название', 'label' => 'Текст', 'placeholder' => 'Введите текст заметки']
         ); ?>
 

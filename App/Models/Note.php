@@ -14,6 +14,7 @@ class Note extends Model
     'title' => '',
     'content' => '',
     'link' => '',
+    'category_id' => 1,
     'datetime' => NULL,
     'datetime_update' => NULL,
     'is_delete' => 0,
@@ -22,6 +23,7 @@ class Note extends Model
   public $rules = [
     'id' => ['type' => 'int', 'length' => 11, 'auto_increment' => true, 'primary_key' => true, 'not_null' => true],
     'title' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'required' => true, 'not_null' => true],
+    'category_id' => ['type' => 'int', 'length' => 11, 'not_null' => true, 'required' => true],
     'link' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'not_null' => true, 'function' => ['translitLink', 'title']],
     'content' => ['type' => 'varchar', 'length' => 1024, 'lengthMin' => 20],
     'datetime' => ['type' => 'datetime', 'not_null' => true],
