@@ -7,11 +7,13 @@ $author_name = props($props, 'author_name', 'username');
 $author_link = props($props, 'author_link');
 $title = props($props, 'title');
 $link = props($props, 'link');
+$id = props($props, 'id');
 $content = props($props, 'content');
 $datetime = props($props, 'datetime');
 $category = props($props, 'category');
+$is_like = props($props, 'is_like');
 $category_link = props($props, 'category_link');
-
+c($props);
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
 
@@ -72,7 +74,7 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'icon' => "favorite",
                     'active' => false,
                     'click' => '',
-                    'id' => 1,
+                    'id' => $id,
                     'table' => "notes",
                     'action' => 'like',
                 ]
@@ -85,7 +87,7 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'icon' => "bookmark",
                     'active' => true,
                     'click' => '',
-                    'id' => 1,
+                    'id' => $id,
                     'table' => "notes",
                     'action' => 'bookmark',
                 ]

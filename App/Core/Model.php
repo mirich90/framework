@@ -109,7 +109,13 @@ abstract class Model
         return securing($name);
     }
 
-    public function select($selected_fields = [], $where = [])
+    public function selectOne($selected_fields = [], $where = [])
+    {
+        $data = $this->select($selected_fields, $where, 'LIMIT 1');
+        return ($data) ? $data[0] : null;
+    }
+
+    public function select($selected_fields = [], $where = [], $limit = '')
     {
         $table = static::TABLE;
         $sql_fields = $this->getSelectedFields($selected_fields);
@@ -117,7 +123,7 @@ abstract class Model
         $where = $attributes['where'];
         $data = $attributes['data'];
 
-        $sql = "SELECT $sql_fields FROM $table $where";
+        $sql = "SELECT $sql_fields FROM $table $where $limit";
 
         return $this->pdo->query(
             $sql,
@@ -129,7 +135,7 @@ abstract class Model
 
     public function getCount($where = null)
     {
-        $select = $this->select('id', $where);
+        $select = $this->select(['id'], $where);
         return count($select);
     }
 
@@ -140,23 +146,6 @@ abstract class Model
             return '`' . $join . '`';
         }
         return "*";
-    }
-
-    public function selectOne($value, $field = 'id', $selected_fields = [])
-    {
-        $table = static::TABLE;
-        $sql_fields = $this->getSelectedFields($selected_fields);
-
-        $sql = "SELECT $sql_fields FROM $table WHERE $field = :value LIMIT 1";
-
-        $data = $this->pdo->query(
-            $sql,
-            [":value" => $value],
-            static::class,
-            true
-        );
-
-        return ($data) ? $data[0] : null;
     }
 
     public function save($field_name = null, $update = false, $show = true, $class_link = null)
@@ -392,8 +381,9 @@ abstract class Model
     {
         $attributes = $this->attributes;
 
+
         if (count($filter)) {
-            $attributes = array_intersect_key($attributes, array_flip($filter));
+            $attributes = array_intersect_key($filter, $attributes);
         }
 
         $cols = [];

@@ -23,7 +23,10 @@ class update extends Controller
       $categories[] = [$id, $name];
     }
 
-    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content', 'link', 'category_id']);
+    $this->view->note = $Note->selectOne(
+      ['title', 'content', 'link', 'category_id'],
+      ['link' => $_GET['id']]
+    );
     $this->view->categories = $categories;
     $this->view->display('Note/update');
   }

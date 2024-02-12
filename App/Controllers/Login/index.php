@@ -26,7 +26,10 @@ class index extends Controller
     if ($user_id) {
       $email = $UsersSecretData->attributes['email'];
       $UsersInfo = new \App\Models\UsersInfo();
-      $user_info = $UsersInfo->selectOne($user_id, 'user_id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
+      $user_info = $UsersInfo->selectOne(
+        ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id'],
+        ['user_id' => $user_id],
+      );
       $user_info["email"] = $email;
 
       $this->setUserSession($user_info);

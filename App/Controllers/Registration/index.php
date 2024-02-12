@@ -51,7 +51,7 @@ class index extends Controller
     $UsersInfo->validate($data);
     $response_info = $UsersInfo->save(null, false, false, 'profile');
     $info_id = $response_info["data"]["id"];
-    $user_info = $UsersInfo->selectOne($info_id, 'id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
+    $user_info = $UsersInfo->selectOne2($info_id, 'id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
     $response_info['data'] = $user_info;
     return $response_info;
   }
