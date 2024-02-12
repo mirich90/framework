@@ -43,7 +43,10 @@ class update extends Controller
     $is_edit = $UsersInfo->edit(['username', 'link', 'info', 'city'], ['user_id', $id]);
 
     if ($is_edit) {
-      $user_info = $UsersInfo->selectOne($id, 'user_id', ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id']);
+      $user_info = $UsersInfo->selectOne(
+        ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id'],
+        ['user_id' => $id]
+      );
       $data = array_merge($user_info,  ['email' => FUser::getEmail()]);
 
       $UsersInfo->createResponse([
@@ -55,7 +58,7 @@ class update extends Controller
 
       $this->setUserSession($data);
 
-      redirect('/profile?update');
+      redirect('/profile?update&id=' . $user_info['link']);
     }
   }
 

@@ -21,7 +21,7 @@
 
     <? $this->Ui('alert_session'); ?>
 
-    <form action="profile?update&submit" method="post">
+    <form action="profile?update&submit&id=<?= FUser::getLink(); ?>" method="post">
         <? $this->Ui(
             'input',
             ['id' => 'username', 'type' => 'text', 'label' => 'Имя/ник пользователя', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => FUser::getUsername()]

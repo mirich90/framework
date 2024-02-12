@@ -10,7 +10,10 @@ class show extends Controller
   protected function construct()
   {
     $UsersInfo = new \App\Models\UsersInfo();
-    $this->view->note = $UsersInfo->selectOne($_GET['id'], 'link');
+    $this->view->note = $UsersInfo->selectOne(
+      ['*'],
+      ['link' => $_GET['id']]
+    );
 
     $this->view->display('Profile/show');
   }
