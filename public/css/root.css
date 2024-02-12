@@ -26,5 +26,6 @@
   --color-primary-light: var(--color-violet-light);
   --color-primary-light2: var(--color-violet-light2);
   --color-text: var(--color-black);
+  --color-active: rgb(118 96 171);
   --color-bg: var(--color-white);
 }

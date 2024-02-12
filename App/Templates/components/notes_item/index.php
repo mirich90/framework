@@ -12,8 +12,11 @@ $content = props($props, 'content');
 $datetime = props($props, 'datetime');
 $category = props($props, 'category');
 $is_like = props($props, 'is_like');
+$count_like = props($props, 'is_like');
+$is_bookmark = props($props, 'is_bookmark');
+$count_bookmark = props($props, 'is_bookmark');
 $category_link = props($props, 'category_link');
-c($props);
+
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
 
@@ -70,9 +73,9 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
             <? $this->Ui(
                 'icon',
                 [
-                    'label' => 12,
+                    'label' => $count_like,
                     'icon' => "favorite",
-                    'active' => false,
+                    'active' => !!$is_like,
                     'click' => '',
                     'id' => $id,
                     'table' => "notes",
@@ -83,9 +86,9 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
             <? $this->Ui(
                 'icon',
                 [
-                    'label' => 1,
+                    'label' => $count_bookmark,
                     'icon' => "bookmark",
-                    'active' => true,
+                    'active' => !!$is_bookmark,
                     'click' => '',
                     'id' => $id,
                     'table' => "notes",
@@ -99,7 +102,6 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'label' => 12,
                     'icon' => "comment",
                     'href' => "/note?id=$link#comments",
-                    'active' => true,
                     'click' => '',
                 ]
             ); ?>
@@ -109,7 +111,6 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                 [
                     'icon' => "edit",
                     'href' => "/note?update&id=$link",
-                    'active' => true,
                     'click' => '',
                 ]
             ); ?>

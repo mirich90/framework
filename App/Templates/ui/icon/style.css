@@ -5,8 +5,9 @@
   display: inline-block;
   text-align: center;
   user-select: none;
-  color: var(--color-primary);
+  color: var(--color-active);
 }
+
 .icon:hover {
   opacity: 0.5;
 }

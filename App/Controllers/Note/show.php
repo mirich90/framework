@@ -13,6 +13,9 @@ class show extends Controller
     $this->view->note = $this->getNote();
     $this->view->category = $this->getCategory($this->view->note);
     $this->view->is_like = $this->getMyLike($this->view->note);
+    $this->view->count_like = $this->getCountLike($this->view->note);
+    $this->view->is_bookmark = $this->getMyBookmark($this->view->note);
+    $this->view->count_bookmark = $this->getCountBookmark($this->view->note);
 
     $this->view->display('Note/show');
   }
@@ -29,20 +32,51 @@ class show extends Controller
   private function getMyLike($note)
   {
     $Like = new \App\Models\Like();
-    $fields = [
+
+    $is_like = $Like->getCount([
       'item_id' => $note['id'],
       'name_table' => 'notes',
+      'state' => 1,
       'user_id' => FUser::getId()
-    ];
+    ]);
+    return ['is_like' => $is_like];
+  }
 
-    $like = $Like->selectOne(
-      ['state'],
-      $fields
-    );
+  private function getCountLike($note)
+  {
+    $Like = new \App\Models\Like();
+    $count_like = $Like->getCount([
+      'item_id' => $note['id'],
+      'name_table' => 'notes',
+      'state' => 1,
+    ]);
 
-    $is_like = ($like) ? $like['state'] : 0;
+    return ['count_like' => $count_like];
+  }
 
-    return ['is_like' =>  $is_like];
+  private function getCountBookmark($note)
+  {
+    $Bookmark = new \App\Models\Bookmark();
+    $count_bookmark = $Bookmark->getCount([
+      'item_id' => $note['id'],
+      'name_table' => 'notes',
+      'state' => 1,
+    ]);
+
+    return ['count_bookmark' => $count_bookmark];
+  }
+
+  private function getMyBookmark($note)
+  {
+    $Bookmark = new \App\Models\Bookmark();
+
+    $is_bookmark = $Bookmark->getCount([
+      'item_id' => $note['id'],
+      'name_table' => 'notes',
+      'state' => 1,
+      'user_id' => FUser::getId()
+    ]);
+    return ['is_bookmark' => $is_bookmark];
   }
 
   private function getCategory($note)

@@ -4,6 +4,7 @@ namespace App\Controllers\Like;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FUser;
 
 class create extends Controller
 {
@@ -19,17 +20,26 @@ class create extends Controller
     $Like = new \App\Models\Like();
     $Like->load($_POST);
     $Like->validate($_POST);
+    $like = $Like->attributes;
+
     $response = $Like->save('state', true, false);
 
-    $Like->attributes['state'] = 1;
-    $count = $Like->getCount(['name_table', 'item_id', 'state']);
-    $isMyLike = $Like->getCount(['name_table', 'item_id', 'state', 'user_id']);
+    $count = $Like->getCount([
+      'item_id' => $like['item_id'],
+      'name_table' => 'notes',
+      'state' => 1
+    ]);
+
+    $isMyLike = $Like->getCount([
+      'item_id' => $like['item_id'],
+      'name_table' => 'notes',
+      'state' => 1,
+      'user_id' => FUser::getId()
+    ]);
 
     $response["data"]['count'] =  $count;
     $response["data"]['state'] =  $isMyLike;
-    // var_dump($response);
-    // var_dump($Like->createResponse($response));
-    // die;
+
     echo $Like->createResponse($response);
   }
 

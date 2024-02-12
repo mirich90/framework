@@ -4,6 +4,7 @@ namespace App\Controllers\Bookmark;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FUser;
 
 class create extends Controller
 {
@@ -19,18 +20,26 @@ class create extends Controller
     $Bookmark = new \App\Models\Bookmark();
     $Bookmark->load($_POST);
     $Bookmark->validate($_POST);
+    $bookmark = $Bookmark->attributes;
+
     $response = $Bookmark->save('state', true, false);
 
-    $Bookmark->attributes['state'] = 1;
-    $count = $Bookmark->getCount(['name_table', 'item_id', 'state']);
-    $isMyBookmark = $Bookmark->getCount(['name_table', 'item_id', 'state', 'user_id']);
+    $count = $Bookmark->getCount([
+      'item_id' => $bookmark['item_id'],
+      'name_table' => 'notes',
+      'state' => 1
+    ]);
+
+    $isMyBookmark = $Bookmark->getCount([
+      'item_id' => $bookmark['item_id'],
+      'name_table' => 'notes',
+      'state' => 1,
+      'user_id' => FUser::getId()
+    ]);
 
     $response["data"]['count'] =  $count;
     $response["data"]['state'] =  $isMyBookmark;
-    $response["data"]['user'] =  $Bookmark->attributes['user_id'];
-    // var_dump($response);
-    // var_dump($Like->createResponse($response));
-    // die;
+
     echo $Bookmark->createResponse($response);
   }
 

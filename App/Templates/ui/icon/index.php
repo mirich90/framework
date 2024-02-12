@@ -6,7 +6,7 @@ $this->setJs('ui/icon/index');
 <?
 $label = props($props, 'label');
 $icon = props($props, 'icon');
-$active = props($props, 'active', 'noactive', '');
+$active = props($props, 'active', 'noactive', ' ');
 $click = props($props, 'click');
 $id = props($props, 'id');
 $table = props($props, 'table');
