@@ -17,7 +17,7 @@ $hidden = ($type === 'hidden') ? 'hidden' : '';
     </label>
 
     <? if ($type === 'textarea') : ?>
-        <textarea autofocus="" autocomplete="off" name="<?= $id; ?>" id="<?= $id; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-textarea"><?= $value; ?></textarea>
+        <textarea rows="5" autofocus="" autocomplete="off" name="<?= $id; ?>" id="<?= $id; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-textarea"><?= $value; ?></textarea>
 
     <? elseif ($type === 'select') : ?>
         <select id="<?= $id; ?>" name="<?= $id; ?>" type="<?= $type; ?>" placeholder="<?= $placeholder; ?>" tabindex="0" autofocus="" class="ui-input-select">

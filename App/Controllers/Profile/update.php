@@ -15,6 +15,10 @@ class update extends Controller
       die;
     }
 
+    if ($_GET['id'] !== FUser::isLink()) {
+      redirect('/not_found');
+      die;
+    }
 
     return true;
   }

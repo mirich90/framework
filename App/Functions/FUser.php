@@ -77,6 +77,12 @@ class FUser
         return self::getParam($user, 'role');
     }
 
+    public static function isLink()
+    {
+        $user = self::getUser();
+        return self::getParam($user, 'link');
+    }
+
     public static function checkRole($role)
     {
         return  $role === self::getRole();

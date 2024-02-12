@@ -64,7 +64,7 @@ if (!$user["avatar"]) $user["avatar"] = 'core/ava.png';
                 'button',
                 [
                     'text' => "Редактировать профиль",
-                    'href' => "/profile?update",
+                    'href' => "/profile?update&id=" . $user["link"],
                     'color' => 'primary',
                     'flat' => true,
                     'transparent' => true

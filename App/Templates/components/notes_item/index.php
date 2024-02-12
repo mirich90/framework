@@ -1,8 +1,6 @@
 <?
 $this->setCss('components/notes_item/style');
-?>
 
-<?
 $author_img = props($props, 'author_img');
 $author_img_alt = props($props, 'author_img_alt');
 $author_name = props($props, 'author_name', 'username');
