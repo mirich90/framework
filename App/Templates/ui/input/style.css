@@ -39,7 +39,7 @@
   padding: 1rem;
   resize: vertical;
   min-height: 117px;
-  white-space: nowrap;
+  line-height: 1.4;
 }
 
 .ui-input-input.active,

@@ -11,6 +11,8 @@ $title = props($props, 'title');
 $link = props($props, 'link');
 $content = props($props, 'content');
 $datetime = props($props, 'datetime');
+
+if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
 
 
@@ -34,6 +36,17 @@ $datetime = props($props, 'datetime');
                 <?= $author_name; ?>
             </a>
 
+            <? if ($props['is_breadcrumbs']) {
+                $this->Component(
+                    'breadcrumbs',
+                    [
+                        'parent' => 'заметки',
+                        'text' => $props['category'],
+                        'link' => $props['category_link'],
+                    ]
+                );
+            } ?>
+
             <? $this->Ui(
                 'title',
                 [
@@ -42,13 +55,73 @@ $datetime = props($props, 'datetime');
                     'level' => 3,
                 ]
             ); ?>
-
         </div>
 
         <p>
             <span><?= $datetime; ?> — </span>
             <?= $content; ?>
         </p>
+
+        <div class="post-action">
+            <? $this->Ui(
+                'icon',
+                [
+                    'label' => 12,
+                    'icon' => "favorite",
+                    'active' => false,
+                    'click' => '',
+                    'id' => 1,
+                    'table' => "notes",
+                    'action' => 'like',
+                ]
+            ); ?>
+
+            <? $this->Ui(
+                'icon',
+                [
+                    'label' => 1,
+                    'icon' => "bookmark",
+                    'active' => true,
+                    'click' => '',
+                    'id' => 1,
+                    'table' => "notes",
+                    'action' => 'bookmark',
+                ]
+            ); ?>
+
+            <? $this->Ui(
+                'icon',
+                [
+                    'label' => 12,
+                    'icon' => "comment",
+                    'href' => "/note?id=$link#comments",
+                    'active' => true,
+                    'click' => '',
+                ]
+            ); ?>
+
+            <? $this->Ui(
+                'icon',
+                [
+                    'icon' => "edit",
+                    'href' => "/note?update&id=$link",
+                    'active' => true,
+                    'click' => '',
+                ]
+            ); ?>
+
+            <? $this->Ui(
+                'icon',
+                [
+                    'icon' => "menu",
+                    'active' => false,
+                    'click' => '',
+                    'id' => 1,
+                    'table' => "notes",
+                    'action' => 'bookmark',
+                ]
+            ); ?>
+        </div>
     </div>
 
 

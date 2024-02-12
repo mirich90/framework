@@ -10,6 +10,9 @@
 .icon:hover {
   opacity: 0.5;
 }
+a.icon:hover {
+  text-decoration: none;
+}
 .icon p {
   margin: 0;
   line-height: 1;

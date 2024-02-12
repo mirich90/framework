@@ -68,16 +68,19 @@ function getControllerName()
 
 function getClassName($ctrl)
 {
-  if (isset($_GET['id'])) {
-    $filename = 'show';
+  if (isset($_GET['update'])) {
+    if (isset($_GET['id'])) {
+      $filename = 'update';
+    } else {
+      $filename = 'create';
+    }
   } else if (isset($_GET['create'])) {
     $filename = 'create';
-  } else if (isset($_GET['update'])) {
-    $filename = 'update';
+  } else if (isset($_GET['id'])) {
+    $filename = 'show';
   } else {
     $filename = 'index';
   }
-
 
   $class = '\App\Controllers\NotFound\index';
   $path = d("/App/Controllers/$ctrl/$filename.php");

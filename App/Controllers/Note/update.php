@@ -9,7 +9,33 @@ class update extends Controller
 {
   protected function construct()
   {
+    if ($this->check_response(['submit'])) {
+      $this->update();
+      die;
+    }
+
+    $Note = new \App\Models\Note();
+    $this->view->note = $Note->selectOne($_GET['id'], 'link', ['title', 'content', 'link']);
     $this->view->display('Note/update');
+  }
+
+  private function update()
+  {
+    $Note = new \App\Models\Note();
+    $Note->load($_POST);
+    $Note->validate($_POST);
+    $is_edit = $Note->edit(['title', 'content'], ['link', $_GET['id']]);
+
+    if ($is_edit) {
+      $Note->createResponse([
+        "status" => 200,
+        'message' => "Заметка успешно отредактирована",
+        "data" => [],
+        'class' => 'Note'
+      ]);
+
+      redirect('/note?update&id=' . $_GET['id']);
+    }
   }
 
   protected function title()

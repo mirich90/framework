@@ -7,7 +7,7 @@ $this->setCss('components/note/style');
 
     <? $this->Component(
         'notes_item',
-        $this->note
+        array_merge($this->note)
     ); ?>
 
 </section>
