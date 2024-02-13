@@ -12,15 +12,22 @@ $this->setCss('components/notes/style');
         ]
     ); ?>
 
-    <? $this->Ui(
-        'title',
-        [
-            'text' => 'Последние заметки',
-            'link' => '/post?id=',
-            'level' => 2,
-        ]
-    ); ?>
+    <section class="notes__header">
+        <? $this->Ui(
+            'title',
+            [
+                'text' => 'Последние заметки',
+                'link' => '/post?id=',
+                'level' => 2,
+            ]
+        ); ?>
 
+        <? $this->Ui(
+            'input',
+            ['id' => 'search', 'type' => 'search', 'placeholder' => 'Поиск', 'href' => "/note?search"]
+        ); ?>
+
+    </section>
     <div>
         <? $this->Ui(
             'button',

@@ -8,8 +8,8 @@ $this->setJs('ui/alert/index');
 
 <?
 // setcookie("refreshToken", "", time() - 3600);
-var_dump($_COOKIE);
-c(FUser::getUser());
+// var_dump($_COOKIE);
+// c(FUser::getUser());
 ?>
 
 <div class="alert">

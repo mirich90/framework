@@ -1,2 +1,10 @@
-.container.notes {
+.notes__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.notes__header .ui-input-fieldset {
+  min-width: 100px;
+  width: auto;
 }

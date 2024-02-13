@@ -19,6 +19,7 @@ $count_like = props($props, 'is_like');
 $is_bookmark = props($props, 'is_bookmark');
 $count_bookmark = props($props, 'is_bookmark');
 $category_link = props($props, 'category_link');
+$is_menu = props($props, 'is_menu', null);
 
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
@@ -109,19 +110,23 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                 ]
             ); ?>
 
-            <? $this->Ui(
-                'icon',
-                [
-                    'icon' => "menu",
-                    'active' => false,
-                    'action' => 'dropdown',
-                    'id' => 1,
-                    'dropdown' => [
-                        ['action' => 'qr', 'text' => 'QR-код'],
-                        ['href' => "/note?update&id=$link", 'text' => 'Редактировать', 'is_my' => $author_id === FUser::getId()]
+            <?
+            if ($is_menu) {
+                $this->Ui(
+                    'icon',
+                    [
+                        'icon' => "menu",
+                        'active' => false,
+                        'action' => 'dropdown',
+                        'id' => 1,
+                        'dropdown' => [
+                            ['action' => 'qr', 'text' => 'QR-код'],
+                            ['href' => "/note?update&id=$link", 'text' => 'Редактировать', 'is_my' => $author_id === FUser::getId()]
+                        ]
                     ]
-                ]
-            ); ?>
+                );
+            }
+            ?>
         </div>
     </div>
 
