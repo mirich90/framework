@@ -9,9 +9,6 @@
   position: relative;
 }
 
-.material-icons:hover {
-  opacity: 0.5;
-}
 a.icon:hover {
   text-decoration: none;
 }
@@ -45,4 +42,11 @@ button.icon {
   direction: ltr;
   /* -webkit-font-feature-settings: "liga"; */
   -webkit-font-smoothing: antialiased;
+}
+
+.material-icons.small {
+  font-size: 1.2em;
+}
+.material-icons:hover {
+  opacity: 0.5;
 }

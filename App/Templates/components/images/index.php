@@ -35,7 +35,7 @@ $this->setCss('ui/card/style');
     <div class="images-news-wrapper">
         <div class="images-news">
 
-            <div class="ui-card ui-card-style-blur images-news-item">
+            <div class="images-news-item">
                 <? $this->Ui(
                     'image',
                     [
@@ -191,4 +191,75 @@ $this->setCss('ui/card/style');
             </div>
         </div>
     </div>
+</section>
+
+
+<section class="ui-card container">
+
+    <? $this->Ui(
+        'title_description',
+        [
+            'text' => '<h1>картинки</h1> за неделю',
+        ]
+    ); ?>
+
+    <section class="images__header">
+        <? $this->Ui(
+            'title',
+            [
+                'text' => 'Последние картинки',
+                'link' => '/post?id=',
+                'level' => 2,
+            ]
+        ); ?>
+
+        <? $this->Ui(
+            'input',
+            ['id' => 'search', 'type' => 'search', 'placeholder' => 'Поиск', 'href' => "/note?search"]
+        ); ?>
+
+    </section>
+
+    <div>
+        <? $this->Ui(
+            'button',
+            [
+                'text' => "Фильтрация",
+                'color' => 'primary',
+                'flat' => true,
+                'transparent' => true,
+                'icon' => "tune"
+            ]
+        ); ?>
+        <? $this->Ui(
+            'button',
+            [
+                'text' => "По дате ↓",
+                'color' => 'primary',
+                'flat' => true,
+                'transparent' => true,
+                'icon' => "sort"
+            ]
+        ); ?>
+
+        <? $this->Ui(
+            'button',
+            [
+                'text' => "Создать картинку",
+                'href' => "/image?create",
+                'color' => 'primary',
+                'transparent' => true
+            ]
+        ); ?>
+    </div>
+
+    <ul class="images_list">
+        <? foreach ($this->images as $image) {
+            $this->Component(
+                'images_item',
+                array_merge($image)
+            );
+        } ?>
+    </ul>
+
 </section>

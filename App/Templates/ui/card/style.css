@@ -4,6 +4,12 @@
   padding-top: 3rem;
   border-radius: 2rem;
 }
+.ui-card-small {
+  background-color: var(--color-primary-light);
+  padding: 2rem;
+  padding-top: 1rem;
+  border-radius: 1rem;
+}
 .ui-card-right {
   border-radius: 2rem 0 0 2rem;
 }
