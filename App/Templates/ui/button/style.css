@@ -10,8 +10,18 @@
   margin-right: 0.2em;
   margin-top: 1em;
   user-select: none;
+  position: relative;
 }
 
+.btn-icon {
+  padding-left: 2.4rem;
+}
+
+.btn .material-icons {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.2rem;
+}
 button.btn:hover {
   opacity: 0.8;
 }

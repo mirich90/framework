@@ -1,6 +1,6 @@
-<? $this->setCss('ui/input/style'); ?>
-
 <?
+$this->setCss('ui/input/style');
+
 $id = props($props, 'id');
 $type = props($props, 'type', 'text');
 $value = props($props, 'value');

@@ -28,20 +28,44 @@ $this->setCss('components/notes/style');
         ); ?>
 
     </section>
+
     <div>
+        <? $this->Ui(
+            'button',
+            [
+                'text' => "Фильтрация",
+                'color' => 'primary',
+                'flat' => true,
+                'transparent' => true,
+                'icon' => "tune"
+            ]
+        ); ?>
+        <? $this->Ui(
+            'button',
+            [
+                'text' => "По дате ↓",
+                'color' => 'primary',
+                'flat' => true,
+                'transparent' => true,
+                'icon' => "sort"
+            ]
+        ); ?>
+
         <? $this->Ui(
             'button',
             [
                 'text' => "Создать заметку",
                 'href' => "/note?create",
                 'color' => 'primary',
-                'flat' => true,
                 'transparent' => true
             ]
         ); ?>
     </div>
 
-
+    <? $this->Ui(
+        'tabs',
+        []
+    ); ?>
     <? foreach ($this->notes as $note) {
         $this->Component(
             'notes_item',

@@ -18,12 +18,6 @@
   font-size: 0.7rem;
 }
 
-.ui-input-input {
-  /* background: var(--color-bg); */
-  font-weight: 500;
-  display: block;
-}
-
 .ui-input-input,
 .ui-input-select,
 .ui-input-textarea {
@@ -37,6 +31,8 @@
 
 .ui-input-input {
   height: 50px;
+  font-weight: 500;
+  display: block;
 }
 .ui-input-select {
   height: 44px;
