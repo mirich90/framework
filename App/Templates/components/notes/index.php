@@ -64,8 +64,12 @@ $this->setCss('components/notes/style');
 
     <? $this->Ui(
         'tabs',
-        []
+        [
+            'link' => '/note?category=',
+            'list' => $this->categories
+        ]
     ); ?>
+
     <? foreach ($this->notes as $note) {
         $this->Component(
             'notes_item',

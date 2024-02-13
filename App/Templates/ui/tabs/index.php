@@ -1,11 +1,15 @@
 <? $this->setCss('ui/tabs/style'); ?>
 
+<?
+$list = props($props, 'list');
+$link = props($props, 'link');
+?>
+
 <div class="horizontal-tabs">
-    <a href="#" class='active'>Все</a>
-    <a href="#">Флуд</a>
-    <a href="#">Код</a>
-    <a href="#">Графика</a>
-    <a href="#">Текст</a>
-    <a href="#">Видео</a>
-    <a href="#">Музыка</a>
+    <a href="<?= $link; ?>" class='active'>Все</a>
+    <? foreach ($list as $item) : ?>
+        <a href="<?= $link . $item['index']; ?>">
+            <?= $item['name']; ?>
+        </a>
+    <? endforeach; ?>
 </div>

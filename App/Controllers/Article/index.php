@@ -10,7 +10,7 @@ class index extends Controller
   protected function construct()
   {
     $Category = new \App\Models\Category();
-    $this->view->categories = $Category->select();
+    $this->view->categories = $Category->select(['name', 'index']);
     $this->view->display('article/index');
   }
 
