@@ -5,7 +5,17 @@
 
     $click(e, (event) => {
       let action = e.dataset.action;
-      if (action) {
+      if (!action) return;
+
+      if (action === "dropdown") {
+        let menu = $elLastChild(e);
+        console.log(menu);
+        $hideToggle(menu);
+        $for(".y-dropdown-menu", (e) => {
+          if (e != menu) $hide(e);
+        });
+      } else {
+        event.stopPropagation();
         let id = e.dataset.id;
         let table = e.dataset.table;
         add(e, id, table, action);

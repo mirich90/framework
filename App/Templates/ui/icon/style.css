@@ -6,9 +6,10 @@
   text-align: center;
   user-select: none;
   color: var(--color-active);
+  position: relative;
 }
 
-.icon:hover {
+.material-icons:hover {
   opacity: 0.5;
 }
 a.icon:hover {

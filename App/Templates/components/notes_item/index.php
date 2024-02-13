@@ -1,9 +1,13 @@
 <?
+
+use App\Functions\FUser;
+
 $this->setCss('components/notes_item/style');
 
 $author_avatar = props($props, 'author_avatar', 'core/ava.png');
 $author_username = props($props, 'author_username');
 $author_link = props($props, 'author_link');
+$author_id = props($props, 'user_id');
 $title = props($props, 'title');
 $link = props($props, 'link');
 $id = props($props, 'id');
@@ -64,7 +68,9 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
         </div>
 
         <p>
-            <span><?= $datetime; ?> — </span>
+            <time datetime="<?= $datetime; ?>">
+                <?= $datetime; ?> —
+            </time>
             <?= $content; ?>
         </p>
 
@@ -75,7 +81,6 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'label' => $count_like,
                     'icon' => "favorite",
                     'active' => !!$is_like,
-                    'click' => '',
                     'id' => $id,
                     'table' => "notes",
                     'action' => 'like',
@@ -88,7 +93,6 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'label' => $count_bookmark,
                     'icon' => "bookmark",
                     'active' => !!$is_bookmark,
-                    'click' => '',
                     'id' => $id,
                     'table' => "notes",
                     'action' => 'bookmark',
@@ -101,16 +105,6 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                     'label' => 12,
                     'icon' => "comment",
                     'href' => "/note?id=$link#comments",
-                    'click' => '',
-                ]
-            ); ?>
-
-            <? $this->Ui(
-                'icon',
-                [
-                    'icon' => "edit",
-                    'href' => "/note?update&id=$link",
-                    'click' => '',
                 ]
             ); ?>
 
@@ -119,10 +113,12 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
                 [
                     'icon' => "menu",
                     'active' => false,
-                    'click' => '',
+                    'action' => 'dropdown',
                     'id' => 1,
-                    'table' => "notes",
-                    'action' => 'bookmark',
+                    'dropdown' => [
+                        ['action' => 'qr', 'text' => 'QR-код'],
+                        ['href' => "/note?update&id=$link", 'text' => 'Редактировать', 'is_my' => $author_id === FUser::getId()]
+                    ]
                 ]
             ); ?>
         </div>

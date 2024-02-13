@@ -1,0 +1,28 @@
+.y-dropdown-menu {
+  position: absolute;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  z-index: 1;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.y-dropdown-menu li {
+  float: left;
+  position: relative;
+  margin: 0;
+}
+.y-dropdown-menu-item {
+  text-align: left;
+  min-width: 190px;
+  cursor: pointer;
+  display: block;
+  padding: 0 20px;
+  line-height: 2rem;
+  color: var(--color-text);
+}
+.y-dropdown-menu-item:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
