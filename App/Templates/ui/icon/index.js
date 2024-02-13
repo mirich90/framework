@@ -9,7 +9,6 @@
 
       if (action === "dropdown") {
         let menu = $elLastChild(e);
-        console.log(menu);
         $hideToggle(menu);
         $for(".y-dropdown-menu", (e) => {
           if (e != menu) $hide(e);

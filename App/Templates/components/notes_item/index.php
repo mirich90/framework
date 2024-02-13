@@ -23,6 +23,7 @@ $category_link = props($props, 'category_link');
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
 
+<?= $this->Component('qr', ['link' => "/note?id=$link"]); ?>
 
 <div class="notes-item">
     <div class="notes-item-author-img">
