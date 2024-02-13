@@ -21,7 +21,7 @@ $navs = [
 ];
 
 if (FUser::getUser()) {
-    $navs[] = ['link' => 'profile', 'text' => 'Профиль'];
+    $navs[] = ['link' => 'profile?id=' . FUser::getLink(), 'text' => 'Профиль'];
     $navs[] = ['link' => 'logout?submit', 'text' => 'Выйти'];
 } else {
     $navs[] = ['link' => 'login', 'text' => 'Войти'];
