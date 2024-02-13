@@ -10,12 +10,15 @@ class show extends Controller
 {
   protected function construct()
   {
-    $this->view->note = $this->getNote();
-    $this->view->category = $this->getCategory($this->view->note);
-    $this->view->is_like = $this->getMyLike($this->view->note);
-    $this->view->count_like = $this->getCountLike($this->view->note);
-    $this->view->is_bookmark = $this->getMyBookmark($this->view->note);
-    $this->view->count_bookmark = $this->getCountBookmark($this->view->note);
+    $note = $this->getNote();
+
+    $this->view->note = $note;
+    $this->view->author = $this->getAuthor($note);
+    $this->view->category = $this->getCategory($note);
+    $this->view->is_like = $this->getMyLike($note);
+    $this->view->count_like = $this->getCountLike($note);
+    $this->view->is_bookmark = $this->getMyBookmark($note);
+    $this->view->count_bookmark = $this->getCountBookmark($note);
 
     $this->view->display('Note/show');
   }
@@ -23,10 +26,26 @@ class show extends Controller
   private function getNote()
   {
     $Note = new \App\Models\Note();
+
     return $Note->selectOne(
-      ['title', 'content', 'datetime', 'link', 'category_id', 'id'],
+      ['title', 'content', 'datetime', 'link', 'category_id', 'user_id', 'id'],
       ['link' => $_GET['id']]
     );
+  }
+
+  private function getAuthor($note)
+  {
+    $UsersInfo = new \App\Models\UsersInfo();
+    $author = $UsersInfo->selectOne(
+      ['username', 'link', 'avatar'],
+      ['user_id' => $note['user_id']]
+    );
+
+    return [
+      'author_username' => $author['username'],
+      'author_link' => $author['link'],
+      'author_avatar' => $author['avatar']
+    ];
   }
 
   private function getMyLike($note)

@@ -20,7 +20,14 @@ class index extends Controller
 
   protected function construct()
   {
-    $this->view->display('Profile/index');
+
+    // $UsersInfo = new \App\Models\UsersInfo();
+    // $this->view->note = $UsersInfo->selectOne(
+    //   ['link', 'avatar', 'city', 'username'],
+    //   ['link' => $_GET['id']]
+    // );
+
+    // $this->view->display('Profile/index');
   }
 
   protected function title()

@@ -10,12 +10,27 @@ class show extends Controller
   protected function construct()
   {
     $UsersInfo = new \App\Models\UsersInfo();
-    $this->view->note = $UsersInfo->selectOne(
-      ['*'],
+
+    $usersInfo = $UsersInfo->selectOne(
+      ['link', 'avatar', 'city', 'username', 'info', 'datetime', 'role', 'status', 'user_id'],
       ['link' => $_GET['id']]
     );
+    $user = $this->getUserSecret($usersInfo);
+
+    $this->view->user = array_merge($user, $usersInfo);
 
     $this->view->display('Profile/show');
+  }
+
+  private function getUserSecret($usersInfo)
+  {
+    $UsersSecretData = new \App\Models\UsersSecretData();
+    $usersSecretData =  $UsersSecretData->selectOne(
+      ['email', 'id'],
+      ['id' => $usersInfo['user_id']]
+    );
+
+    return $usersSecretData;
   }
 
   protected function title()

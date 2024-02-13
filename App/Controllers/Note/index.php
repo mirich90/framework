@@ -9,6 +9,7 @@ class index extends Controller
   protected function construct()
   {
     $Note = new \App\Models\Note();
+
     $this->view->notes = $Note->select();
 
     $this->view->display('Note/index');

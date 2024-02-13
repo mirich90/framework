@@ -1,9 +1,8 @@
 <?
 $this->setCss('components/notes_item/style');
 
-$author_img = props($props, 'author_img');
-$author_img_alt = props($props, 'author_img_alt');
-$author_name = props($props, 'author_name', 'username');
+$author_avatar = props($props, 'author_avatar', 'core/ava.png');
+$author_username = props($props, 'author_username');
 $author_link = props($props, 'author_link');
 $title = props($props, 'title');
 $link = props($props, 'link');
@@ -27,8 +26,8 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
             <? $this->Ui(
                 'image',
                 [
-                    'src' => $author_img,
-                    'alt' => $author_img_alt
+                    'src' => "/img/" . $author_avatar,
+                    'alt' => $author_username
                 ]
             ); ?>
         </a>
@@ -38,8 +37,8 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 
         <div class="notes-item-title">
             <div class="notes-item-author-name">
-                <a href="/author&id=<?= $author_link; ?>">
-                    <?= $author_name; ?>
+                <a href="/profile?id=<?= $author_link; ?>">
+                    <?= $author_username; ?>
                 </a>
             </div>
 

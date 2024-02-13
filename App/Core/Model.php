@@ -392,7 +392,8 @@ abstract class Model
 
         foreach ($attributes as $key => $value) {
             $is_datetime = $this->rules[$key]['type'] === 'datetime' && !$value;
-            if ('id' == $key || $is_datetime) {
+
+            if (!$filter && ('id' == $key || $is_datetime)) {
                 continue;
             }
 

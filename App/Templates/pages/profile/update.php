@@ -1,10 +1,6 @@
 <section class="ui-card posts container">
 
-    <?
-
-    use App\Functions\FUser;
-
-    $this->Ui(
+    <? $this->Ui(
         'title_description',
         [
             'text' => '<h1>Личный профиль пользователя</h1>',
@@ -21,31 +17,31 @@
 
     <? $this->Ui('alert_session'); ?>
 
-    <form action="profile?update&submit&id=<?= FUser::getLink(); ?>" method="post">
+    <form action="profile?update&submit&id=<?= $this->user['link']; ?>" method="post">
         <? $this->Ui(
             'input',
-            ['id' => 'username', 'type' => 'text', 'label' => 'Имя/ник пользователя', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => FUser::getUsername()]
+            ['id' => 'username', 'type' => 'text', 'label' => 'Имя/ник пользователя', 'placeholder' => 'Введите свое имя/ник', 'value' => $this->user['username']]
         ); ?>
 
         <? $this->Ui(
             'input',
-            ['id' => 'link', 'type' => 'text', 'label' => 'Адрес страницы', 'placeholder' => 'Введите  адрес вашей личной страницы)', 'value' => FUser::getLink()]
+            ['id' => 'link', 'type' => 'text', 'label' => 'Адрес страницы', 'placeholder' => 'Введите  адрес вашей личной страницы)', 'value' => $this->user['link']]
         ); ?>
 
         <? $this->Ui(
             'input',
-            ['id' => 'city', 'type' => 'text', 'label' => 'Место жительства', 'placeholder' => 'Введите  место жительства)', 'value' => FUser::getCity()]
+            ['id' => 'city', 'type' => 'text', 'label' => 'Место жительства', 'placeholder' => 'Введите  место жительства)', 'value' => $this->user['city']]
         ); ?>
 
         <? $this->Ui(
             'input',
-            ['id' => 'info', 'type' => 'text', 'label' => 'О себе', 'placeholder' => 'Расскажите о себе', 'value' => FUser::getInfo()]
+            ['id' => 'info', 'type' => 'text', 'label' => 'О себе', 'placeholder' => 'Расскажите о себе', 'value' => $this->user['info']]
         ); ?>
 
-        <!-- <? $this->Ui(
-                    'input',
-                    ['id' => 'email', 'type' => 'email', 'label' => 'E-mail (электронный адрес)', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => FUser::getEmail()]
-                ); ?> -->
+        <? $this->Ui(
+            'input',
+            ['id' => 'email', 'type' => 'email', 'label' => 'E-mail (электронный адрес)', 'placeholder' => 'Введите e-mail (электронный адрес)', 'value' => $this->user['email']]
+        ); ?>
 
         <!-- <? $this->Ui(
                     'input',

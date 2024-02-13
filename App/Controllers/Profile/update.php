@@ -30,36 +30,74 @@ class update extends Controller
       die;
     }
 
+    $usersInfo = $this->getUsersInfo();
+    $userSecret = $this->getUserSecret($usersInfo);
+
+    $this->view->user = array_merge($userSecret, $usersInfo);
     $this->view->display('Profile/update');
+  }
+
+  private function getUserSecret($usersInfo)
+  {
+    $UsersSecretData = new \App\Models\UsersSecretData();
+    return $UsersSecretData->selectOne(
+      ['email'],
+      ['id' => $usersInfo['user_id']]
+    );
+  }
+
+  private function getUsersInfo()
+  {
+    $UsersInfo = new \App\Models\UsersInfo();
+    return $UsersInfo->selectOne(
+      ['link',  'city', 'username', 'info', 'user_id', 'role', 'status', 'avatar', 'datetime'],
+      ['link' => $_GET['id']]
+    );
   }
 
   private function update()
   {
-    $UsersInfo = new \App\Models\UsersInfo();
-    $UsersInfo->load($_POST, true);
-    $UsersInfo->validate($_POST, true);
-
     $id = intval(FUser::getId());
-    $is_edit = $UsersInfo->edit(['username', 'link', 'info', 'city'], ['user_id', $id]);
 
-    if ($is_edit) {
-      $user_info = $UsersInfo->selectOne(
-        ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id'],
-        ['user_id' => $id]
-      );
-      $data = array_merge($user_info,  ['email' => FUser::getEmail()]);
+    $UsersInfo = new \App\Models\UsersInfo();
+    $UsersSecretData = new \App\Models\UsersSecretData();
+
+    $isEditUsersInfo = $this->updateUsersInfo($UsersInfo, $id);
+    $isUsersSecretData = $this->updateUsersSecretData($UsersSecretData, $id);
+
+    if ($isEditUsersInfo && $isUsersSecretData) {
+      $usersInfo = $this->getUsersInfo();
+      $userSecret = $this->getUserSecret($usersInfo);
+
+      $user = array_merge($userSecret, $usersInfo);
 
       $UsersInfo->createResponse([
         "status" => 200,
         'message' => "Профиль успешно отредактирован",
-        "data" => $data,
+        "data" => $user,
         'class' => 'Profile'
       ]);
 
-      $this->setUserSession($data);
+      $this->setUserSession($user);
 
-      redirect('/profile?update&id=' . $user_info['link']);
+      redirect('/profile?update&id=' . $usersInfo['link']);
     }
+  }
+
+  private function updateUsersInfo($UsersInfo, $id)
+  {
+    $UsersInfo->load($_POST, true);
+    $UsersInfo->validate($_POST, true);
+
+    return $UsersInfo->edit(['username', 'link', 'info', 'city'], ['user_id', $id]);
+  }
+
+  private function updateUsersSecretData($UsersSecretData, $id)
+  {
+    $UsersSecretData->load($_POST, true);
+    $UsersSecretData->validate($_POST, true);
+
+    return $UsersSecretData->edit(['email'], ['id', $id]);
   }
 
   protected function title()

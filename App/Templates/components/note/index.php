@@ -12,6 +12,7 @@ $this->setCss('components/note/style');
             $this->category,
             $this->is_like,
             $this->is_bookmark,
+            $this->author,
             ['is_breadcrumbs' => true]
         )
     ); ?>
