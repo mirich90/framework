@@ -8,6 +8,7 @@ $active = props($props, 'active', 'noactive', ' ');
 $id = props($props, 'id');
 $table = props($props, 'table');
 $href = props($props, 'href');
+$hidden = props($props, 'hidden', '', 'hide');
 $dropdown = props($props, 'dropdown');
 $small = props($props, 'small', '', 'small');
 
@@ -19,12 +20,12 @@ if ($action) {
 ?>
 
 <? if ($href) : ?>
-    <a href="<?= $href; ?>" class="icon action <?= $active; ?>">
+    <a href="<?= $href; ?>" class="icon action <?= $active; ?> <?= $hidden; ?>">
         <p> <?= $label; ?></p>
         <i class="material-icons <?= $small; ?>"> <?= $icon; ?> </i>
     </a>
 <? else : ?>
-    <div class="icon action <?= $active; ?>" data-id="<?= $id; ?>" data-table="<?= $table; ?>" <?= $actionDataset; ?>>
+    <div class="icon action <?= $active; ?> <?= $hidden; ?>" data-id="<?= $id; ?>" data-table="<?= $table; ?>" <?= $actionDataset; ?>>
         <? if ($action === 'dropdown') : ?>
             <i class="material-icons <?= $small; ?>"> <?= $icon; ?> </i>
             <? $this->Ui(

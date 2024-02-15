@@ -8,6 +8,9 @@
   color: var(--color-active);
   position: relative;
 }
+.icon.hide {
+  display: none;
+}
 
 a.icon:hover {
   text-decoration: none;

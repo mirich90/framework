@@ -13,7 +13,7 @@ $hidden = ($type === 'hidden') ? 'hidden' : '';
 
 <fieldset class="ui-input-fieldset" <?= $hidden; ?>>
 
-    <? if ($type !== 'search') : ?>
+    <? if ($type !== 'search' && $type !== 'checkbox') : ?>
         <label class="ui-input-label" for="<?= $id; ?>">
             <?= $label; ?>
         </label>
@@ -33,7 +33,7 @@ $hidden = ($type === 'hidden') ? 'hidden' : '';
             ); ?>
         </label>
 
-        <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-input ui-input-input-search">
+        <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input ui-input-search">
 
     <? elseif ($type === 'select') : ?>
         <select id="<?= $id; ?>" name="<?= $id; ?>" type="<?= $type; ?>" placeholder="<?= $placeholder; ?>" tabindex="0" autofocus="" class="ui-input-select">
@@ -45,8 +45,18 @@ $hidden = ($type === 'hidden') ? 'hidden' : '';
             <? endforeach ?>
         </select>
 
+    <? elseif ($type === 'checkbox') : ?>
+        <input class="ui-input-checkbox" id="<?= $id; ?>" name="<?= $id; ?>" type="<?= $type; ?>" autofocus="" value="<?= $value; ?>">
+        <label class="ui-input-checkbox-label" for="<?= $id; ?>"><?= $label; ?></label>
+
+    <? elseif ($type === 'file') : ?>
+        <p class="ui-input-file-wrapper">
+            <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" class="ui-input ui-input-file">
+            <?= $placeholder; ?>
+        </p>
+
     <? else : ?>
-        <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input-input">
+        <input autofocus="" autocomplete="off" type="<?= $type; ?>" name="<?= $id; ?>" id="<?= $id; ?>" value="<?= $value; ?>" placeholder="<?= $placeholder; ?>" class="ui-input">
     <? endif ?>
 
 </fieldset>

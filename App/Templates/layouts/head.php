@@ -18,7 +18,7 @@
     <?= $this->displayCss($this->meta->name_page); ?>
 
     <script src="/minjs/handlers.js" defer></script>
-    <script src="/minjs/lazyLoads.js" defer></script>
+    <!-- <script src="/minjs/lazyLoads.js" defer></script> -->
     <script src="/minjs/progressBar.js" defer></script>
     <!-- <script src="/minjs/preloader.js" defer></script> -->
 

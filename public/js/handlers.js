@@ -37,6 +37,12 @@ function $click(e, func) {
   }
 }
 
+function $paste(e, func) {
+  if ($inEl(e)) {
+    $inEl(e).addEventListener("paste", func);
+  }
+}
+
 function $submit(e, func) {
   if ($inEl(e)) {
     $inEl(e).addEventListener("submit", func);
