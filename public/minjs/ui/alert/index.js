@@ -1,4 +1,3 @@
-// универсальная функция - постаивть лайк, добавить в закладки
 class AlertMessage {
   constructor(message = "", status = 200) {
     this.message = message;

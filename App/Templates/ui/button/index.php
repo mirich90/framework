@@ -9,7 +9,8 @@ $transparent = props($props, 'transparent', '', 'transparent');
 $tag = props($props, 'href', 'button', 'a');
 $href =  props($props, 'href');
 $icon =  props($props, 'icon', null);
-$class = "btn $transparent $color $flat";
+$classes =  props($props, 'classes', '');
+$class = "btn $classes $transparent $color $flat";
 if ($icon) $class .= ' btn-icon';
 ?>
 

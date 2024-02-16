@@ -17,6 +17,14 @@
 
     <? $this->Ui('alert_session'); ?>
 
+    <? $this->Component(
+        'profile_edit_avatar',
+        [
+            'avatar' => $this->user['avatar'],
+            'username' => $this->user['username']
+        ]
+    ); ?>
+
     <form action="profile?update&submit&id=<?= $this->user['link']; ?>" method="post">
         <? $this->Ui(
             'input',

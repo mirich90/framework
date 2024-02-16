@@ -1,7 +1,8 @@
-<? $this->setCss('ui/card/style'); ?>
-<? $this->setCss('components/profile_card/style'); ?>
-
 <?
+$this->setCss('ui/card/style');
+$this->setCss('components/profile_card/style');
+$this->setJs('components/profile_card/index');
+
 $classes = props($props, 'classes');
 $is_my = props($props, 'is_my');
 $user = props($props, 'user');
@@ -14,9 +15,11 @@ if (!$user["avatar"]) $user["avatar"] = 'core/ava.png';
 ?>
 
 <section class="ui-card biocard <?= $classes; ?>">
+
     <div class="img_biocard">
         <img src="/img/<?= $user["avatar"]; ?>">
     </div>
+
     <div class="infos">
         <div class="name">
             <h1><?= $user["username"]; ?></h1>
