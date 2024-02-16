@@ -44,8 +44,12 @@ abstract class Model
 
     private function setValue($key, $is_update)
     {
-        if (!$is_update && isset($this->rules[$key]['function'])) {
-            $function = $this->rules[$key]['function'];
+        $rules = $this->rules[$key];
+
+        $this->parseCheckbox($key);
+
+        if (!$is_update && isset($rules['function'])) {
+            $function = $rules['function'];
             $value = (isset($function[1])) ? $this->attributes[$function[1]] : null;
 
             switch ($function[0]) {
@@ -62,6 +66,18 @@ abstract class Model
         }
 
         return $this->attributes[$key];
+    }
+
+
+    private function parseCheckbox($key)
+    {
+        if ($this->rules[$key]["type"] === "tinyint") {
+            if ($this->attributes[$key] === "on") {
+                $this->attributes[$key] = 1;
+            } else if ($this->attributes[$key] === "") {
+                $this->attributes[$key] = 0;
+            }
+        }
     }
 
     public function sendMail($email_to, $email_from, $subject, $body, $message_success, $message_error)

@@ -6,8 +6,8 @@
 }
 .file_image_preview_wrapper .icon {
   position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
+  top: 6px;
+  left: 6px;
   background: var(--color-bg);
   opacity: 0.7;
   border-radius: 1rem;

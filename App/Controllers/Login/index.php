@@ -28,7 +28,7 @@ class index extends Controller
       $UsersInfo = new \App\Models\UsersInfo();
       $user_info = $UsersInfo->selectOne(
         ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id'],
-        ['user_id' => $user_id],
+        ['user_id' => $user_id]
       );
       $user_info["email"] = $email;
 

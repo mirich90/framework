@@ -46,7 +46,7 @@ $hidden = ($type === 'hidden') ? 'hidden' : '';
         </select>
 
     <? elseif ($type === 'checkbox') : ?>
-        <input class="ui-input-checkbox" id="<?= $id; ?>" name="<?= $id; ?>" type="<?= $type; ?>" autofocus="" value="<?= $value; ?>">
+        <input class="ui-input-checkbox" id="<?= $id; ?>" name="<?= $id; ?>" type="<?= $type; ?>" autofocus="">
         <label class="ui-input-checkbox-label" for="<?= $id; ?>"><?= $label; ?></label>
 
     <? elseif ($type === 'file') : ?>

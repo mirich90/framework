@@ -34,6 +34,7 @@
 
       let h = new Headers();
       let fd = new FormData($id("form"));
+      console.log(fd);
 
       let req = new Request(`/registration?index&submit`, {
         method: "POST",
@@ -48,7 +49,7 @@
           if (commit.status === 200) {
             console.log(commit.data);
             // console.log(commit.data.accessTokenExpiration);
-            // document.location.href = "/profile";
+            document.location.href = "/profile";
           } else {
             new AlertMessage(commit.message, commit.status);
           }

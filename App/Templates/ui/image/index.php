@@ -28,5 +28,5 @@ if ($id) {
 
 <picture <?= $picture_id; ?> class="picture">
     <!-- <source class="picture-image" type="image/webp" srcset="/img/core/post_template.wepb" data-src="<?= $src; ?>"> -->
-    <img loading="lazy" <?= $image_id; ?> class="picture-image <?= $small; ?>" <?= $hidden; ?> src="/img/core/post_template.png" data-src="<?= $src; ?>" alt="<?= $alt; ?>">
+    <img loading="lazy" <?= $image_id; ?> class="picture-image <?= $small; ?>" <?= $hidden; ?> src="<?= $src; ?>" alt="<?= $alt; ?>">
 </picture>

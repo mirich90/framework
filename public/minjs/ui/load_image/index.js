@@ -50,7 +50,7 @@
     img.value = null;
     preview.setAttribute("hidden", true);
     wrapperInput.removeAttribute("hidden");
-    preview.setAttribute("src", "/img/core/post_template.png");
+    preview.setAttribute("src", "");
   }
 
   function onPasteImg(e) {

@@ -27,7 +27,6 @@ $this->setJs('ui/load_image/index');
             'image',
             [
                 'id' => 'file_image_preview',
-                'src' => '/img/core/post_template.png',
                 'alt' => 'Здесь будет картинка',
                 'small' => true,
                 'hidden' => true,
