@@ -26,13 +26,13 @@ $username = props($props, 'username');
 
     <div class="modal">
         <div class="modal-head">
-            <p class="modal-title">Ссылки на статью</p>
+            <p class="modal-title">Изменить аватар</p>
             <a class="modal-btn-close modal-trigger"></a>
         </div>
 
         <div class="modal-content">
             <? $this->Ui('alert'); ?>
-            <?= $this->Component('form_image'); ?>
+            <?= $this->Component('form_image', ['event' => 'addAvatar']); ?>
         </div>
     </div>
 </div>

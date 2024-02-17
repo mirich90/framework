@@ -19,4 +19,8 @@ class AlertMessage {
   createP() {
     $(".alert").innerHTML = `<p>${this.message}</p>`;
   }
+
+  static clear(id) {
+    $(`${id} .alert`).innerHTML = ``;
+  }
 }

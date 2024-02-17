@@ -14,8 +14,9 @@
     }
 
     try {
+      const form = $id("form_image_load");
       let h = new Headers();
-      let fd = new FormData($id("form_image_load"));
+      let fd = new FormData(form);
       fd.append("file", imageFile);
 
       let req = new Request(`/image?create&submit`, {
@@ -29,6 +30,12 @@
         .then((res) => res.json())
         .then((commit) => {
           if (commit.status === 200) {
+            const event = form.dataset.event;
+            if (event) {
+              window[event](commit.data);
+            } else {
+              new AlertMessage(commit.message, commit.status);
+            }
             const wrapperInput = $(".file_image_input_wrapper");
             const icon = $(".file_image_wrapper .icon");
             const img = $("#file_image");
@@ -39,7 +46,6 @@
             preview.setAttribute("hidden", true);
             wrapperInput.removeAttribute("hidden");
             preview.setAttribute("src", "");
-            new AlertMessage(commit.message, commit.status);
           } else {
             new AlertMessage(commit.message, commit.status);
           }
