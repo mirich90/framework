@@ -40,7 +40,7 @@ class UsersInfo extends Model
       'not_null' => true,
       'function' => ['generateCode']
     ],
-    'avatar' => ['type' => 'varchar', 'length' => 255],
+    'avatar' => ['type' => 'int', 'length' => 11],
     'city' => ['type' => 'varchar', 'length' => 200, 'lengthMin' => 2, 'not_null' => true],
     'info' => ['type' => 'varchar', 'length' => 255, 'lengthMin' => 2, 'not_null' => true],
     'link' => [
