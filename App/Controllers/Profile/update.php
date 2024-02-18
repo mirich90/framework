@@ -15,10 +15,10 @@ class update extends Controller
       die;
     }
 
-    if ($_GET['id'] !== FUser::isLink()) {
-      redirect('/not_found');
-      die;
-    }
+    // if ($_GET['id'] !== FUser::isLink()) {
+    //   redirect('/not_found');
+    //   die;
+    // }
 
     return true;
   }
@@ -32,9 +32,21 @@ class update extends Controller
 
     $usersInfo = $this->getUsersInfo();
     $userSecret = $this->getUserSecret($usersInfo);
+    $urlAvatar = $this->getUrlAvatar($usersInfo['avatar']);
+    $usersInfo['avatar_url'] = $urlAvatar['link'];
 
     $this->view->user = array_merge($userSecret, $usersInfo);
+
     $this->view->display('Profile/update');
+  }
+
+  private function getUrlAvatar($avatar_id)
+  {
+    $Image = new \App\Models\Image();
+    return  $Image->selectOne(
+      ['link'],
+      ['id' => $avatar_id]
+    );
   }
 
   private function getUserSecret($usersInfo)
@@ -46,18 +58,20 @@ class update extends Controller
     );
   }
 
-  private function getUsersInfo()
+  private function getUsersInfo($id = null)
   {
+    $user = ($id) ? ['user_id' => $id] : ['link' => $_GET['id']];
     $UsersInfo = new \App\Models\UsersInfo();
     return $UsersInfo->selectOne(
       ['link',  'city', 'username', 'info', 'user_id', 'role', 'status', 'avatar', 'datetime'],
-      ['link' => $_GET['id']]
+      $user
     );
   }
 
   private function update()
   {
     $id = intval(FUser::getId());
+    $is_api = isset($_GET['api']);
 
     $UsersInfo = new \App\Models\UsersInfo();
     $UsersSecretData = new \App\Models\UsersSecretData();
@@ -66,20 +80,22 @@ class update extends Controller
     $isUsersSecretData = $this->updateUsersSecretData($UsersSecretData, $id);
 
     if ($isEditUsersInfo && $isUsersSecretData) {
-      $usersInfo = $this->getUsersInfo();
+      $usersInfo = $this->getUsersInfo($id);
       $userSecret = $this->getUserSecret($usersInfo);
 
       $user = array_merge($userSecret, $usersInfo);
-
-      $UsersInfo->createResponse([
+      $response = $UsersInfo->createResponse([
         "status" => 200,
         'message' => "Профиль успешно отредактирован",
         "data" => $user,
         'class' => 'Profile'
       ]);
-
       $this->setUserSession($user);
 
+      if ($is_api) {
+        echo $response;
+        die;
+      }
       redirect('/profile?update&id=' . $usersInfo['link']);
     }
   }
@@ -89,7 +105,7 @@ class update extends Controller
     $UsersInfo->load($_POST, true);
     $UsersInfo->validate($_POST, true);
 
-    return $UsersInfo->edit(['username', 'link', 'info', 'city'], ['user_id', $id]);
+    return $UsersInfo->edit(['username', 'link', 'info', 'city', 'avatar'], ['user_id', $id]);
   }
 
   private function updateUsersSecretData($UsersSecretData, $id)

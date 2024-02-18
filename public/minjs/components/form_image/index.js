@@ -14,6 +14,9 @@
     }
 
     try {
+      const wrapperBtn = $("#form_image_load .input_wrapper");
+      wrapperBtn.classList.add("loading");
+
       const form = $id("form_image_load");
       let h = new Headers();
       let fd = new FormData(form);
@@ -31,8 +34,10 @@
         .then((commit) => {
           if (commit.status === 200) {
             const event = form.dataset.event;
+            const id = form.dataset.id;
+            console.log(event);
             if (event) {
-              window[event](commit.data);
+              window[event](commit.data, id);
             } else {
               new AlertMessage(commit.message, commit.status);
             }
@@ -46,6 +51,7 @@
             preview.setAttribute("hidden", true);
             wrapperInput.removeAttribute("hidden");
             preview.setAttribute("src", "");
+            wrapperBtn.classList.remove("loading");
           } else {
             new AlertMessage(commit.message, commit.status);
           }
@@ -55,9 +61,4 @@
       new AlertMessage(error, 500);
     }
   });
-
-  function decode(obj) {
-    const stringify = JSON.stringify(obj);
-    return btoa(stringify);
-  }
 })();

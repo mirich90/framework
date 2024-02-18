@@ -2,10 +2,12 @@
 $this->setJs('components/form_image/index');
 
 $event = props($props, 'event', null);
+$id = props($props, 'id', null);
 $data_event = ($event) ? "data-event='$event'" : '';
+$data_id = ($id) ? "data-id='$id'" : '';
 ?>
 
-<form id="form_image_load" action="/image?create&submit" method="post" <?= $data_event; ?>>
+<form id="form_image_load" action="/image?create&submit" method="post" <?= $data_event; ?> <?= $data_id; ?>>
     <? $this->Ui(
         'input',
         ['id' => 'title', 'text' => 'Название', 'label' => 'Название', 'placeholder' => 'Введите название картинки']

@@ -126,7 +126,9 @@ time {
   color: #434b57;
   opacity: 0.8;
 }
-
+.row {
+  display: flex;
+}
 .post-action {
   margin-top: 1rem;
 }

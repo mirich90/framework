@@ -20,12 +20,19 @@
     <? $this->Component(
         'profile_edit_avatar',
         [
-            'avatar' => $this->user['avatar'],
+            'avatar' => $this->user['avatar_url'],
+            'link' => $this->user['link'],
             'username' => $this->user['username']
         ]
     ); ?>
 
-    <form action="profile?update&submit&id=<?= $this->user['link']; ?>" method="post">
+    <form action="profile?update&submit&id=<?= $this->user['link']; ?>" id="form-profile" method="post">
+
+        <? $this->Ui(
+            'input',
+            ['id' => 'avatar', 'type' => 'hidden', 'label' => 'Аватар', 'value' => $this->user['avatar']]
+        ); ?>
+
         <? $this->Ui(
             'input',
             ['id' => 'username', 'type' => 'text', 'label' => 'Имя/ник пользователя', 'placeholder' => 'Введите свое имя/ник', 'value' => $this->user['username']]
@@ -56,7 +63,7 @@
                     ['id' => 'password', 'type' => 'password', 'text' => 'Пароль', 'label' => 'Пароль', 'placeholder' => 'Введите пароль', 'value' => 'cvbcvb']
                 ); ?> -->
 
-        <fieldset class="sign-up__input sign-up__input--horizontal">
+        <fieldset class="row">
 
             <? $this->Ui(
                 'button',

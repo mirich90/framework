@@ -28,14 +28,14 @@ class create extends Controller
       $type = $this->getTypeFile($base64);
       $link = $Image->attributes["link"];
 
-      $isLoad = true; //$this->saveImgInHost($link, $type, $base64);
+      $isLoad = $this->saveImgInHost($link, $type, $base64);
 
       if ($isLoad) {
         $Image->addAttribute("filetype", $type);
         $Image->addAttribute("src", "$link.$type");
 
         $Image->validate($_POST);
-        echo $Image->save(['link']);
+        echo $Image->save(['link', 'id']);
       }
     } catch (\Throwable $th) {
       header('HTTP/1.0 500');

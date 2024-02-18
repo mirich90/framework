@@ -8,15 +8,17 @@ $this->Component('modal');
 
 $classes = props($props, 'classes');
 $avatar = props($props, 'avatar');
+$link = props($props, 'link');
 $username = props($props, 'username');
 
+$avatar = ($avatar) ? "/img/load/webp/$avatar.webp" : env('images')['avatar'];
 ?>
 
 <div class="biocard-avatar">
     <? $this->Ui(
         'image',
         [
-            'src' => "/img/$avatar",
+            'src' => $avatar,
             'alt' => $username,
         ]
     ); ?>
@@ -32,7 +34,7 @@ $username = props($props, 'username');
 
         <div class="modal-content">
             <? $this->Ui('alert'); ?>
-            <?= $this->Component('form_image', ['event' => 'addAvatar']); ?>
+            <?= $this->Component('form_image', ['event' => 'addAvatar', 'id' =>  $link]); ?>
         </div>
     </div>
 </div>

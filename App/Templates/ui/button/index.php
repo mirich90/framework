@@ -16,7 +16,9 @@ if ($icon) $class .= ' btn-icon';
 
 <? if ($type === 'submit') : ?>
 
-    <input type="submit" class="<?= $class; ?>" value="<?= $text; ?>" />
+    <div class="input_wrapper">
+        <input type="submit" class="<?= $class; ?>" value="<?= $text; ?>" />
+    </div>
 
 <? elseif ($type === 'a' || $href !== '') : ?>
 

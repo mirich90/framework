@@ -8,9 +8,9 @@
   font-size: 1.1em;
   cursor: pointer;
   margin-right: 0.2em;
-  margin-top: 1em;
   user-select: none;
   position: relative;
+  transition: all 0.3s ease, background-color 0.01s ease, color 0.01s ease;
 }
 
 .btn-icon {
@@ -76,4 +76,35 @@ a.btn.secondary:hover {
 .btn.transparent:hover {
   color: var(--color-bg);
   background: var(--color-primary) !important;
+}
+
+.input_wrapper {
+  position: relative;
+  width: fit-content;
+}
+.input_wrapper.loading::before {
+  position: absolute;
+  content: "";
+  top: 8px;
+  left: calc(50% - 0.5em - 6px);
+  animation: rotate 1.5s linear infinite;
+  animation-delay: 0.2s;
+  border: 0.3em solid #e1e1e1 !important;
+  border-radius: 1.5em;
+  border-top-color: var(--color-primary) !important;
+  box-sizing: border-box;
+  padding: 0;
+  pointer-events: none;
+  height: calc(1em + 12px);
+  width: calc(1em + 12px);
+}
+
+.input_wrapper.loading .btn {
+  color: transparent !important;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
