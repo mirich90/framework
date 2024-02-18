@@ -22,7 +22,7 @@ class create extends Controller
     $Like->validate($_POST);
     $like = $Like->attributes;
 
-    $response = $Like->save('state', true, false);
+    $response = $Like->save(['state'], true, false);
 
     $count = $Like->getCount([
       'item_id' => $like['item_id'],

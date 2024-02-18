@@ -12,7 +12,6 @@ abstract class Model
     const CONFIRM_PASSWORD_KEY = NULL;
 
     protected $pdo;
-    public $id;
     public $attributes = [];
     public $rules = [];
 
@@ -164,52 +163,88 @@ abstract class Model
         return "*";
     }
 
-    public function save($field_name = null, $update = false, $show = true, $class_link = null)
+    private function getResponseInsert($fields)
     {
-        $value = $this->insert($field_name, $update);
-
-        if (is_null($value)) {
-            return $this->sendResponse('Ошибка! Попробуйте позже', [], 500, $show);
-        } else {
-            $name = static::NAME;
-            $class_link = ($class_link) ? $class_link : $this->getClassName();
-            $class = lcfirst($class_link);
-            $link = "«<a href='/$class?id=$value'>$value</a>»";
-            if (is_null($field_name)) {
-                $field_name = 'id';
-            }
-            return $this->sendResponse("$name $link успешно создан(а)", [$field_name => $value], 200, $show);
+        if (!$fields) {
+            return [
+                'id' => $this->getAttribute('id'),
+                'link' => $this->getAttribute('link')
+            ];
         }
+
+        return array_intersect_key($this->attributes, array_flip($fields));
     }
 
-    private function insert($field_name = null, $update = false)
+    public function save($field_name = null, $is_update = false, $show = true, $class_link = null)
+    {
+        $saved_data = $this->insert($field_name, $is_update);
+        $name = static::NAME;
+        $link = $this->getLink($class_link, $saved_data);
+        return $this->sendResponse("$name $link успешно создан(а)", $saved_data, 200, $show);
+    }
+
+    private function getLink($class_link, $saved_data)
+    {
+        $link = '';
+        $class_link = ($class_link) ? $class_link : $this->getClassName();
+        $class = lcfirst($class_link);
+
+        if (isset($saved_data['link'])) {
+            $value = $saved_data['link'];
+            $link = "«<a href='/$class?id=$value'>$value</a>»";
+        }
+        return $link;
+    }
+
+    private function insert($selected_fields = null, $is_update = false)
     {
         try {
             $table = static::TABLE;
             $this->addUser('user_id');
-            $fields = $this->parseAttributes();
-            $keys = $fields['keys'];
-            $values = $fields['values'];
-            $data = $fields['data'];
+            [
+                'keys' => $keys,
+                'values' => $values,
+                'data' => $data
+            ] = $this->parseAttributes();
 
-            $sql = "INSERT INTO $table ($keys) VALUES ($values)";
-
-            if ($update) {
-                $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
-            }
-
+            $sql = $this->getSqlInsert($table, $keys, $values, $is_update);
             $this->pdo->execute($sql, $data);
-            $this->id = $this->pdo->getLastId();
-            return ($field_name) ? $data[":$field_name"] : $this->id;
+            $id = $this->pdo->getLastId();
+            $this->checkId($id);
+            $this->setAttribute('id', $id);
+
+            return $this->getResponseInsert($selected_fields);
         } catch (\Throwable $th) {
-            if ($th->getCode() === "23000") {
-                echo $this->sendResponse("Пользователь с данным email уже существует", [], 400);
-                die;
-            } else {
-                header('HTTP/1.0 500');
-                echo $this->sendResponse($th->getMessage(), [], 500);
-                die;
-            }
+            $this->checkErrorInsert($th);
+        }
+    }
+
+    private function getSqlInsert($table, $keys, $values, $is_update)
+    {
+        $sql = "INSERT INTO $table ($keys) VALUES ($values)";
+        if ($is_update) {
+            $sql .= " ON DUPLICATE KEY UPDATE `state` = not `state`, datetime_update = CURRENT_TIMESTAMP";
+        }
+        return $sql;
+    }
+
+    private function checkErrorInsert($th)
+    {
+        if ($th->getCode() === "23000") {
+            echo $this->sendResponse("Пользователь с данным email уже существует", [], 400);
+            die;
+        } else {
+            header('HTTP/1.0 500');
+            echo $this->sendResponse($th->getMessage(), [], 500);
+            die;
+        }
+    }
+
+    private function checkId($id)
+    {
+        if (!$id) {
+            echo $this->sendResponse("Ошибка! Не удалось сохранить в базу данных", [], 400);
+            die;
         }
     }
 
@@ -376,9 +411,19 @@ abstract class Model
         return $data ? $data[0] : [];
     }
 
-    public function addAttributes($key, $value)
+    public function addAttribute($key, $value)
     {
         $this->attributes[$key] = $value;
+    }
+
+    public function setAttribute($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function getAttribute($key)
+    {
+        return $this->attributes[$key];
     }
 
     private function addUser($key)

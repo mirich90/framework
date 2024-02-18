@@ -31,7 +31,7 @@ class create extends Controller
     $Note = new \App\Models\Note();
     $Note->load($_POST);
     $Note->validate($_POST);
-    $Note->save('link');
+    $Note->save(['link']);
 
     redirect('/note?create');
   }

@@ -22,7 +22,7 @@ class create extends Controller
     $Bookmark->validate($_POST);
     $bookmark = $Bookmark->attributes;
 
-    $response = $Bookmark->save('state', true, false);
+    $response = $Bookmark->save(['state'], true, false);
 
     $count = $Bookmark->getCount([
       'item_id' => $bookmark['item_id'],
