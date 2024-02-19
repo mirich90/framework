@@ -15,9 +15,9 @@ $content = props($props, 'content');
 $datetime = props($props, 'datetime');
 $category = props($props, 'category');
 $is_like = props($props, 'is_like');
-$count_like = props($props, 'is_like');
+$count_like = props($props, 'count_like');
 $is_bookmark = props($props, 'is_bookmark');
-$count_bookmark = props($props, 'is_bookmark');
+$count_bookmark = props($props, 'count_bookmark');
 $category_link = props($props, 'category_link');
 $is_menu = props($props, 'is_menu', null);
 

@@ -69,7 +69,7 @@ class show extends Controller
       'name_table' => 'notes',
       'state' => 1,
     ]);
-
+    c($count_like);
     return ['count_like' => $count_like];
   }
 
