@@ -4,7 +4,7 @@ use App\Functions\FUser;
 
 $this->setCss('components/notes_item/style');
 
-$author_avatar = props($props, 'author_avatar', 'core/ava.png');
+$author_avatar = props($props, 'author_avatar', null);
 $author_username = props($props, 'author_username');
 $author_link = props($props, 'author_link');
 $author_id = props($props, 'user_id');
@@ -21,6 +21,7 @@ $count_bookmark = props($props, 'count_bookmark');
 $category_link = props($props, 'category_link');
 $is_menu = props($props, 'is_menu', null);
 
+$author_avatar = ($author_avatar)  ? "/img/load/webp/$author_avatar.webp" : env('images')['avatar'];
 if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 ?>
 
@@ -28,11 +29,11 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
 
 <div class="notes-item">
     <div class="notes-item-author-img">
-        <a href="/">
+        <a href="/profile?id=<?= $author_link; ?>">
             <? $this->Ui(
                 'image',
                 [
-                    'src' => "/img/" . $author_avatar,
+                    'src' => $author_avatar,
                     'alt' => $author_username
                 ]
             ); ?>

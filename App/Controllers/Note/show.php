@@ -37,14 +37,16 @@ class show extends Controller
   {
     $UsersInfo = new \App\Models\UsersInfo();
     $author = $UsersInfo->selectOne(
-      ['username', 'link', 'avatar'],
+      ['username', 'link', 'avatar', 'id'],
       ['user_id' => $note['user_id']]
     );
+    $author = $UsersInfo->addUrlAvatar($author);
 
     return [
       'author_username' => $author['username'],
       'author_link' => $author['link'],
-      'author_avatar' => $author['avatar']
+      'author_id' => $author['id'],
+      'author_avatar' => $author['avatar_url']
     ];
   }
 
@@ -69,7 +71,6 @@ class show extends Controller
       'name_table' => 'notes',
       'state' => 1,
     ]);
-    c($count_like);
     return ['count_like' => $count_like];
   }
 

@@ -51,9 +51,13 @@ $avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" :
             <li>
                 <span>О себе:</span> <?= $user["info"]; ?>
             </li>
-            <li>
-                <span>Эл.почта:</span> <?= $user["email"]; ?>
-            </li>
+
+            <? if ($is_my) : ?>
+                <li>
+                    <span>Эл.почта:</span> <?= $user["email"]; ?>
+                </li>
+            <? endif; ?>
+
             <li>
                 <span>Статус:</span> <?= $user["status"]; ?>
             </li>
