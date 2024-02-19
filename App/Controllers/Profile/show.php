@@ -11,7 +11,12 @@ class show extends profile
   {
     $usersInfo = $this->getUsersInfo();
     $userSecret = $this->getUserSecret($usersInfo);
+    $count_notes = $this->getCountNotes($usersInfo);
+    $count_images = $this->getCountImages($usersInfo);
+
     $this->view->user = array_merge($userSecret, $usersInfo);
+    $this->view->count_notes = $count_notes;
+    $this->view->count_images = $count_images;
 
     $this->view->display('Profile/show');
   }

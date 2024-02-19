@@ -5,7 +5,10 @@ $this->setJs('components/profile_card/index');
 
 $classes = props($props, 'classes');
 $is_my = props($props, 'is_my');
+$is_state = props($props, 'is_state', false);
 $user = props($props, 'user');
+$count_notes = props($props, 'count_notes', 0);
+$count_images = props($props, 'count_images', 0);
 
 if ($user["role"] == 0) $user["role"] = 'Пользователь';
 if ($user["status"] == 0) $user["status"] = 'Активный';
@@ -54,20 +57,22 @@ $avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" :
             </li>
     </div>
 
-    <ul class="stats">
-        <li>
-            <h3>15K</h3>
-            <h4>Views</h4>
-        </li>
-        <li>
-            <h3>82</h3>
-            <h4>Projects</h4>
-        </li>
-        <li>
-            <h3>1.3M</h3>
-            <h4>Followers</h4>
-        </li>
-    </ul>
+    <? if ($is_state) : ?>
+
+        <ul class="stats">
+            <li>
+                <h3><?= $count_images; ?></h3>
+                <h4>Картинок</h4>
+            </li>
+            <li>
+                <h3><?= $count_notes; ?></h3>
+                <h4>Заметок</h4>
+            </li>
+
+        </ul>
+
+    <? endif; ?>
+
     <div class="links">
         <? if ($is_my) : ?>
             <? $this->Ui(

@@ -35,6 +35,25 @@ class profile extends Controller
         return $usersInfo;
     }
 
+
+    protected function getCountImages($usersInfo)
+    {
+        $Image = new \App\Models\Image();
+        return $Image->getCount([
+            'user_id' => $usersInfo['user_id'],
+            'is_delete' => 0,
+        ]);
+    }
+
+    protected function getCountNotes($usersInfo)
+    {
+        $Note = new \App\Models\Note();
+        return $Note->getCount([
+            'user_id' => $usersInfo['user_id'],
+            'is_delete' => 0,
+        ]);
+    }
+
     protected function title()
     {
         return "Indyground";

@@ -32,8 +32,6 @@ class update extends profile
 
     $usersInfo = $this->getUsersInfo();
     $userSecret = $this->getUserSecret($usersInfo);
-    $usersInfo->getUrlAvatar();
-
     $this->view->user = array_merge($userSecret, $usersInfo);
 
     $this->view->display('Profile/update');
