@@ -3,8 +3,7 @@
 }
 
 /* Utilities */
-.biocard::after,
-.biocard img {
+.biocard::after {
   max-width: 100%;
   display: block;
   border-radius: 50%;
@@ -48,12 +47,13 @@
   right: -8rem;
 }
 
-.biocard img {
-  width: 8rem;
-  min-width: 80px;
-  box-shadow: 0 0 0 5px #fff;
+.biocard-avatar {
+  height: auto;
+  width: 150px;
+  margin: 2rem 0 1rem;
+  cursor: pointer;
+  border-radius: 17px;
 }
-
 .infos {
   margin-left: 0;
   margin-top: 1.5rem;

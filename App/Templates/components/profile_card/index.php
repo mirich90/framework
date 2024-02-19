@@ -11,13 +11,20 @@ if ($user["role"] == 0) $user["role"] = 'Пользователь';
 if ($user["status"] == 0) $user["status"] = 'Активный';
 if ($user["city"] === '') $user["city"] = '-';
 if ($user["info"] === '') $user["info"] = '-';
-if (!$user["avatar"]) $user["avatar"] = 'core/ava.png';
+if ($user["username"] === '') $user["username"] = '-';
+$avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" : env('images')['avatar'];
 ?>
 
 <section class="ui-card biocard <?= $classes; ?>">
 
-    <div class="img_biocard">
-        <img src="/img/<?= $user["avatar"]; ?>">
+    <div class="biocard-avatar">
+        <? $this->Ui(
+            'image',
+            [
+                'src' => $avatar,
+                'alt' => $user["username"],
+            ]
+        ); ?>
     </div>
 
     <div class="infos">

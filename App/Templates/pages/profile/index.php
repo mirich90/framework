@@ -1,12 +1,13 @@
 <?
 
-// use App\Functions\FUser;
+use App\Functions\FUser;
 
-// $this->Component('profile_card', [
-//     'classes' => 'container',
-//     'user' => FUser::getUser(),
-//     'is_my' => true
-// ]);
+$this->Component('profile_card', [
+    'classes' => 'container',
+    'user' => $this->user,
+    'is_my' => $this->user['id'] == FUser::getId()
+]);
+
 
 // function getIp()
 // {

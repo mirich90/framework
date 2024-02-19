@@ -6,7 +6,7 @@ use App\Core\Controller;
 use App\Db;
 use App\Functions\FUser;
 
-class index extends Controller
+class index extends profile
 {
   public function access(): bool
   {
@@ -21,13 +21,11 @@ class index extends Controller
   protected function construct()
   {
 
-    // $UsersInfo = new \App\Models\UsersInfo();
-    // $this->view->note = $UsersInfo->selectOne(
-    //   ['link', 'avatar', 'city', 'username'],
-    //   ['link' => $_GET['id']]
-    // );
+    $usersInfo = $this->getUsersInfo();
+    $userSecret = $this->getUserSecret($usersInfo);
+    $this->view->user = array_merge($userSecret, $usersInfo);
 
-    // $this->view->display('Profile/index');
+    $this->view->display('Profile/index');
   }
 
   protected function title()

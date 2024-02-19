@@ -30,6 +30,7 @@ class index extends Controller
         ['username', 'link', 'avatar', 'city', 'info', 'info', 'role', 'status', 'datetime', 'user_id'],
         ['user_id' => $user_id]
       );
+      $user_info = $UsersInfo->addUrlAvatar($user_info);
       $user_info["email"] = $email;
 
       $this->setUserSession($user_info);

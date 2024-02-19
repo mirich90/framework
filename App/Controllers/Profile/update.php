@@ -6,7 +6,7 @@ use App\Core\Controller;
 use App\Db;
 use App\Functions\FUser;
 
-class update extends Controller
+class update extends profile
 {
   public function access(): bool
   {
@@ -15,10 +15,10 @@ class update extends Controller
       die;
     }
 
-    // if ($_GET['id'] !== FUser::isLink()) {
-    //   redirect('/not_found');
-    //   die;
-    // }
+    if ($_GET['id'] !== FUser::isLink()) {
+      redirect('/not_found');
+      die;
+    }
 
     return true;
   }
@@ -32,40 +32,11 @@ class update extends Controller
 
     $usersInfo = $this->getUsersInfo();
     $userSecret = $this->getUserSecret($usersInfo);
-    $urlAvatar = $this->getUrlAvatar($usersInfo['avatar']);
-    $usersInfo['avatar_url'] = $urlAvatar['link'];
+    $usersInfo->getUrlAvatar();
 
     $this->view->user = array_merge($userSecret, $usersInfo);
 
     $this->view->display('Profile/update');
-  }
-
-  private function getUrlAvatar($avatar_id)
-  {
-    $Image = new \App\Models\Image();
-    return  $Image->selectOne(
-      ['link'],
-      ['id' => $avatar_id]
-    );
-  }
-
-  private function getUserSecret($usersInfo)
-  {
-    $UsersSecretData = new \App\Models\UsersSecretData();
-    return $UsersSecretData->selectOne(
-      ['email'],
-      ['id' => $usersInfo['user_id']]
-    );
-  }
-
-  private function getUsersInfo($id = null)
-  {
-    $user = ($id) ? ['user_id' => $id] : ['link' => $_GET['id']];
-    $UsersInfo = new \App\Models\UsersInfo();
-    return $UsersInfo->selectOne(
-      ['link',  'city', 'username', 'info', 'user_id', 'role', 'status', 'avatar', 'datetime'],
-      $user
-    );
   }
 
   private function update()

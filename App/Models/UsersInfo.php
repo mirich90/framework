@@ -56,4 +56,15 @@ class UsersInfo extends Model
     'datetime' => ['type' => 'datetime', 'not_null' => true],
     'datetime_update' => ['type' => 'datetime', 'not_null' => true],
   ];
+
+  public function addUrlAvatar($usersInfo)
+  {
+    $Image = new \App\Models\Image();
+    $image = $Image->selectOne(
+      ['link'],
+      ['id' => $usersInfo['avatar']]
+    );
+    $usersInfo['avatar_url'] = $image['link'];
+    return $usersInfo;
+  }
 }
