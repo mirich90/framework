@@ -118,3 +118,7 @@ function $error(html = "", title = "Ошибка") {
   $classAdd($("#modal-head"), "modal-error");
   $classToggle($("#modal-wrapper"), "open");
 }
+
+function $elLastChild(e) {
+  return e.lastElementChild;
+}

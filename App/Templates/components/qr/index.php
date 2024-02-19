@@ -3,7 +3,7 @@ $this->setCss('components/qr/style');
 $this->setJs('components/qr/qrcode.min');
 $this->setJs('components/qr/index');
 
-$link = $_SERVER['HTTP_REFERER'] . props($props, 'link');
+$link = env('url_site') . props($props, 'link');
 ?>
 
 <?= $this->Component('modal'); ?>

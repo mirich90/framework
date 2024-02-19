@@ -5,20 +5,28 @@ $this->setJs('components/profile_card/index');
 
 $classes = props($props, 'classes');
 $is_my = props($props, 'is_my');
+$is_edit = props($props, 'is_edit');
+$is_qr = props($props, 'is_qr');
 $is_state = props($props, 'is_state', false);
 $user = props($props, 'user');
 $count_notes = props($props, 'count_notes', 0);
 $count_images = props($props, 'count_images', 0);
+$link = $user["link"];
 
 if ($user["role"] == 0) $user["role"] = 'Пользователь';
 if ($user["status"] == 0) $user["status"] = 'Активный';
 if ($user["city"] === '') $user["city"] = '-';
 if ($user["info"] === '') $user["info"] = '-';
 if ($user["username"] === '') $user["username"] = '-';
+
 $avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" : env('images')['avatar'];
+
 ?>
 
+<? if ($is_qr) $this->Component('qr', ['link' => "profile?id=$link"]); ?>
+
 <section class="ui-card biocard <?= $classes; ?>">
+
 
     <div class="biocard-avatar">
         <? $this->Ui(
@@ -75,22 +83,34 @@ $avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" :
 
     <div class="links">
         <? if ($is_my) : ?>
-            <? $this->Ui(
-                'button',
-                [
-                    'text' => "Редактировать профиль",
-                    'href' => "/profile?update&id=" . $user["link"],
-                    'color' => 'primary',
-                    'flat' => true,
-                    'transparent' => true
-                ]
-            ); ?>
+            <? if ($is_edit) : ?>
+                <? $this->Ui(
+                    'button',
+                    [
+                        'text' => "Редактировать профиль",
+                        'href' => "/profile?update&id=" . $user["link"],
+                        'color' => 'primary',
+                        'flat' => true,
+                        'transparent' => true
+                    ]
+                ); ?>
+            <? else : ?>
+                <? $this->Ui(
+                    'button',
+                    [
+                        'text' => "Перейти к профилю",
+                        'href' => "/profile",
+                        'color' => 'primary',
+                        'flat' => true,
+                        'transparent' => true
+                    ]
+                ); ?>
+            <? endif ?>
         <? else : ?>
             <? $this->Ui(
                 'button',
                 [
                     'text' => "Подписаться",
-                    'href' => "/bookmark?create",
                     'color' => 'primary',
                     'flat' => true,
                     'transparent' => true
@@ -108,14 +128,18 @@ $avatar = ($user["avatar_url"])  ? "/img/load/webp/{$user["avatar_url"]}.webp" :
             ); ?>
         <? endif; ?>
 
-        <? $this->Ui(
-            'button',
-            [
-                'text' => "Показать qr-код",
-                'color' => 'primary',
-                'flat' => true,
-                'transparent' => true
-            ]
-        ) ?>
+
+        <? if ($is_qr) : ?>
+            <? $this->Ui(
+                'button',
+                [
+                    'text' => "Показать qr-код",
+                    'color' => 'primary',
+                    'flat' => true,
+                    'action' => 'qr',
+                    'transparent' => true
+                ]
+            ) ?>
+        <? endif; ?>
     </div>
 </section>

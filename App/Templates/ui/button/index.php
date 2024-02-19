@@ -5,6 +5,7 @@ $text = props($props, 'text');
 $type = props($props, 'type'); // button OR submit OR a
 $color = props($props, 'color');
 $flat = props($props, 'flat', '', 'flat');
+$action = props($props, 'action', null);
 $transparent = props($props, 'transparent', '', 'transparent');
 $tag = props($props, 'href', 'button', 'a');
 $href =  props($props, 'href');
@@ -12,6 +13,8 @@ $icon =  props($props, 'icon', null);
 $classes =  props($props, 'classes', '');
 $class = "btn $classes $transparent $color $flat";
 if ($icon) $class .= ' btn-icon';
+if ($action) $action = "data-action='$action'";
+
 ?>
 
 <? if ($type === 'submit') : ?>
@@ -32,7 +35,7 @@ if ($icon) $class .= ' btn-icon';
 
 <? else : ?>
 
-    <button type="button" class="<?= $class; ?>">
+    <button type="button" class="<?= $class; ?>" <?= $action; ?>>
 
         <? if ($icon) : ?>
             <i class="material-icons"> <?= $icon; ?> </i>
