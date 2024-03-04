@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Functions\FFilter;
+use App\Functions\FSort;
 use App\Functions\FUser;
 
 abstract class Model
@@ -130,16 +132,21 @@ abstract class Model
         return ($data) ? $data[0] : null;
     }
 
-    public function select($selected_fields = [], $where = [], $limit = '')
+    public function select($selected_fields = [], $where = [], $limit = '', $order = [])
     {
+        // LEFT JOIN categories ON notes.category_id = categories.id 
         $table = static::TABLE;
         $sql_fields = $this->getSelectedFields($selected_fields);
+        // $parsed_where = FFilter::parse($where);
+        // c($parsed_where);
         $attributes = $this->parseAttributes($where);
         $where = $attributes['where'];
         $data = $attributes['data'];
+        $order = FSort::parse($order);
 
-        $sql = "SELECT $sql_fields FROM $table $where $limit";
+        $sql = "SELECT $sql_fields FROM $table $where $limit $order";
 
+        // c($data);
         return $this->pdo->query(
             $sql,
             $data,
@@ -461,7 +468,7 @@ abstract class Model
             $cols[] = $key;
             $data[":$key"] = $value;
             if (count($filter)) {
-                $where[] = "$key=:$key";
+                $where[] = "`$key`=:$key";
             }
         }
 

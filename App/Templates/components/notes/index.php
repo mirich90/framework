@@ -1,6 +1,10 @@
 <?
+
+use App\Functions\FUser;
+
 $this->setCss('ui/card/style');
 $this->setCss('components/notes/style');
+
 ?>
 
 <section class="ui-card notes container">
@@ -17,7 +21,7 @@ $this->setCss('components/notes/style');
             'title',
             [
                 'text' => 'Последние заметки',
-                'link' => '/post?id=',
+                'link' => '/note?sort=updatedown',
                 'level' => 2,
             ]
         ); ?>
@@ -43,11 +47,22 @@ $this->setCss('components/notes/style');
         <? $this->Ui(
             'button',
             [
-                'text' => "По дате ↓",
+                'text' => $this->sort_name,
                 'color' => 'primary',
+                'action' => 'dropdown',
                 'flat' => true,
                 'transparent' => true,
-                'icon' => "sort"
+                'icon' => "sort",
+                'dropdown' => [
+                    ['href' => "/note?sort=updatedown", 'text' => 'По дате ↓'],
+                    ['href' => "/note?sort=updateup", 'text' => 'По дате ↑'],
+                    ['href' => "/note?sort=titledown", 'text' => 'По названию ↓'],
+                    ['href' => "/note?sort=titleup", 'text' => 'По названию ↑'],
+                    ['href' => "/note?sort=likedown", 'text' => 'По лайкам ↓'],
+                    ['href' => "/note?sort=likeup", 'text' => 'По лайкам ↑'],
+                    ['href' => "/note?sort=bookmarkdown", 'text' => 'По закладкам ↓'],
+                    ['href' => "/note?sort=bookmarkup", 'text' => 'По закладкам ↑'],
+                ]
             ]
         ); ?>
 
@@ -66,15 +81,22 @@ $this->setCss('components/notes/style');
         'tabs',
         [
             'link' => '/note?category=',
+            'active' => $this->category,
             'list' => $this->categories
         ]
     ); ?>
 
-    <? foreach ($this->notes as $note) {
-        $this->Component(
-            'notes_item',
-            array_merge($note)
-        );
-    } ?>
+    <? if (count($this->notes) === 0) : ?>
+        <h4>Заметок пока нет</h4>
+
+    <? else : ?>
+        <? foreach ($this->notes as $note) {
+            $this->Component(
+                'notes_item',
+                array_merge($note)
+            );
+        } ?>
+
+    <? endif; ?>
 
 </section>

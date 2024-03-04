@@ -4,6 +4,7 @@
     if (e.dataset.hasEvent) return;
 
     $click(e, (event) => {
+      console.log(e);
       let action = e.dataset.action;
       if (!action) return;
 

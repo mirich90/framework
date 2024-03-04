@@ -22,9 +22,9 @@
   left: 0.5rem;
   top: 0.2rem;
 }
-button.btn:hover {
+/* button.btn:hover {
   opacity: 0.8;
-}
+} */
 
 a.btn {
   color: var(--color-primary);
@@ -66,10 +66,10 @@ a.btn.secondary {
   text-decoration: none;
 }
 
-a.btn.primary:hover,
+/* a.btn.primary:hover,
 a.btn.secondary:hover {
   opacity: 0.8;
-}
+} */
 .btn.transparent {
   background: transparent !important;
 }

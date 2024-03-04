@@ -30,6 +30,10 @@ function $hideToggle(e) {
   let display = e.style.display;
   e.style.display = display === "none" || display === "" ? "block" : "none";
 }
+function $hide(e) {
+  e = $inEl(e);
+  e.style.display = "none";
+}
 
 function $click(e, func) {
   if ($inEl(e)) {

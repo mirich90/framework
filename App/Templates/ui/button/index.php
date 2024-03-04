@@ -1,4 +1,7 @@
-<? $this->setCss('ui/button/style'); ?>
+<?
+$this->setCss('ui/button/style');
+$this->setJs('ui/button/index');
+?>
 
 <?
 $text = props($props, 'text');
@@ -10,6 +13,7 @@ $transparent = props($props, 'transparent', '', 'transparent');
 $tag = props($props, 'href', 'button', 'a');
 $href =  props($props, 'href');
 $icon =  props($props, 'icon', null);
+$dropdown = props($props, 'dropdown');
 $classes =  props($props, 'classes', '');
 $class = "btn $classes $transparent $color $flat";
 if ($icon) $class .= ' btn-icon';
@@ -42,6 +46,13 @@ if ($action) $action = "data-action='$action'";
         <? endif ?>
 
         <?= $text; ?>
+
+        <? if ($dropdown) : ?>
+            <? $this->Ui(
+                'dropdown',
+                ['dropdown' => $dropdown]
+            ); ?>
+        <? endif ?>
     </button>
 
 <? endif ?>
