@@ -1,11 +1,11 @@
 <?
 
+use App\Functions\FSort;
 use App\Functions\FUser;
 
 $this->setCss('ui/card/style');
 $this->setCss('components/notes/style');
 
-$url = $_SERVER['REQUEST_URI'];
 
 ?>
 
@@ -56,14 +56,14 @@ $url = $_SERVER['REQUEST_URI'];
                 'transparent' => true,
                 'icon' => "sort",
                 'dropdown' => [
-                    ['href' => "$url&sort=updatedown", 'text' => 'По дате ↓'],
-                    ['href' => "$url&sort=updateup", 'text' => 'По дате ↑'],
-                    ['href' => "$url&sort=titledown", 'text' => 'По названию ↓'],
-                    ['href' => "$url&sort=titleup", 'text' => 'По названию ↑'],
-                    ['href' => "$url&sort=likedown", 'text' => 'По лайкам ↓'],
-                    ['href' => "$url&sort=likeup", 'text' => 'По лайкам ↑'],
-                    ['href' => "$url&sort=bookmarkdown", 'text' => 'По закладкам ↓'],
-                    ['href' => "$url&sort=bookmarkup", 'text' => 'По закладкам ↑'],
+                    ['href' => FSort::getSort("updatedown"), 'text' => 'По дате ↓'],
+                    ['href' => FSort::getSort("updateup"), 'text' => 'По дате ↑'],
+                    ['href' => FSort::getSort("titledown"), 'text' => 'По названию ↓'],
+                    ['href' => FSort::getSort("titleup"), 'text' => 'По названию ↑'],
+                    ['href' => FSort::getSort("likedown"), 'text' => 'По лайкам ↓'],
+                    ['href' => FSort::getSort("likeup"), 'text' => 'По лайкам ↑'],
+                    ['href' => FSort::getSort("bookmarkdown"), 'text' => 'По закладкам ↓'],
+                    ['href' => FSort::getSort("bookmarkup"), 'text' => 'По закладкам ↑'],
                 ]
             ]
         ); ?>

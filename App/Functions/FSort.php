@@ -17,6 +17,19 @@ class FSort
         'likeup' => 'count_likes ASC',
     ];
 
+    static public function getSort($sort)
+    {
+        $url = $_SERVER['REQUEST_URI'];
+
+        if (isset($_GET['sort'])) {
+            $get = $_GET['sort'];
+            $url = str_replace("sort=$get", "sort=$sort", $url);
+            return $url;
+        }
+        $symbol = (count($_GET) > 0) ? '&' : '?';
+        return $url . $symbol . "sort=$sort";
+    }
+
     static public function parse($fields)
     {
         if (count($fields) === 0 || !isset($fields['sort'])) {
