@@ -15,11 +15,10 @@ class show extends Controller
     $this->view->note = $note;
     $this->view->author = $this->getAuthor($note);
     $this->view->category = $this->getCategory($note);
-    $this->view->is_like = $this->getMyLike($note);
-    $this->view->count_like = $this->getCountLike($note);
-    $this->view->is_bookmark = $this->getMyBookmark($note);
-    $this->view->count_bookmark = $this->getCountBookmark($note);
-
+    $this->view->is_likes = $this->getMyLike($note);
+    $this->view->count_likes = $this->getCountLike($note);
+    $this->view->is_bookmarks = $this->getMyBookmark($note);
+    $this->view->count_bookmarks = $this->getCountBookmark($note);
     $this->view->display('Note/show');
   }
 
@@ -60,7 +59,7 @@ class show extends Controller
       'state' => 1,
       'user_id' => FUser::getId()
     ]);
-    return ['is_like' => $is_like];
+    return ['is_likes' => $is_like];
   }
 
   private function getCountLike($note)
@@ -71,7 +70,7 @@ class show extends Controller
       'name_table' => 'notes',
       'state' => 1,
     ]);
-    return ['count_like' => $count_like];
+    return ['count_likes' => $count_like];
   }
 
   private function getCountBookmark($note)
@@ -83,7 +82,7 @@ class show extends Controller
       'state' => 1,
     ]);
 
-    return ['count_bookmark' => $count_bookmark];
+    return ['count_bookmarks' => $count_bookmark];
   }
 
   private function getMyBookmark($note)
@@ -96,14 +95,14 @@ class show extends Controller
       'state' => 1,
       'user_id' => FUser::getId()
     ]);
-    return ['is_bookmark' => $is_bookmark];
+    return ['is_bookmarks' => $is_bookmark];
   }
 
   private function getCategory($note)
   {
     $Category = new \App\Models\Category();
-    $category = $Category->selectOne(['index', 'name'], ['id' => $note['category_id']]);
-    return ['category' => $category['name'], 'category_link' => $category['index']];
+    $category = $Category->selectOne(['link', 'name'], ['id' => $note['category_id']]);
+    return ['category' => $category['name'], 'category_link' => $category['link']];
   }
 
   protected function title()

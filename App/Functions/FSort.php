@@ -11,6 +11,10 @@ class FSort
         'dateup' => 'datetime ASC',
         'titledown' => 'title DESC',
         'titleup' => 'title ASC',
+        'bookmarkdown' => 'count_bookmarks DESC',
+        'bookmarkup' => 'count_bookmarks ASC',
+        'likedown' => 'count_likes DESC',
+        'likeup' => 'count_likes ASC',
     ];
 
     static public function parse($fields)

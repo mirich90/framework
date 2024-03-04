@@ -5,6 +5,8 @@ use App\Functions\FUser;
 $this->setCss('ui/card/style');
 $this->setCss('components/notes/style');
 
+$url = $_SERVER['REQUEST_URI'];
+
 ?>
 
 <section class="ui-card notes container">
@@ -54,14 +56,14 @@ $this->setCss('components/notes/style');
                 'transparent' => true,
                 'icon' => "sort",
                 'dropdown' => [
-                    ['href' => "/note?sort=updatedown", 'text' => 'По дате ↓'],
-                    ['href' => "/note?sort=updateup", 'text' => 'По дате ↑'],
-                    ['href' => "/note?sort=titledown", 'text' => 'По названию ↓'],
-                    ['href' => "/note?sort=titleup", 'text' => 'По названию ↑'],
-                    ['href' => "/note?sort=likedown", 'text' => 'По лайкам ↓'],
-                    ['href' => "/note?sort=likeup", 'text' => 'По лайкам ↑'],
-                    ['href' => "/note?sort=bookmarkdown", 'text' => 'По закладкам ↓'],
-                    ['href' => "/note?sort=bookmarkup", 'text' => 'По закладкам ↑'],
+                    ['href' => "$url&sort=updatedown", 'text' => 'По дате ↓'],
+                    ['href' => "$url&sort=updateup", 'text' => 'По дате ↑'],
+                    ['href' => "$url&sort=titledown", 'text' => 'По названию ↓'],
+                    ['href' => "$url&sort=titleup", 'text' => 'По названию ↑'],
+                    ['href' => "$url&sort=likedown", 'text' => 'По лайкам ↓'],
+                    ['href' => "$url&sort=likeup", 'text' => 'По лайкам ↑'],
+                    ['href' => "$url&sort=bookmarkdown", 'text' => 'По закладкам ↓'],
+                    ['href' => "$url&sort=bookmarkup", 'text' => 'По закладкам ↑'],
                 ]
             ]
         ); ?>

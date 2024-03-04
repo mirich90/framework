@@ -12,12 +12,14 @@ class index extends Controller
     $Category = new \App\Models\Category();
     $category_link = (isset($_GET['category'])) ? $_GET['category'] : null;
     $category = $this->getCategoryId($Category, $category_link);
+    $join = [['likes', 'item_id'], ['bookmarks', 'item_id']];
+    $counts = [["likes", "user_id"], ["bookmarks", "user_id"]];
+    $myStates = [["likes", "item_id"], ["bookmarks", "item_id"]];
 
     $this->view->category = $category_link;
     $this->view->categories = $Category->select();
-    $this->view->notes = $Note->select([], $category, '', $_GET);
+    $this->view->notes = $Note->select([], $category, '', $_GET, $join, $counts, $myStates);
     $this->view->sort_name = $this->getSortName();
-
     $this->view->display('Note/index');
   }
 

@@ -132,21 +132,27 @@ abstract class Model
         return ($data) ? $data[0] : null;
     }
 
-    public function select($selected_fields = [], $where = [], $limit = '', $order = [])
+    public function select($selected_fields = [], $where = [], $limit = '', $order = [], $join_list = [], $count_list = [], $myStates = [])
     {
         // LEFT JOIN categories ON notes.category_id = categories.id 
+        // SELECT notes.*, COUNT(DISTINCT likes.user_id) AS 'sum_likes' FROM notes  LEFT JOIN likes ON notes.id = likes.item_id AND likes.state=1  AND likes.name_table = 'notes' GROUP BY notes.id 
+        //, COUNT(DISTINCT likes.user_id) AS 'sum_likes'
         $table = static::TABLE;
         $sql_fields = $this->getSelectedFields($selected_fields);
         // $parsed_where = FFilter::parse($where);
         // c($parsed_where);
         $attributes = $this->parseAttributes($where);
+        $join = $this->parseJoin($join_list);
+        $myStates = $this->parseMyState($myStates);
+        $counts = $this->parseCounts($count_list);
         $where = $attributes['where'];
         $data = $attributes['data'];
         $order = FSort::parse($order);
+        $group_by = (count($join_list) > 0) ? "GROUP BY $table.id" : '';
 
-        $sql = "SELECT $sql_fields FROM $table $where $limit $order";
+        $sql = "SELECT $sql_fields $counts $myStates FROM $table $join $where $limit $group_by $order";
 
-        // c($data);
+        // c($sql);
         return $this->pdo->query(
             $sql,
             $data,
@@ -167,7 +173,55 @@ abstract class Model
             $join = implode('`, `', $selected_fields);
             return '`' . $join . '`';
         }
-        return "*";
+        $table = $this::TABLE;
+        return "$table.*";
+    }
+
+    // $join = ['likes', 'item_id']
+    public function parseJoin($joins)
+    {
+        $str_join = '';
+        if (count($joins) > 0) {
+            foreach ($joins as $key => &$value) {
+                $table = $this::TABLE;
+                $table_join = $value[0];
+                $field = $value[1];
+                $str_join .= " LEFT JOIN $table_join ON $table.id = $table_join.$field AND $table_join.name_table = '$table' AND $table_join.state=1 ";
+            }
+            unset($value);
+        }
+        return $str_join;
+    }
+
+    public function parseMyState($myStates)
+    {
+        $str_join = '';
+        $user = FUser::getId();
+
+        if (count($myStates) > 0) {
+            foreach ($myStates as $key => &$value) {
+                $table = $this::TABLE;
+                $table_join = $value[0];
+                $field = $value[1];
+                $str_join .= ", (SELECT $table_join.state FROM $table_join WHERE $table.id = $table_join.$field AND $table_join.user_id=$user AND $table_join.name_table = '$table') AS 'is_$table_join' ";
+            }
+            unset($value);
+        }
+        return $str_join;
+    }
+
+    public function parseCounts($counts)
+    {
+        $str_join = '';
+        if (count($counts) > 0) {
+            foreach ($counts as $key => &$value) {
+                $table_join = $value[0];
+                $field = $value[1];
+                $str_join .= ", COUNT(DISTINCT $table_join.$field) AS 'count_$table_join' ";
+            }
+            unset($value);
+        }
+        return $str_join;
     }
 
     private function getResponseInsert($fields)

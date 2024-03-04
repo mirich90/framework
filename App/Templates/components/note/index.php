@@ -10,10 +10,10 @@ $this->setCss('components/note/style');
         array_merge(
             $this->note,
             $this->category,
-            $this->count_like,
-            $this->count_bookmark,
-            $this->is_like,
-            $this->is_bookmark,
+            $this->count_likes,
+            $this->count_bookmarks,
+            $this->is_likes,
+            $this->is_bookmarks,
             $this->author,
             ['is_breadcrumbs' => true],
             ['is_menu' => true]

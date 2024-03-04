@@ -14,10 +14,10 @@ $id = props($props, 'id');
 $content = props($props, 'content');
 $datetime = props($props, 'datetime');
 $category = props($props, 'category');
-$is_like = props($props, 'is_like');
-$count_like = props($props, 'count_like');
-$is_bookmark = props($props, 'is_bookmark');
-$count_bookmark = props($props, 'count_bookmark');
+$is_likes = props($props, 'is_likes');
+$count_likes = props($props, 'count_likes');
+$is_bookmarks = props($props, 'is_bookmarks');
+$count_bookmarks = props($props, 'count_bookmarks');
 $category_link = props($props, 'category_link');
 $is_menu = props($props, 'is_menu', null);
 
@@ -81,9 +81,9 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
             <? $this->Ui(
                 'icon',
                 [
-                    'label' => $count_like,
+                    'label' => $count_likes,
                     'icon' => "favorite",
-                    'active' => !!$is_like,
+                    'active' => !!$is_likes,
                     'id' => $id,
                     'table' => "notes",
                     'action' => 'like',
@@ -93,9 +93,9 @@ if (!isset($props['is_breadcrumbs'])) $props['is_breadcrumbs'] = false;
             <? $this->Ui(
                 'icon',
                 [
-                    'label' => $count_bookmark,
+                    'label' => $count_bookmarks,
                     'icon' => "bookmark",
-                    'active' => !!$is_bookmark,
+                    'active' => !!$is_bookmarks,
                     'id' => $id,
                     'table' => "notes",
                     'action' => 'bookmark',
