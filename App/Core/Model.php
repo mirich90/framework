@@ -154,7 +154,7 @@ abstract class Model
 
         $sql = "SELECT $sql_fields $fields_join $counts $myStates FROM $table $join $where $limit $group_by $order";
 
-        // c($sql);
+        c($sql);
         return $this->pdo->query(
             $sql,
             $data,
@@ -185,7 +185,7 @@ abstract class Model
         $str_join = '';
         if (count($joins) > 0) {
             foreach ($joins as $key => &$value) {
-                $table = $this::TABLE;
+                $table = $value[5] ?? $this::TABLE;
                 $table_join = $value[0];
                 $field = $value[1];
                 $is_user_id = (isset($value[4]) && $value[4]) ? $value[4] : 'id';
@@ -223,14 +223,23 @@ abstract class Model
             foreach ($fields_join as $key => &$value) {
                 $table_join = $value[0];
                 foreach ($value[1] as $key => &$value_field) {
-                    $name_field = $table_join . '_' . $value_field;
-                    $str_join .= ", $table_join.$value_field AS '$name_field' ";
+                    $str_join .= $this->parseNameFieldsJoin($table_join, $value_field);
                 }
                 unset($value_field);
             }
             unset($value);
         }
         return $str_join;
+    }
+
+    private function parseNameFieldsJoin($table_join, $value_field)
+    {
+        if (strpos($value_field, ':')) {
+            [$value_field, $name_field] = explode(':', $value_field);
+        } else {
+            $name_field = $table_join . '_' . $value_field;
+        }
+        return  ", $table_join.$value_field AS '$name_field' ";
     }
 
     public function parseCounts($counts)
