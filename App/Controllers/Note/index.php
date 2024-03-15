@@ -14,15 +14,17 @@ class index extends Controller
     $category = $this->getCategoryId($Category, $category_link);
     $join = [
       ['likes', 'item_id', 'state', 'name_table '],
-      ['bookmarks', 'item_id', 'state', 'name_table '],
-      ['info_users', 'user_id', null, null, 'user_id']
+      ['bookmarks', 'item_id', 'state', 'name_table'],
+      ['info_users', 'user_id', null, null, 'user_id'],
+      ['images', 'id',  null, null, 'avatar', 'info_users'],
     ];
     $counts = [
       ["likes", "user_id"],
       ["bookmarks", "user_id"]
     ];
     $fields_join = [
-      ["info_users", ["link", "avatar", "username"]]
+      ["info_users", ["link", "avatar", "username"]],
+      ["images", ["link:info_users_avatar"]],
     ];
     $myStates = [["likes", "item_id"], ["bookmarks", "item_id"]];
 
@@ -31,12 +33,12 @@ class index extends Controller
     foreach ($categories as ['id' => $id, 'name' => $name]) {
       $categories_filter[] = [$id, $name];
     }
-
+    $notes = $Note->select([], $category, '', $_GET, $join, $counts, $myStates, $fields_join);
 
     $this->view->category = $category_link;
     $this->view->categories = $categories;
     $this->view->categories_filter = $categories_filter;
-    $this->view->notes = $Note->select([], $category, '', $_GET, $join, $counts, $myStates, $fields_join);
+    $this->view->notes = $notes;
     $this->view->sort_name = $this->getSortName();
     $this->view->display('Note/index');
   }
