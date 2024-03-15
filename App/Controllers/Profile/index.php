@@ -2,19 +2,13 @@
 
 namespace App\Controllers\Profile;
 
-use App\Core\Controller;
-use App\Db;
-use App\Functions\FUser;
+use App\Functions\FAuth;
 
 class index extends profile
 {
   public function access(): bool
   {
-    if (!FUser::isLogin()) {
-      redirect('/login');
-      die;
-    }
-
+    FAuth::isLogin();
     return true;
   }
 

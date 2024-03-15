@@ -4,6 +4,7 @@ namespace App\Controllers\Registration;
 
 use App\Core\Controller;
 use App\Functions\FJWT;
+use App\Functions\FResponse;
 use App\Models\UsersInfo;
 
 class index extends Controller
@@ -33,7 +34,7 @@ class index extends Controller
 
     $this->setUserSession($responseInfo["data"]);
 
-    echo $UsersSecretData->createResponse($responseInfo, getControllerName());
+    echo FResponse::create($responseInfo, getControllerName());
   }
 
   private function createUsersSecretData($UsersSecretData)

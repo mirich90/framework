@@ -28,7 +28,7 @@
             ['id' => 'password', 'type' => 'password', 'text' => 'Пароль', 'label' => 'Пароль', 'placeholder' => 'Введите пароль', 'value' => 'cvbcvb']
         ); ?>
 
-        <fieldset class="sign-up__input sign-up__input--horizontal">
+        <fieldset class="row">
 
             <? $this->Ui(
                 'button',

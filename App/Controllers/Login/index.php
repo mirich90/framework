@@ -34,11 +34,11 @@ class index extends Controller
       $user_info["email"] = $email;
 
       $this->setUserSession($user_info);
-      $UsersSecretData->sendResponse('Вы успешно авторизованы', $user_info);
+      $UsersSecretData->sendResponse('Вы успешно авторизованы', $user_info, null, true, 'Login');
+      redirect('/profile');
     } else {
-      $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], 400);
+      $UsersSecretData->sendResponse('Логин или пароль введены неверно', [], 400, true, 'Login');
     }
-    redirect('/profile');
   }
 
   protected function title()

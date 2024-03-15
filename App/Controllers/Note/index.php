@@ -12,13 +12,31 @@ class index extends Controller
     $Category = new \App\Models\Category();
     $category_link = (isset($_GET['category'])) ? $_GET['category'] : null;
     $category = $this->getCategoryId($Category, $category_link);
-    $join = [['likes', 'item_id'], ['bookmarks', 'item_id']];
-    $counts = [["likes", "user_id"], ["bookmarks", "user_id"]];
+    $join = [
+      ['likes', 'item_id', 'state', 'name_table '],
+      ['bookmarks', 'item_id', 'state', 'name_table '],
+      ['info_users', 'user_id', null, null, 'user_id']
+    ];
+    $counts = [
+      ["likes", "user_id"],
+      ["bookmarks", "user_id"]
+    ];
+    $fields_join = [
+      ["info_users", ["link", "avatar", "username"]]
+    ];
     $myStates = [["likes", "item_id"], ["bookmarks", "item_id"]];
 
+    $categories = $Category->select(['id', 'name', 'link']);
+    $categories_filter = [];
+    foreach ($categories as ['id' => $id, 'name' => $name]) {
+      $categories_filter[] = [$id, $name];
+    }
+
+
     $this->view->category = $category_link;
-    $this->view->categories = $Category->select();
-    $this->view->notes = $Note->select([], $category, '', $_GET, $join, $counts, $myStates);
+    $this->view->categories = $categories;
+    $this->view->categories_filter = $categories_filter;
+    $this->view->notes = $Note->select([], $category, '', $_GET, $join, $counts, $myStates, $fields_join);
     $this->view->sort_name = $this->getSortName();
     $this->view->display('Note/index');
   }

@@ -4,6 +4,7 @@ namespace App\Controllers\Profile;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FResponse;
 use App\Functions\FUser;
 
 class update extends profile
@@ -53,7 +54,7 @@ class update extends profile
       $userSecret = $this->getUserSecret($usersInfo);
 
       $user = array_merge($userSecret, $usersInfo);
-      $response = $UsersInfo->createResponse([
+      $response = FResponse::create([
         "status" => 200,
         'message' => "Профиль успешно отредактирован",
         "data" => $user,

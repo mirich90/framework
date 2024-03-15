@@ -48,7 +48,7 @@
       .then((commit) => {
         // console.log(commit);
         // console.log("commit:", commit);
-        if (commit.user == 0) {
+        if (commit.status === 401) {
           document.location.href = "/login";
         } else {
           if (action == "raitings") {

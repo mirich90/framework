@@ -4,10 +4,18 @@ namespace App\Controllers\Like;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FAuth;
+use App\Functions\FResponse;
 use App\Functions\FUser;
 
 class create extends Controller
 {
+  public function access(): bool
+  {
+    FAuth::isLoginApi();
+    return true;
+  }
+
   protected function construct()
   {
     if ($this->check_response(['submit'])) {
@@ -40,7 +48,7 @@ class create extends Controller
     $response["data"]['count'] =  $count;
     $response["data"]['state'] =  $isMyLike;
 
-    echo $Like->createResponse($response);
+    echo FResponse::create($response);
   }
 
   protected function title()

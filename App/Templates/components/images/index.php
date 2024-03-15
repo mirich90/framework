@@ -220,7 +220,7 @@ $this->setCss('ui/card/style');
 
     </section>
 
-    <div>
+    <div class="row">
         <? $this->Ui(
             'button',
             [

@@ -28,7 +28,7 @@ $this->setJs('components/form_registration/index');
         ['id' => 'fp_2', 'type' => 'hidden']
     ); ?>
 
-    <fieldset class="sign-up__input sign-up__input--horizontal">
+    <fieldset class="row">
 
         <? $this->Ui(
             'button',

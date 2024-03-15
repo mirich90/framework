@@ -4,6 +4,7 @@ namespace App\Controllers\Note;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FResponse;
 
 class update extends Controller
 {
@@ -42,7 +43,7 @@ class update extends Controller
     if ($is_edit) {
       $title = $_POST['title'];
       $link = "«<a href='/note?id=$id'>$title</a>»";
-      $Note->createResponse([
+      FResponse::create([
         "status" => 200,
         'message' => "Заметка $link успешно отредактирована",
         "data" => [],

@@ -34,7 +34,7 @@
             ['id' => 'content', 'type' => 'textarea', 'text' => 'Название', 'label' => 'Текст', 'placeholder' => 'Введите текст заметки', 'value' => $this->note['content']]
         ); ?>
 
-        <fieldset class="sign-up__input sign-up__input--horizontal">
+        <fieldset class="row">
 
             <? $this->Ui(
                 'button',

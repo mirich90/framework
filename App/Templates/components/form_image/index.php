@@ -26,7 +26,7 @@ $data_id = ($id) ? "data-id='$id'" : '';
         ['id' => 'is_public', 'type' => 'checkbox', 'label' => 'Опубликовать (картинка будет отображаться в новостях)']
     ); ?>
 
-    <fieldset class="sign-up__input sign-up__input--horizontal">
+    <fieldset class="row">
 
         <? $this->Ui(
             'button',

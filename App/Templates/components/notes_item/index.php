@@ -4,9 +4,9 @@ use App\Functions\FUser;
 
 $this->setCss('components/notes_item/style');
 
-$author_avatar = props($props, 'author_avatar', null);
-$author_username = props($props, 'author_username');
-$author_link = props($props, 'author_link');
+$author_avatar = props($props, 'info_users_avatar', null);
+$author_username = props($props, 'info_users_username');
+$author_link = props($props, 'info_users_link');
 $author_id = props($props, 'user_id');
 $title = props($props, 'title');
 $link = props($props, 'link');

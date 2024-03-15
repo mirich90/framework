@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Functions\FFilter;
+use App\Functions\FResponse;
 use App\Functions\FSort;
 use App\Functions\FUser;
 
@@ -132,7 +133,7 @@ abstract class Model
         return ($data) ? $data[0] : null;
     }
 
-    public function select($selected_fields = [], $where = [], $limit = '', $order = [], $join_list = [], $count_list = [], $myStates = [])
+    public function select($selected_fields = [], $where = [], $limit = '', $order = [], $join_list = [], $count_list = [], $myStates = [], $fields_join = [])
     {
         // LEFT JOIN categories ON notes.category_id = categories.id 
         // SELECT notes.*, COUNT(DISTINCT likes.user_id) AS 'sum_likes' FROM notes  LEFT JOIN likes ON notes.id = likes.item_id AND likes.state=1  AND likes.name_table = 'notes' GROUP BY notes.id 
@@ -144,13 +145,14 @@ abstract class Model
         $attributes = $this->parseAttributes($where);
         $join = $this->parseJoin($join_list);
         $myStates = $this->parseMyState($myStates);
+        $fields_join = $this->parseFieldsJoin($fields_join);
         $counts = $this->parseCounts($count_list);
         $where = $attributes['where'];
         $data = $attributes['data'];
         $order = FSort::parse($order);
         $group_by = (count($join_list) > 0) ? "GROUP BY $table.id" : '';
 
-        $sql = "SELECT $sql_fields $counts $myStates FROM $table $join $where $limit $group_by $order";
+        $sql = "SELECT $sql_fields $fields_join $counts $myStates FROM $table $join $where $limit $group_by $order";
 
         // c($sql);
         return $this->pdo->query(
@@ -186,7 +188,10 @@ abstract class Model
                 $table = $this::TABLE;
                 $table_join = $value[0];
                 $field = $value[1];
-                $str_join .= " LEFT JOIN $table_join ON $table.id = $table_join.$field AND $table_join.name_table = '$table' AND $table_join.state=1 ";
+                $is_user_id = (isset($value[4]) && $value[4]) ? $value[4] : 'id';
+                $state = (isset($value[2]) && $value[2]) ? "AND $table_join.state=1" : '';
+                $name_table  = (isset($value[3]) && $value[3]) ? "AND $table_join.name_table = '$table'" : '';
+                $str_join .= " LEFT JOIN $table_join ON $table.$is_user_id = $table_join.$field $name_table $state ";
             }
             unset($value);
         }
@@ -204,6 +209,24 @@ abstract class Model
                 $table_join = $value[0];
                 $field = $value[1];
                 $str_join .= ", (SELECT $table_join.state FROM $table_join WHERE $table.id = $table_join.$field AND $table_join.user_id=$user AND $table_join.name_table = '$table') AS 'is_$table_join' ";
+            }
+            unset($value);
+        }
+        return $str_join;
+    }
+
+    public function parseFieldsJoin($fields_join)
+    {
+        $str_join = '';
+
+        if (count($fields_join) > 0) {
+            foreach ($fields_join as $key => &$value) {
+                $table_join = $value[0];
+                foreach ($value[1] as $key => &$value_field) {
+                    $name_field = $table_join . '_' . $value_field;
+                    $str_join .= ", $table_join.$value_field AS '$name_field' ";
+                }
+                unset($value_field);
             }
             unset($value);
         }
@@ -390,7 +413,7 @@ abstract class Model
         }
     }
 
-    public function sendResponse($message, $data = [], $status = 200, $show = true)
+    public function sendResponse($message, $data = [], $status = 200, $show = true, $class = null)
     {
         if (!is_array($data)) {
             $data = array("data" => $data);
@@ -400,41 +423,31 @@ abstract class Model
             "status" => $status,
             'message' => $message,
             "data" => $data,
-            'class' => $this->getClassName()
+            'class' => $class ?? $this->getClassName()
         ];
 
         if ($show) {
-            return $this->createResponse($response);
+            return FResponse::create($response);
         }
-
         return $response;
     }
 
-    public function createResponse($response, $class = null)
-    {
-        if ($class) {
-            $response["class"] = $class;
-        }
-        $json = JSON($response);
-        $_SESSION['request'] = $json;
-        return $json;
-    }
 
     private function validatePassword($data, $is_validate_password)
     {
-        if (!isset($data['password'])) return;
+        if (!isset($data['password'])) {
+            return;
+        }
 
         if ($is_validate_password) {
             $confirm_password_key = $this::CONFIRM_PASSWORD_KEY;
 
             if (empty($_POST[$confirm_password_key])) {
-                $this->sendResponse("Введите пароль два раза", [], 500);
-                redirect();
+                echo $this->sendResponse("Введите пароль два раза", [], 500);
                 die;
             }
             if ($data['password'] !== $_POST[$confirm_password_key]) {
-                $this->sendResponse("Пароли должны совпадать", [], 500);
-                redirect();
+                echo $this->sendResponse("Пароли должны совпадать", [], 500);
                 die;
             }
         }
@@ -445,8 +458,7 @@ abstract class Model
         if (!isset($data['email'])) return;
 
         if (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $data['email'])) {
-            $this->sendResponse("Пожалуйста, введите корректный email", [], true);
-            redirect();
+            echo $this->sendResponse("Пожалуйста, введите корректный email", [], true);
             die;
         }
     }

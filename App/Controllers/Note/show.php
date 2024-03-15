@@ -42,10 +42,10 @@ class show extends Controller
     $author = $UsersInfo->addUrlAvatar($author);
 
     return [
-      'author_username' => $author['username'],
-      'author_link' => $author['link'],
-      'author_id' => $author['id'],
-      'author_avatar' => $author['avatar_url']
+      'info_users_username' => $author['username'],
+      'info_users_link' => $author['link'],
+      'info_users_id' => $author['id'],
+      'info_users_avatar' => $author['avatar_url']
     ];
   }
 

@@ -4,10 +4,16 @@ namespace App\Controllers\Image;
 
 use App\Core\Controller;
 use App\Db;
-use App\Functions\FUser;
+use App\Functions\FAuth;
 
 class create extends Controller
 {
+  public function access(): bool
+  {
+    FAuth::isLogin();
+    return true;
+  }
+
   protected function construct()
   {
     if ($this->check_response(['submit'])) {

@@ -5,9 +5,53 @@ use App\Functions\FUser;
 
 $this->setCss('ui/card/style');
 $this->setCss('components/notes/style');
-
-
+$this->setJs('components/notes/index');
 ?>
+
+<?= $this->Component('modal'); ?>
+
+<div id="filter-modal" class="modal-wrapper">
+
+    <div class="modal">
+        <div class="modal-head">
+            <p class="modal-title">Фильтры</p>
+            <a class="modal-btn-close modal-trigger"></a>
+        </div>
+
+        <div class="modal-content">
+            <? $this->Ui('alert'); ?>
+
+            <form id="form_image_load" action="/note" method="post">
+
+                <? $this->Ui(
+                    'input',
+                    ['id' => 'category_id', 'type' => 'select', 'label' => 'Категория', 'options' => $this->categories_filter]
+                ); ?>
+
+                <? $this->Ui(
+                    'input',
+                    ['id' => 'category_id', 'type' => 'select', 'label' => 'Автор', 'options' => $this->categories_filter]
+                ); ?>
+
+
+                <fieldset class="row">
+
+                    <? $this->Ui(
+                        'button',
+                        [
+                            'text' => "Применить",
+                            'color' => 'primary',
+                            'type' => 'submit',
+                            'flat' => true,
+                            'transparent' => true
+                        ]
+                    ); ?>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
 
 <section class="ui-card notes container">
 
@@ -35,12 +79,13 @@ $this->setCss('components/notes/style');
 
     </section>
 
-    <div>
+    <div class="row">
         <? $this->Ui(
             'button',
             [
                 'text' => "Фильтрация",
                 'color' => 'primary',
+                'classes' => 'filter-btn',
                 'flat' => true,
                 'transparent' => true,
                 'icon' => "tune"

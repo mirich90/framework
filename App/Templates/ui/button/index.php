@@ -29,13 +29,15 @@ if ($action) $action = "data-action='$action'";
 
 <? elseif ($type === 'a' || $href !== '') : ?>
 
-    <a href="<?= $href; ?>" class="<?= $class; ?>">
-        <? if ($icon) : ?>
-            <i class="material-icons"> <?= $icon; ?> </i>
-        <? endif ?>
+    <div class="input_wrapper">
+        <a href="<?= $href; ?>" class="<?= $class; ?>">
+            <? if ($icon) : ?>
+                <i class="material-icons"> <?= $icon; ?> </i>
+            <? endif ?>
 
-        <?= $text; ?>
-    </a>
+            <?= $text; ?>
+        </a>
+    </div>
 
 <? else : ?>
 

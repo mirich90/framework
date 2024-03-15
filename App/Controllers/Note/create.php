@@ -4,9 +4,16 @@ namespace App\Controllers\Note;
 
 use App\Core\Controller;
 use App\Db;
+use App\Functions\FAuth;
 
 class create extends Controller
 {
+  public function access(): bool
+  {
+    FAuth::isLogin();
+    return true;
+  }
+
   protected function construct()
   {
     if ($this->check_response(['submit'])) {
@@ -14,10 +21,9 @@ class create extends Controller
       die;
     }
 
-    $categories = [];
     $Category = new \App\Models\Category();
+    $categories = [];
     $data = $Category->select(['id', 'name']);
-
     foreach ($data as ['id' => $id, 'name' => $name]) {
       $categories[] = [$id, $name];
     }
