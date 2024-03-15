@@ -154,7 +154,7 @@ abstract class Model
 
         $sql = "SELECT $sql_fields $fields_join $counts $myStates FROM $table $join $where $limit $group_by $order";
 
-        c($sql);
+        // c($sql);
         return $this->pdo->query(
             $sql,
             $data,
